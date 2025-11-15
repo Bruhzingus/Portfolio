@@ -11,10 +11,10 @@ function Projects () {
           </p>
         </div>
         <div className="project">
-          <h3>Multiplication Table Generator</h3>
+          <h3>C# Mines Sumulator</h3>
           <p>
-            A PHP-based web app using nested loops and HTML forms to dynamically
-            create multiplication tables.
+             A C# application that can replicate the famouse high stakes game, Mines. 
+            It features a money system, adjustable mine values, and an option to save progress. 
           </p>
         </div>
       </section>
