@@ -7,7 +7,8 @@ function Projects () {
           <h3>Portfolio Website</h3>
           <p>
             A personal website built with React and Vite to showcase my IT skills,
-            coding projects, and professional background.
+            coding projects, and professional background. Fully utilizes the file storage and web hosting
+             features of GitHub. 
           </p>
         </div>
         <div className="project">

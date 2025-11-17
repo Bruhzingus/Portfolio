@@ -6,9 +6,9 @@ export default function Navbar() {
       <div className="nav-logo">Randall Brezina</div>
 
       <div className="nav-links">
-        <button>Home</button>
-        <button>About</button>
-        <button>Projects</button>
+        <a href="#index" className="btn">Home</a>
+        <a href="#about" className="btn">About Me</a>
+        <a href="#projects" className="btn">Projects</a>
       </div>
     </nav>
   );

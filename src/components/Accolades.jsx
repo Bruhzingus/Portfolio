@@ -10,7 +10,7 @@ function Accolades() {
       text: "A C# application that replicates the famous high-stakes game Mines, featuring a money system, adjustable mine counts, and save functionality.",
     },
     {
-      title: "MacEwan Group Project Lead",
+      title: "BARCO Tech Documentation Lead",
       text: "Led my team through planning, documentation, and implementation of a mock IT system, producing professional-level deliverables.",
     },
     {
@@ -22,7 +22,7 @@ function Accolades() {
   return (
     <section id="accolades" className="accolades-section">
       <h2>Accolades and Testimonials</h2>
-      <p>Hear what colleagues, clients, and team leads have to say about my work.</p>
+      <p>Hear what colleagues, clients, and teams have to say about my work.</p>
 
       <div className="accolades-grid">
         {accolades.map((item, index) => (
