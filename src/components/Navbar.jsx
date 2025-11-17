@@ -1,15 +1,15 @@
-import './Navbar.css';
-function Navbar() {
+import "./Navbar.css";
+
+export default function Navbar() {
   return (
     <nav className="navbar">
-      <h2 className="logo">Randall Brezina</h2>
-      <ul>
-        <li><a href="#about" className="btn">About</a></li>
-        <li><a href="#projects" className="btn">Projects</a></li>
-        <li><a href="#contact" className="btn">Contact</a></li>
-      </ul>
+      <div className="nav-logo">Randall Brezina</div>
+
+      <div className="nav-links">
+        <button>Home</button>
+        <button>About</button>
+        <button>Projects</button>
+      </div>
     </nav>
   );
 }
-
-export default Navbar;

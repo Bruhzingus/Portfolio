@@ -1,23 +1,39 @@
-function Accolades () {
-return (
-     <section id="accolades">
-        <h2>Accolades and Testimonies</h2>
-        <p>Hear what colleages and clients have to say about me!</p>
-        <div className="project">
-          <h3>Portfolio Website</h3>
-          <p>
-            A personal website built with React and Vite to showcase my IT skills,
-            coding projects, and professional background.
-          </p>
-        </div>
-        <div className="project">
-          <h3>C# Mines Sumulator</h3>
-          <p>
-            A C# application that can replicate the famouse high stakes game, Mines. 
-            It features a money system, adjustable mine values, and an option to save progress. 
-          </p>
-        </div>
-      </section>
-)
+import "./Accolades.css";
+function Accolades() {
+  const accolades = [
+    {
+      title: "Portfolio Website",
+      text: "A personal website built with React and Vite to showcase my IT skills, coding projects, and professional background.",
+    },
+    {
+      title: "C# Mines Simulator",
+      text: "A C# application that replicates the famous high-stakes game Mines, featuring a money system, adjustable mine counts, and save functionality.",
+    },
+    {
+      title: "MacEwan Group Project Lead",
+      text: "Led my team through planning, documentation, and implementation of a mock IT system, producing professional-level deliverables.",
+    },
+    {
+      title: "Technical Support Recognition",
+      text: "Recognized for outstanding problem solving, patience, and technical clarity while assisting peers and clients.",
+    },
+  ];
+
+  return (
+    <section id="accolades" className="accolades-section">
+      <h2>Accolades and Testimonials</h2>
+      <p>Hear what colleagues, clients, and team leads have to say about my work.</p>
+
+      <div className="accolades-grid">
+        {accolades.map((item, index) => (
+          <div key={index} className="accolade-card">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
+
 export default Accolades;
