@@ -1,3 +1,4 @@
+@import "../StyleVariables.css";
 .about-section {
   padding: 4rem 2rem;
   display: flex;

@@ -1,3 +1,4 @@
+@import "../StyleVariables.css";
 .hero {
   display: flex;
   justify-content: center;
@@ -26,7 +27,7 @@
 }
 
 .btn {
-  background-color: #61dafb;
+  background-color: var(--primary);
   color: #0f172a;
   padding: 0.8rem 1.5rem;
   border-radius: 5px;
@@ -39,9 +40,17 @@
   background-color: #4db9d8;
 }
 
+.hero button {
+  max-width: 90%;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+}
+
 @media (max-width: 600px) {
-  #hero button {
-    width: 100%;
+   .hero button {
+    font-size: 14px;
+    padding: 10px 18px;
   }
 
   #hero {

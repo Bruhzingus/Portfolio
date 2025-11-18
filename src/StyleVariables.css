@@ -1,0 +1,9 @@
+:root {
+  --primary: #61dafb;           /* main blue for buttons/navbar */
+  --primary-hover: #4db9d8;     /* hover blue */
+  --text-dark: #0f172a;         /* dark text */
+  --text-light: #ffffff;        /* light text */
+  --hero-bg: linear-gradient(135deg, #1e293b, #0f172a); /* hero background */
+  --navbar-bg: #61dafb;         /* navbar background */
+  --section-bg: #f0f0f0;        /* optional section background */
+}

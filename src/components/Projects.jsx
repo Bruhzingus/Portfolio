@@ -1,3 +1,5 @@
+import './Projects.css';
+import minesProject from '../assets/mines.jpg';
 function Projects () {
     return (
     <section id="projects">
@@ -13,8 +15,9 @@ function Projects () {
         </div>
         <div className="project">
           <h3>C# Mines Sumulator</h3>
+          <img src={minesProject} alt="Mines Project Image" className="mines-pic" />
           <p>
-             A C# application that can replicate the famouse high stakes game, Mines. 
+             A C# application that can replicate the famous high stakes game, Mines. 
             It features a money system, adjustable mine values, and an option to save progress. 
           </p>
         </div>
