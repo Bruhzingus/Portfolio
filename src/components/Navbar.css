@@ -45,3 +45,24 @@
   color: white;
   border-color: black;
 }
+
+
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 10px;
+  }
+
+  .nav-left, .nav-right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-right button {
+    font-size: 14px;
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+}

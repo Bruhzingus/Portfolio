@@ -38,3 +38,14 @@
 .btn:hover {
   background-color: #4db9d8;
 }
+
+@media (max-width: 600px) {
+  #hero button {
+    width: 100%;
+  }
+
+  #hero {
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+}

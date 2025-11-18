@@ -12,7 +12,9 @@ function About() {
             I’m an Information Technology student with a passion for software
             development, system design, and problem-solving. I enjoy building
             efficient, scalable solutions and exploring new technologies like
-            React, Node.js, and cloud computing.
+            React, Node.js, and cloud computing. I pride myself in being an expert
+            at working with technology hands on, and I am always looking to 
+            sharpen my skills with all things tech. 
           </p>
         </div>
       </div>

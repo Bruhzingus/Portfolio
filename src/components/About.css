@@ -7,8 +7,7 @@
 .about-container {
   display: flex;
   align-items: center;
-  max-width: 1000px;
-  gap: 2rem;
+  gap: 20px;
 }
 
 .profile-pic {
@@ -31,4 +30,21 @@
 .about-text p {
   line-height: 1.6;
 
+}
+
+@media (max-width: 700px) {
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-container img {
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+  }
+
+  .about-container p {
+    max-width: 90%;
+  }
 }
