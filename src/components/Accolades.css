@@ -3,8 +3,9 @@
 .accolades-section {
   text-align: center;
   padding: 60px 20px;
-  background: var(--bg-main);
+  background: var(--bg-section);
   color: var(--text-main);
+  border-radius: 8px;
 }
 
 /* Masonry-style adaptive grid */

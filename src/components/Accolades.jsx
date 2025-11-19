@@ -2,12 +2,14 @@ import "./Accolades.css";
 function Accolades() {
   const accolades = [
     {
-      title: "Portfolio Website",
-      text: "A personal website built with React and Vite to showcase my IT skills, coding projects, and professional background.",
+      title: "Cody, BARCO Tech",
+      text: `"Randall is such an amazing teammate, he is always a plasure to 
+      work with and very reliable. 100% would recommend"`,
     },
     {
       title: "C# Mines Simulator",
-      text: "A C# application that replicates the famous high-stakes game Mines, featuring a money system, adjustable mine counts, and save functionality.",
+      text: `"A C# application that replicates the famous high-stakes game Mines, 
+      featuring a money system, adjustable mine counts, and save functionality."`,
     },
     {
       title: "BARCO Tech Documentation Lead",
@@ -21,7 +23,7 @@ function Accolades() {
 
   return (
     <section id="accolades" className="accolades-section">
-      <h2>Accolades and Testimonials</h2>
+      <h2>Testimonials</h2>
       <p>Hear what colleagues, clients, and teams have to say about my work.</p>
 
       <div className="accolades-grid">

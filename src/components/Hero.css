@@ -11,6 +11,8 @@
 
   background: var(--hero-bg);
   color: var(--text-main);
+
+  border-radius: 8px;
 }
 
 .hero-content {

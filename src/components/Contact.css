@@ -1,0 +1,7 @@
+@import "../StyleVariables.css";
+.contact-div {
+  text-align: left;
+  padding: 60px 20px;
+  background: var(--bg-section);
+  color: var(--text-main);
+}
