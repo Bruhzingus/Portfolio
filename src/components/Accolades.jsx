@@ -3,21 +3,30 @@ function Accolades() {
   const accolades = [
     {
       title: "Cody, BARCO Tech",
-      text: `"Randall is such an amazing teammate, he is always a plasure to 
-      work with and very reliable. 100% would recommend"`,
+      text: (
+      <> 
+        Randall is such an <span className='highlight1'>amazing teammate</span>, he is always a plasure to 
+      work with and very reliable. <span className='highlight1'>100% would recommend</span>
+      </>
+           )
     },
     {
-      title: "C# Mines Simulator",
-      text: `"A C# application that replicates the famous high-stakes game Mines, 
-      featuring a money system, adjustable mine counts, and save functionality."`,
+      title: "Brock, Lethbridge Polytechnic Student",
+      text: (
+      <> 
+        Randall provided <span className='highlight2'>excellent guidance</span> throughout my PC build. 
+        He helped me select the right components, <span className='highlight2'> troubleshoot issues</span>, 
+        and ensured everything ran perfectly.
+      </>
+           )
     },
     {
-      title: "BARCO Tech Documentation Lead",
-      text: "Led my team through planning, documentation, and implementation of a mock IT system, producing professional-level deliverables.",
+      title: "Placeholder Testimonial",
+      text: `"Randall may be the greatest to ever do it, and not to glaze, but possibly even above Lebron"`,
     },
     {
-      title: "Technical Support Recognition",
-      text: "Recognized for outstanding problem solving, patience, and technical clarity while assisting peers and clients.",
+      title: "Placeholder Testimonial",
+      text: `"Randall may be the greatest to ever do it, and not to glaze, but possibly even above Lebron"`,
     },
   ];
 

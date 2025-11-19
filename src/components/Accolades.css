@@ -48,3 +48,17 @@
   color: var(--text-muted);
   line-height: 1.5;
 }
+
+.highlight1 {
+  background-color: #c88deb; /* or use a variable: var(--primary) */
+  color: #0f172a;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.highlight2 {
+  background-color: #57dac4; /* or use a variable: var(--primary) */
+  color: #0f172a;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
