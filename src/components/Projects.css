@@ -1,8 +1,22 @@
 @import "../StyleVariables.css";
+
+/* ----------------------------
+   Project Card Container
+---------------------------- */
+.project {
+  margin-bottom: 2rem;
+  background: var(--bg-card);   /* updated */
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+/* ----------------------------
+   Project Images
+---------------------------- */
 .project img {
   width: 100%;
   max-width: 100%;
   height: auto;
   display: block;
-  border-radius: 10px; /* optional */
+  border-radius: 10px;
 }

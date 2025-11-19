@@ -1,14 +1,18 @@
 @import "../StyleVariables.css";
+
 .about-section {
   padding: 4rem 2rem;
   display: flex;
   justify-content: center;
+  background: var(--bg-main);
+  color: var(--text-main);
 }
 
 .about-container {
   display: flex;
   align-items: center;
   gap: 20px;
+  max-width: 1000px;
 }
 
 .profile-pic {
@@ -16,7 +20,8 @@
   height: 250px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+  border: 3px solid var(--border-color);
 }
 
 .about-text {
@@ -26,26 +31,28 @@
 .about-text h2 {
   margin-bottom: 1rem;
   font-size: 2rem;
+  color: var(--text-main);
 }
 
 .about-text p {
   line-height: 1.6;
-
+  color: var(--text-muted);
 }
 
+/* MOBILE LAYOUT */
 @media (max-width: 700px) {
   .about-container {
     flex-direction: column;
     text-align: center;
   }
 
-  .about-container img {
+  .profile-pic {
     width: 150px;
-    height: auto;
-    border-radius: 50%;
+    height: 150px;
   }
 
   .about-container p {
     max-width: 90%;
+    margin: 0 auto;
   }
 }

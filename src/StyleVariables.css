@@ -1,9 +1,46 @@
 :root {
-  --primary: #61dafb;           /* main blue for buttons/navbar */
-  --primary-hover: #4db9d8;     /* hover blue */
-  --text-dark: #0f172a;         /* dark text */
-  --text-light: #ffffff;        /* light text */
-  --hero-bg: linear-gradient(135deg, #1e293b, #0f172a); /* hero background */
-  --navbar-bg: #61dafb;         /* navbar background */
-  --section-bg: #f0f0f0;        /* optional section background */
+  /* TEXT COLORS */
+  --text-main: #f1f5f9;
+  --text-muted: #cbd5e1;
+  --text-light: #ffffff;
+  --text-dark: #0f172a; /* rarely needed in dark mode but OK */
+
+  /* BACKGROUNDS */
+  --bg-main: linear-gradient(135deg, #0f172a, #1e293b);  /* full-page background */
+  --bg-card: #1e293b;                                    /* section/card */
+  --hero-bg: linear-gradient(135deg, #1e293b, #0f172a);  /* hero */
+
+  /* NAVBAR */
+  --navbar-bg: #1e293b; /* darker navbar in dark mode */
+  --navbar-text: #f1f5f9;
+
+  /* BUTTON + BRAND COLORS */
+  --primary: #61dafb;
+  --primary-hover: #2594b3;
+
+  /* BORDERS */
+  --border-color: #334155;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    /* TEXT COLORS */
+    --text-main: #0f172a;
+    --text-muted: #475569;
+
+    /* BACKGROUNDS */
+    --bg-main: linear-gradient(135deg, #ffffff, #f1f5f9);
+    --bg-card: #ffffff;
+    --hero-bg: linear-gradient(135deg, #f8fafc, #e2e8f0);
+
+    /* NAVBAR */
+    --navbar-bg: #0ea5e9;      /* nicer light-mode navbar */
+    --navbar-text: #ffffff;    /* readable on blue */
+
+    /* BUTTON + BRAND COLORS */
+    --primary: #0ea5e9;
+    --primary-hover: #0284c7;
+
+    /* BORDERS */
+    --border-color: #cbd5e1;
+  }
 }

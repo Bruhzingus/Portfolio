@@ -1,13 +1,16 @@
 @import "../StyleVariables.css";
+
 .hero {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 25vh;
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  color: white;
+
+  height: 35vh;
   padding: 2rem;
+
+  background: var(--hero-bg);
+  color: var(--text-main);
 }
 
 .hero-content {
@@ -16,45 +19,61 @@
 }
 
 .hero h1 {
-  font-size: 2.8rem;
+  font-size: 2.6rem;
   margin-bottom: 1rem;
+  color: var(--text-light);
 }
 
 .hero p {
   font-size: 1.2rem;
-  line-height: 1.5;
+  line-height: 1.6;
   margin-bottom: 2rem;
+  color: var(--text-muted);
 }
 
+/* Shared button style (same class used in navbar + hero) */
 .btn {
   background-color: var(--primary);
-  color: #0f172a;
+  color: var(--text-dark);
   padding: 0.8rem 1.5rem;
-  border-radius: 5px;
+
+  border-radius: 6px;
   font-weight: bold;
   text-decoration: none;
-  transition: 0.2s ease;
+
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .btn:hover {
-  background-color: #4db9d8;
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
 }
 
-.hero button {
+.hero button,
+.hero .btn {
   max-width: 90%;
-  text-align: center;
-  display: block;
   margin: 0 auto;
+  display: block;
 }
 
+/* Mobile fixes */
 @media (max-width: 600px) {
-   .hero button {
-    font-size: 14px;
-    padding: 10px 18px;
+
+  .hero {
+    padding: 1.5rem;
+    height: auto; /* Helps remove weird vertical squish */
   }
 
-  #hero {
-    padding: 2rem 1rem;
-    text-align: center;
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .hero .btn {
+    font-size: 14px;
+    padding: 10px 18px;
   }
 }

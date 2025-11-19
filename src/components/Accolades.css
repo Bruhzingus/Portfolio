@@ -1,36 +1,49 @@
 @import "../StyleVariables.css";
+
 .accolades-section {
   text-align: center;
   padding: 60px 20px;
+  background: var(--bg-main);
+  color: var(--text-main);
 }
 
+/* Masonry-style adaptive grid */
 .accolades-grid {
   display: grid;
   margin-top: 2rem;
   gap: 20px;
-
-  /* Automatically fill horizontal space with dynamic card sizes */
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
 .accolade-card {
-  background: #ffffff10; /* subtle glass effect */
+  background: var(--bg-card);
   border-radius: 16px;
   padding: 20px;
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 
-  /* Slightly varied heights mimic the tetris/masonry feel */
+  /* Light blur — works well with both light/dark themes */
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border-color);
+
+  /* helps create the tetris mismatched-card feel */
   min-height: 140px;
 
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: var(--text-main);
+
+  /* slight animation */
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .accolade-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
 }
 
 .accolade-card h3 {
   margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.accolade-card p {
+  color: var(--text-muted);
+  line-height: 1.5;
 }

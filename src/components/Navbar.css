@@ -1,59 +1,72 @@
 @import "../StyleVariables.css";
+
+/* --- NAVBAR WRAPPER --- */
 .navbar {
   width: 100%;
   padding: 15px 20px;
   box-sizing: border-box;
 
   display: flex;
-  justify-content: center;   /* center everything */
+  justify-content: center; 
   align-items: center;
 
   position: fixed;
   top: 0;
   left: 0;
 
- background: var(--primary-hover);
+  background: var(--bg-card);  /* works in light/dark mode */
   backdrop-filter: blur(10px);
 
   z-index: 100;
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* --- Link Container --- */
+
+/* --- LINK CONTAINER --- */
 .nav-links {
   display: flex;
   gap: 20px;
 }
 
-/* --- Buttons --- */
+
+/* --- NAV BUTTONS --- */
 .nav-btn {
   background-color: var(--primary);
   color: var(--text-dark);
-  
+
   padding: 8px 16px;
   font-size: 1rem;
-  border-radius: 5px;
+  font-weight: bold;
+
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
 
   text-decoration: none;
-  font-weight: bold;
-  transition: 0.2s ease;
 
-  border: none;        /* Match hero button */
+  transition: background-color 0.25s ease, 
+              transform 0.15s ease;
 }
 
 .nav-btn:hover {
-  background-color: var(--primary-hover);   /* same hover color */
-  color: var(--text-dark);
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
 }
-/* --- MOBILE FIX --- */
+
+
+/* --- MOBILE FIXES --- */
 @media (max-width: 600px) {
+
+  .navbar {
+    padding: 10px 0;
+  }
 
   .nav-links {
     gap: 12px;
   }
 
   .nav-btn {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     padding: 7px 12px;
-    white-space: nowrap;  /* prevent wrapping */
+    white-space: nowrap; /* prevents two-line button text */
   }
 }
