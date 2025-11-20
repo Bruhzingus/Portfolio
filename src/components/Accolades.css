@@ -11,7 +11,7 @@
 /* Masonry-style adaptive grid */
 .accolades-grid {
   display: grid;
-  margin-top: 2rem;
+  margin-top: 1rem;
   gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }

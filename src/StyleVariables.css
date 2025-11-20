@@ -17,7 +17,7 @@
   /* BUTTON + BRAND COLORS */
   --primary: #61dafb;
   --primary-hover: #2594b3;
-
+  --primary-text-hover: #f1f5f9;
   /* BORDERS */
   --border-color: #334155;
 }
