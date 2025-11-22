@@ -7,7 +7,7 @@ function Projects () {
         <h2>Projects</h2>
         <p>Take a look at some of my recent projects!</p>
         <div className="project">
-          <h3>Coaching Website</h3>
+          <h3>Brezina Strength Academy</h3>
           <img src={fitnessProject} alt="Fitness Project Image" className="fitness-pic" />
           <p>
             A personal coaching website built using Wix and Figma to showcase UI/UX design with a focus on accessibility.
@@ -25,4 +25,4 @@ function Projects () {
       </section>
     )
 }
-export default Projects;
+export default Projects; 

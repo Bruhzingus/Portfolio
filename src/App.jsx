@@ -12,6 +12,7 @@ import Projects from './components/Projects'
 import Accolades from './components/Accolades'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import Resume from "./components/Resume";
 function App() {
   return (
    <div className="App">
