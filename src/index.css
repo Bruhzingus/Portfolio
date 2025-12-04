@@ -69,3 +69,6 @@ button:focus,
 button:focus-visible {
   outline: 4px auto var(--primary);
 }
+html {
+  scroll-behavior: smooth;
+}
