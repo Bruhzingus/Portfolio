@@ -32,8 +32,11 @@ function Accolades() {
     },
     {
       title: "Timothy, Polytechnic Professor",
-      text: `"It was a pleasure to have Randall in my Systems Analysis and Design class. He and his team were consistently top performers, 
-      and always the best dressed for the presentations. The quality of work that their group produced was above the industry standard and I have high expectations of what they'll continue to do after finishing their studies. "`,
+      text: `"It was a pleasure to have Randall in my Systems Analysis and Design class.
+      He was consistently among the top performers, 
+      and always the best dressed for the presentations. The quality of work that he 
+      produced was above the industry standard and I have high expectations of what 
+      he'll continue to do after finishing their studies."`,
     },
   ];
 
