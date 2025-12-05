@@ -16,15 +16,15 @@ function About() {
             sharpen my skills with all things tech. 
             <h3>Skills</h3>
               <ul className="skills-list">
+                <li>Networking Basics</li>
+                <li>Computer Hardware</li>
+                <li>UI/UX Design</li>
                 <li>React</li>
                 <li>Node.js</li>
-                <li>SQL</li>
-                <li>Git & GitHub</li>
                 <li>C#</li>
-                <li>PHP</li>
+                <li>HTML</li>
               </ul>
           </p>
-          
         </div>
       </div>
     </section>
