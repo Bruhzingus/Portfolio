@@ -5,8 +5,8 @@ function Accolades() {
       title: "Cody, BARCO Tech",
       text: (
       <> 
-        Randall is such an <span className='highlight1'>amazing teammate</span>, he is always a plasure to 
-      work with and very reliable. <span className='highlight1'>100% would recommend</span>
+        "Randall is such an <span className='highlight1'>amazing teammate</span>, he is always a plasure to 
+      work with and very reliable. <span className='highlight1'>100% would recommend</span>"
       </>
            )
     },
@@ -14,18 +14,24 @@ function Accolades() {
       title: "Brock, Lethbridge Polytechnic Student",
       text: (
       <> 
-        Randall provided <span className='highlight2'>excellent guidance</span> throughout my PC build. 
+        "Randall provided <span className='highlight2'>excellent guidance</span> throughout my PC build. 
         He helped me select the right components, <span className='highlight2'> troubleshoot issues</span>, 
-        and ensured everything ran perfectly.
+        and ensured everything ran perfectly.""
       </>
            )
     },
     {
-      title: "Placeholder Testimonial",
-      text: `"Randall may be the greatest to ever do it, and not to glaze, but possibly even above Lebron"`,
+      title: "Jeremy, Steve's Urethane",
+       text: (
+      <> 
+        “Randall picked up the job quickly despite having <span className='highlight3'>zero prior experience.</span>
+         He adapted fast, learned everything hands-on, and had <span className='highlight3'>incredible attention to detail.</span>
+         Anyone would be lucky to work with him.”
+      </>
+           )
     },
     {
-      title: "Placeholder Testimonial",
+      title: "Timothy, Polytechnic Professor",
       text: `"Randall may be the greatest to ever do it, and not to glaze, but possibly even above Lebron"`,
     },
   ];

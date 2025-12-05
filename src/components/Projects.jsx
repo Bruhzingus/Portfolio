@@ -21,7 +21,9 @@ function Projects () {
           <video src={minesGif} autoPlay loop muted playsInline className="mines-gif"/>
           <p>
              A C# application that can replicate the famous high stakes game, Mines. 
-            It features a money system, adjustable mine values, and accurate risk vs reward scalability. 
+             Devoloped algorithmic, logical, and UI skills during this personal project. 
+             It features a money system, adjustable mine values, and accurate risk vs reward scalability. 
+
           </p>
         </div>
       </section>

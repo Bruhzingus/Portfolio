@@ -62,3 +62,10 @@
   padding: 2px 4px;
   border-radius: 3px;
 }
+
+.highlight3 {
+  background-color: #e4eb85; /* or use a variable: var(--primary) */
+  color: #0f172a;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
