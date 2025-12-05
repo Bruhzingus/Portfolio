@@ -56,4 +56,21 @@
     max-width: 90%;
     margin: 0 auto;
   }
+  .skills-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skills-list li {
+  background: var(--primary);
+  color: var(--text-dark);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
 }

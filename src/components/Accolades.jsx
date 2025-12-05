@@ -32,7 +32,7 @@ function Accolades() {
     },
     {
       title: "Timothy, Polytechnic Professor",
-      text: `"Randall may be the greatest to ever do it, and not to glaze, but possibly even above Lebron"`,
+      text: `"Currently a placeholder"`,
     },
   ];
 

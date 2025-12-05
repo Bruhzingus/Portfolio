@@ -7,7 +7,7 @@ function Projects () {
     return (
     <section id="projects">
         <h2>Projects</h2>
-        <p>Take a look at some of my recent projects!</p>
+        <p>Take a look at some of my recent projects with live GIF demonstrations!</p>
         <div className="project">
           <h3>Brezina Strength Academy</h3>
           <video src={websiteGif} autoPlay loop muted playsInline className="fitness-gif"/>
