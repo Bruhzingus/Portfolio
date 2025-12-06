@@ -21,7 +21,7 @@ function Hero() {
     return () => observer.disconnect();
   }, []);
 
-  return (
+  return (  
     <section id="home" ref={heroRef} className="hero">
       <div className="hero-content">
         <h1 className="hero-title">Hi, I'm Randall 👋</h1>

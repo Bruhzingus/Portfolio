@@ -32,11 +32,15 @@ function Accolades() {
     },
     {
       title: "Timothy, Polytechnic Professor",
-      text: `"It was a pleasure to have Randall in my Systems Analysis and Design class.
-      He was consistently among the top performers, 
+      text: ``, text: (
+      <> 
+        "It was a pleasure to have Randall in my Systems Analysis and Design class.
+      He was consistently among the <span className='highlight4'>top performers,</span> 
       and always the best dressed for the presentations. The quality of work that he 
-      produced was above the industry standard and I have high expectations of what 
-      he'll continue to do after finishing their studies."`,
+      produced was <span className='highlight4'>above the industry standard</span> and I have high expectations of what 
+      he'll continue to do after finishing his studies."
+      </>
+           )
     },
   ];
 

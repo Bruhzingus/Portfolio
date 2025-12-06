@@ -23,7 +23,7 @@
 .hero h1 {
   font-size: 2.6rem;
   margin-bottom: 1rem;
-  color: var(--text-light);
+  color: var(--text-main);
 }
 
 .hero p {
@@ -63,7 +63,7 @@
 .reveal {
   opacity: 0;
   transform: translateY(40px);
-  transition: all 0.7s ease-out;
+  transition: all 0.9s ease-out;
 }
 
 .reveal.visible {
@@ -71,14 +71,6 @@
   transform: translateY(0);
 }
 
-/* Optional accessibility: turn off animation for reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
 
 /* Mobile fixes */
 @media (max-width: 600px) {

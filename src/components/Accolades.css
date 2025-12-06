@@ -50,7 +50,7 @@
 }
 
 .highlight1 {
-  background-color: #c88deb; /* or use a variable: var(--primary) */
+  background-color: #c378ee; /* or use a variable: var(--primary) */
   color: #0f172a;
   padding: 2px 4px;
   border-radius: 3px;
@@ -65,6 +65,13 @@
 
 .highlight3 {
   background-color: #e4eb85; /* or use a variable: var(--primary) */
+  color: #0f172a;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.highlight4 {
+  background-color: #f59baa; /* or use a variable: var(--primary) */
   color: #0f172a;
   padding: 2px 4px;
   border-radius: 3px;
