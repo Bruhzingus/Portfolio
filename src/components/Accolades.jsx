@@ -32,7 +32,7 @@ function Accolades() {
     },
     {
       title: "Timothy, Polytechnic Professor",
-      text: ``, text: (
+       text: (
       <> 
         "It was a pleasure to have Randall in my Systems Analysis and Design class.
       He was consistently among the <span className='highlight4'>top performers,</span> 
