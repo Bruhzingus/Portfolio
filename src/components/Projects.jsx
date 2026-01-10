@@ -16,7 +16,7 @@ function Projects () {
             A personal coaching website built using Wix and Figma to showcase UI/UX design with a focus on accessibility, with full mobile 
             accessibility. 
             I developed prototyping skills and demonstrated live usability testing with my website in front of a live audience.
-            Used Steve Krug's principals for accessibility to ensure the user didn't feel lost or overwhelmed. 
+            Created using Steve Krug's principals for accessibility to ensure the user didn't feel lost or overwhelmed when navigating my website. 
           </p>
         </div>
         <div className="project">
@@ -35,7 +35,7 @@ function Projects () {
             <img src={pcPic} className="pc-pic"/>
             <p>
               A custom-built PC designed for gaming, content creation, and IT development work. 
-              Features a strong balance of performance, cooling, and aesthetics. Also used as a sandbox for
+              Features a strong balance of performance, cooling, and aesthetics. Also is used as a sandbox for
               me to work on hardware related projects. 
             </p>
               
