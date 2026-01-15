@@ -3,8 +3,10 @@ import { useState } from "react";
 import websiteGif from "../assets/website.mp4";
 import minesGif from "../assets/mines.mp4";
 import pcPic from "../assets/PC.jpg";
+import kbPic from "../assets/Keyboard.jpg";
 function Projects () {
-   const [showMore, setShowMore] = useState(false);
+   const [showPcDetails, setShowPcDetails] = useState(false);
+   const [showKbDetails, setShowKbDetails] = useState(false);
     return (
     <section id="projects">
         <h2>Projects</h2>
@@ -39,16 +41,16 @@ function Projects () {
               me to work on hardware related projects. 
             </p>
               
-                {showMore && (
+                {showPcDetails && (
                   <div className="pc-details">
                     <div className="pc-specs">
                       <h4>System Specifications</h4>
                       <ul>
-                        <li><strong>CPU:</strong> Ryzen 5 7600</li>
-                        <li><strong>GPU:</strong> Radeon 6700 XT</li>
+                        <li><strong>CPU:</strong> AMD Ryzen 5 7600</li>
+                        <li><strong>GPU:</strong> ASRock Radeon 6700 XT</li>
                         <li><strong>Motherboard:</strong> Gigabyte B650 EAGLE ATX</li>
-                        <li><strong>RAM:</strong> 32GB DDR5 6000MHz CL30</li>
-                        <li><strong>Storage:</strong> 2TB NVMe Gen 3 SSD</li>
+                        <li><strong>RAM:</strong> T-Create 32GB DDR5 6000MHz CL30</li>
+                        <li><strong>Storage:</strong>1TB SN770 NVMe M.2 SSD, 2 TB Seagate Barracuda HDD </li>
                         <li><strong>Power Supply:</strong> Antec NeoECO Gold 650W</li>
                         <li><strong>Cooling:</strong> 6× DeepCool CF120 RGB Fans</li>
                         <li><strong>Case:</strong> DeepCool Matrexx 55 V3</li>
@@ -68,11 +70,40 @@ function Projects () {
                 )}
               <button 
                 className="show-more-btn" 
-                onClick={() => setShowMore(!showMore)}
+                onClick={() => setShowPcDetails(!showPcDetails)}
               >
-                {showMore ? "Show Less" : "Show More"}
+                {showPcDetails ? "Hide Specs" : "Show Specs"}
               </button>
           </div>
+          <div className="project">
+            <h3>Custom Mechanical Keyboard Build</h3>
+            <img src={kbPic} className="pc-pic"/>
+            <p>
+              Designed and assembled a custom mechanical keyboard focused on typing
+              consistency, long-term reliability, and ergonomic comfort. This project
+              served as hands-on experience in component selection, hardware
+              customization, and peripheral optimization for daily productivity use. 
+            </p>
+                {showKbDetails && (
+                  <div className="pc-details">
+                    <div className="pc-specs">
+                      <h4>Hardware Specifications</h4>
+                      <ul>
+                        <li><strong>Case:</strong> FL Esports MK870 "Smokey Grey"</li>
+                        <li><strong>Switches:</strong> Everglide Aquaking V3, 55g Linear</li>
+                        <li><strong>Keycaps:</strong> Cherry Blossom PBT Keycaps</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              <button 
+                className="show-more-btn" 
+                onClick={() => setShowKbDetails(!showKbDetails)}
+              >
+                {showKbDetails ? "Hide Specs" : "Show Specs"}
+              </button>
+          </div>
+          
       </section>
     )
 }
