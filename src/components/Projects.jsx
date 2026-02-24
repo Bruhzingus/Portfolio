@@ -4,8 +4,10 @@ import websiteGif from "../assets/website.mp4";
 import minesGif from "../assets/mines.mp4";
 import pcPic from "../assets/PC.jpg";
 import kbPic from "../assets/Keyboard.jpg";
+import pcBrock from "../assets/brockpc.jpg";
 function Projects () {
    const [showPcDetails, setShowPcDetails] = useState(false);
+   const [showBrockPcDetails, setShowBrockPcDetails] = useState(false);
    const [showKbDetails, setShowKbDetails] = useState(false);
     return (
     <section id="projects">
@@ -33,7 +35,7 @@ function Projects () {
           </p>
         </div>
           <div className="project">
-            <h3>Custom Gaming + Productivity Build</h3>
+            <h3>Personal Gaming + Productivity Build</h3>
             <img src={pcPic} className="pc-pic"/>
             <p>
               A custom-built PC designed for gaming, content creation, and IT development work. 
@@ -50,8 +52,8 @@ function Projects () {
                         <li><strong>GPU:</strong> ASRock Radeon 6700 XT</li>
                         <li><strong>Motherboard:</strong> Gigabyte B650 EAGLE ATX</li>
                         <li><strong>RAM:</strong> T-Create 32GB DDR5 6000MHz CL30</li>
-                        <li><strong>Storage:</strong>1TB SN770 NVMe M.2 SSD, 2 TB Seagate Barracuda HDD </li>
-                        <li><strong>Power Supply:</strong> Antec NeoECO Gold 650W</li>
+                        <li><strong>Storage:</strong> 1TB SN770 NVMe M.2 SSD, 2 TB Seagate Barracuda HDD </li>
+                        <li><strong>Power Supply:</strong> Antec NeoECO 650W 80+ Gold</li>
                         <li><strong>Cooling:</strong> 6× DeepCool CF120 RGB Fans</li>
                         <li><strong>Case:</strong> DeepCool Matrexx 55 V3</li>
                       </ul>
@@ -76,12 +78,57 @@ function Projects () {
               </button>
           </div>
           <div className="project">
+            <h3>Client's Gaming/Media Production Build</h3>
+            <img src={pcBrock} className="pc-pic"/>
+            <p>
+              A custom-built PC designed for gaming, video editing, and social media creation. 
+              I worked with the client from the very start of the build, to help select all the components within
+              their budget and explain the reasoning for each decision. Provided guidance to the client on how to build the 
+              PC, and assisted where the client was uncomfortable with the assembly process. Freshly installed Windows 11
+              Home and provided assistance in setting up software. 
+              <br />
+              Hardware specifications are catered towards gaming performance at 1440p, with a future upgrade path to a stronger CPU. 
+            </p>
+              
+                {showBrockPcDetails && (
+                  <div className="pc-details">
+                    <div className="pc-specs">
+                      <h4>System Specifications</h4>
+                      <ul>
+                        <li><strong>CPU:</strong> AMD Ryzen 5 7600</li>
+                        <li><strong>GPU:</strong> Acer Predator Radeon 9070 XT</li>
+                        <li><strong>Motherboard:</strong> ASRock B650M Pro RS Micro ATX</li>
+                        <li><strong>RAM:</strong> Patriot Viper 32 GB DDR5 6000MHz CL36</li>
+                        <li><strong>Storage:</strong>	1 TB Patriot P400 V4 M.2 SSD</li>
+                        <li><strong>Power Supply:</strong> 	Cooler Master MWE Gold V3 750W 80+ Gold</li>
+                        <li><strong>Cooling:</strong> 4x Montech OEM RGB Fans</li>
+                        <li><strong>Case:</strong> Montech XM5 MicroATX Case</li>
+                      </ul>
+                    </div>
+
+                    <div className="upgrade-history">
+                      <h4>Future Maintenance</h4>
+                      <ul>
+                        <li>Plans are in place to upgrade the storage in the near future</li>
+                        <li>A CPU upgrade will be focused on closer to the release date of Zen 6 (Ryzen's 10000 series of CPU's) </li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              <button 
+                className="show-more-btn" 
+                onClick={() => setShowBrockPcDetails(!showBrockPcDetails)}
+              >
+                {showBrockPcDetails ? "Hide Specs" : "Show Specs"}
+              </button>
+          </div>
+          <div className="project">
             <h3>Custom Mechanical Keyboard Build</h3>
             <img src={kbPic} className="pc-pic"/>
             <p>
               Designed and assembled a custom mechanical keyboard focused on typing
-              consistency, long-term reliability, and ergonomic comfort. This project
-              served as hands-on experience in component selection, hardware
+              feel, long-term reliability, and ergonomic comfort. This project
+              served as hands-on experience in keyboard component selection, hardware
               customization, and peripheral optimization for daily productivity use. 
             </p>
                 {showKbDetails && (

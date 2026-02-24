@@ -1,46 +1,90 @@
+/* ---------------------------- */
+/*         LIGHT THEME          */
+/* ---------------------------- */
 :root {
-  /* TEXT COLORS */
-  --text-main: #f1f5f9;
-  --text-muted: #cbd5e1;  
+  --text-main: #0f172a;
+  --text-muted: #475569;
   --text-light: #ffffff;
-  --text-dark: #0f172a; /* rarely needed in dark mode but OK */
+  --text-dark: #0f172a;
 
-  /* BACKGROUNDS */
-  --bg-main: linear-gradient(135deg, #0f172a, #1e293b);  /* full-page background */
-  --bg-card: #1e293b;                                    /* section/card */
-  --hero-bg: rgba(255, 255, 255, 0.05);  /* hero */
+  --bg-main: linear-gradient(135deg, #ffffff, #f1f5f9);
+  --bg-card: #ffffff;
+  --hero-bg: linear-gradient(135deg, #f8fafc, #e2e8f0);
   --bg-section: rgba(255, 255, 255, 0.05);
-  /* NAVBAR */
-  --navbar-bg: #1e293b; /* darker navbar in dark mode */
+
+  --navbar-bg: #0ea5e9;
+  --navbar-text: #ffffff;
+
+  --primary: #0ea5e9;
+  --primary-hover: #0284c7;
+  --primary-text-hover: #ffffff;
+
+  --border-color: #cbd5e1;
+}
+
+/* ---------------------------- */
+/*         DARK THEME           */
+/* ---------------------------- */
+[data-theme="dark"] {
+  --text-main: #f1f5f9;
+  --text-muted: #cbd5e1;
+  --text-light: #ffffff;
+  --text-dark: #0f172a;
+
+  --bg-main: linear-gradient(135deg, #0f172a, #1e293b);
+  --bg-card: #1e293b;
+  --hero-bg: rgba(255, 255, 255, 0.05);
+  --bg-section: rgba(255, 255, 255, 0.05);
+
+  --navbar-bg: #1e293b;
   --navbar-text: #f1f5f9;
 
-  /* BUTTON + BRAND COLORS */
   --primary: #61dafb;
   --primary-hover: #2594b3;
   --primary-text-hover: #f1f5f9;
-  /* BORDERS */
+
   --border-color: #334155;
 }
-@media (prefers-color-scheme: light) {
-  :root {
-    /* TEXT COLORS */
-    --text-main: #0f172a;
-    --text-muted: #475569;
 
-    /* BACKGROUNDS */
-    --bg-main: linear-gradient(135deg, #ffffff, #f1f5f9);
-    --bg-card: #ffffff;
-    --hero-bg: linear-gradient(135deg, #f8fafc, #e2e8f0);
+/* ---------------------------- */
+/*       GLOBAL STYLING         */
+/* ---------------------------- */
+body {
+  background: var(--bg-main);
+  color: var(--text-main);
+  transition: 
+    background 0.5s ease,
+    color 0.5s ease;
+}
 
-    /* NAVBAR */
-    --navbar-bg: #0ea5e9;      /* nicer light-mode navbar */
-    --navbar-text: #ffffff;    /* readable on blue */
+.hero {
+  background: var(--hero-bg);
+  transition: background 0.3s ease;
+}
 
-    /* BUTTON + BRAND COLORS */
-    --primary: #0ea5e9;
-    --primary-hover: #0284c7;
+.btn {
+  background-color: var(--primary);
+  color: var(--text-main);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-    /* BORDERS */
-    --border-color: #cbd5e1;
-  }
+.btn:hover {
+  background-color: var(--primary-hover);
+  color: var(--primary-text-hover);
+}
+
+body,
+.hero,
+.btn,
+a,
+section,
+div {
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }

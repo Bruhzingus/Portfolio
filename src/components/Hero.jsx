@@ -2,9 +2,10 @@ import { useEffect, useRef } from "react";
 import "./Hero.css";
 import resumePDF from "/Resume.pdf";
 
-function Hero() {
+function Hero({ theme, toggleTheme }) {
   const heroRef = useRef(null);
 
+  // Animate hero on intersection
   useEffect(() => {
     const element = heroRef.current;
     const observer = new IntersectionObserver(
@@ -13,7 +14,7 @@ function Hero() {
           element.classList.add("animate-hero");
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0.5 }
     );
 
     if (element) observer.observe(element);
@@ -21,11 +22,10 @@ function Hero() {
     return () => observer.disconnect();
   }, []);
 
-  return (  
+  return (
     <section id="home" ref={heroRef} className="hero">
       <div className="hero-content">
         <h1 className="hero-title">Hi, I'm Randall</h1>
-
         <p className="hero-subtitle">
           I’m an aspiring IT professional focused on computer hardware,
           UI design, and creative problem-solving.
@@ -33,15 +33,13 @@ function Hero() {
 
         <div className="hero-buttons">
           <a href="#projects" className="btn">View My Work</a>
-
-          <a 
-            href={resumePDF} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="btn"
-          >
+          <a href={resumePDF} target="_blank" rel="noopener noreferrer" className="btn">
             View My Resume
           </a>
+
+          <button className="btn" onClick={toggleTheme}>
+            {theme === "light" ? "Dark Mode" : "Light Mode"}
+          </button>
         </div>
       </div>
     </section>
