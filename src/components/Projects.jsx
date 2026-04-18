@@ -1,7 +1,7 @@
 import './Projects.css';
 import { useState } from "react";
 import websiteGif from "../assets/website.mp4";
-import minesGif from "../assets/mines.mp4";
+import shelfcastGif from "../assets/shelfcast.mp4";
 import pcPic from "../assets/PC.jpg";
 import kbPic from "../assets/Keyboard.jpg";
 import pcBrock from "../assets/brockpc.jpg";
@@ -14,6 +14,22 @@ function Projects () {
         <h2>Projects</h2>
         <p>Take a look at some of my recent projects with live GIF or image demonstrations!</p>
         <div className="project">
+          <h3>ShelfCast — Sales Analytics & Forecasting Dashboard</h3>
+          <video src={shelfcastGif} autoPlay loop muted playsInline className="shelfcast-gif"/>
+          <p>
+            ShelfCast is a sales dashboard focused on providing analytics and insights, including predicting future
+            sales using an advanced forecasting algorithm. Originally built for a specific local business in Lethbridge,
+            I have since expanded the project with the goal of making it scalable for any small business that has POS data.
+          </p>
+          <ul className="shelfcast-features">
+            <li>Upload CSV exports from your POS system</li>
+            <li>Automatically parses and stores sales data in a local SQLite database</li>
+            <li>Generates visual reports: top sellers, worst movers, sales trends, and category performance</li>
+            <li>Can generate bulk reports for each forecast of your merchandise</li>
+            <li>Filter all reports by date range and category</li>
+          </ul>
+        </div>
+        <div className="project">
           <h3>Brezina Strength Academy</h3>
           <video src={websiteGif} autoPlay loop muted playsInline className="fitness-gif"/>
           <p>
@@ -21,17 +37,6 @@ function Projects () {
             accessibility. 
             I developed prototyping skills and demonstrated live usability testing with my website in front of a live audience.
             Created using Steve Krug's principals for accessibility to ensure the user didn't feel lost or overwhelmed when navigating my website. 
-          </p>
-        </div>
-        <div className="project">
-          <h3>C# Mines Sumulator</h3>
-          <video src={minesGif} autoPlay loop muted playsInline className="mines-gif"/>
-          <p>
-             A C# application that can replicate the famous high stakes game, Mines. 
-             Devoloped algorithmic, logical, and UI coding skills during this fun personal project. 
-             It features a money system, adjustable mine values, and accurate risk vs reward scalability. 
-             It also helped further my understanding of the UI design tools within Visual Studio 2022. 
-
           </p>
         </div>
           <div className="project">
