@@ -1,21 +1,22 @@
 import "./Resume.css";
 import resumePDF from "/Resume.pdf";
+import Reveal from "./Reveal";
 function Resume() {
   return (
-    <section className="resume-section" id ="resume">
+    <Reveal as="section" id="resume" className="resume-section">
       <h2>My Resume</h2>
 
       <div className="resume-actions">
-        <a 
+        <a
           href={resumePDF}
-          target="_blank" 
+          target="_blank"
           rel="noopener noreferrer"
           className="resume-btn"
         >
           View Full Screen
         </a>
 
-        <a 
+        <a
           href={resumePDF}
           download="Randall-Brezina-Resume.pdf"
           className="resume-btn download"
@@ -23,7 +24,7 @@ function Resume() {
           Download as PDF
         </a>
       </div>
-    </section>
+    </Reveal>
   );
 }
 

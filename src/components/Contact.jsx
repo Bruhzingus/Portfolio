@@ -1,7 +1,8 @@
+import Reveal from "./Reveal";
 function Contact () {
     return (
       <div id="contact">
-        <section>
+        <Reveal as="section">
         <h2>Contact</h2>
         <p>
           Want to connect with me? Here's how!<br></br>
@@ -9,7 +10,7 @@ function Contact () {
           Phone Number: 403-593-0240 <br></br>
           Find me on <a href="https://www.linkedin.com/in/randall-brezina-585506393/">LinkedIn</a>
         </p>
-      </section>
+      </Reveal>
       </div>
     )
 }

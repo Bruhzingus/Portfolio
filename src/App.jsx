@@ -14,14 +14,15 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 
 function App() {
-  const [theme, setTheme] = useState("dark");
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setTheme(savedTheme);
+  // Read the saved theme synchronously at init so there's no post-mount
+  // setState (avoids a cascading render and a dark->light flash on load).
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem("theme") || "dark";
+    } catch {
+      return "dark";
     }
-  }, []);
+  });
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);

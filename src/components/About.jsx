@@ -1,12 +1,32 @@
 import profilePic from '../assets/personal.jpg';
+import { motion, useReducedMotion } from "framer-motion";
 import './About.css'
+
 function About() {
+    const reduceMotion = useReducedMotion();
+    const transition = { duration: 0.6, ease: [0.4, 0, 0.2, 1] };
+    const viewport = { once: true, amount: 0.3 };
+
     return (
        <section id="about" className="about-section">
       <div className="about-container">
-        <img src={profilePic} alt="Randall Brezina" className="profile-pic" />
+        <motion.img
+          src={profilePic}
+          alt="Randall Brezina"
+          className="profile-pic"
+          initial={{ opacity: 0, x: reduceMotion ? 0 : -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={viewport}
+          transition={transition}
+        />
 
-        <div className="about-text">
+        <motion.div
+          className="about-text"
+          initial={{ opacity: 0, x: reduceMotion ? 0 : 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={viewport}
+          transition={{ ...transition, delay: 0.1 }}
+        >
           <h2>About Me</h2>
           <p>
             I’m a Computer Information Technology (CIT) graduate from Lethbridge Polytechnic (formerly Lethbridge College) with a passion for UI design, analyzing systems, and problem-solving. I enjoy building
@@ -28,10 +48,10 @@ function About() {
             <li>C#</li>
             <li>HTML</li>
           </ul>
-        </div>
+        </motion.div>
       </div>
     </section>
-    
+
         )
       }
       export default About;

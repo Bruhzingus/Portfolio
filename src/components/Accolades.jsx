@@ -1,5 +1,8 @@
 import "./Accolades.css";
+import { motion, useReducedMotion } from "framer-motion";
+import Reveal from "./Reveal";
 function Accolades() {
+  const reduceMotion = useReducedMotion();
   const accolades = [
     {
       title: "Cody, BARCO Tech",
@@ -46,15 +49,29 @@ function Accolades() {
 
   return (
     <section id="accolades" className="accolades-section">
-      <h2>Testimonials</h2>
-      <p>Hear what colleagues, clients, and teams have to say about my work.</p>
+      <Reveal>
+        <h2>Testimonials</h2>
+        <p>Hear what colleagues, clients, and teams have to say about my work.</p>
+      </Reveal>
 
       <div className="accolades-grid">
         {accolades.map((item, index) => (
-          <div key={index} className="accolade-card">
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-          </div>
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: reduceMotion ? 0 : 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{
+              duration: 0.5,
+              delay: reduceMotion ? 0 : index * 0.08,
+              ease: [0.4, 0, 0.2, 1],
+            }}
+          >
+            <div className="accolade-card">
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          </motion.div>
         ))}
       </div>
     </section>

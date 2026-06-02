@@ -17,7 +17,7 @@
 .resume-btn {
   padding: 10px 18px;
   background: var(--primary);
-  color: var(--primary-text);
+  color: var(--text-dark);
   border-radius: 6px;
   font-weight: bold;
   text-decoration: none;

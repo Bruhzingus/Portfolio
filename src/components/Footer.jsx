@@ -1,7 +1,7 @@
 function Footer () {
     return (
           <footer>
-        <p>© 2025 Randall Brezina | Built with React, Vite and Node</p>
+        <p>© {new Date().getFullYear()} Randall Brezina | Built with React, Vite and Node</p>
       </footer>
     )
 }

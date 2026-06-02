@@ -1,30 +1,18 @@
-import { useEffect, useRef } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import "./Hero.css";
 import resumePDF from "/Resume.pdf";
 
 function Hero({ theme, toggleTheme }) {
-  const heroRef = useRef(null);
-
-  // Animate hero on intersection
-  useEffect(() => {
-    const element = heroRef.current;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          element.classList.add("animate-hero");
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
+  const reduceMotion = useReducedMotion();
 
   return (
-    <section id="home" ref={heroRef} className="hero">
-      <div className="hero-content">
+    <section id="home" className="hero">
+      <motion.div
+        className="hero-content"
+        initial={{ opacity: 0, y: reduceMotion ? 0 : 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+      >
         <h1 className="hero-title">Hi, I'm Randall Brezina</h1>
         <p className="hero-subtitle">
           I’m a Computer Information Technology graduate focused on computer
@@ -41,7 +29,7 @@ function Hero({ theme, toggleTheme }) {
             {theme === "light" ? "Dark Mode" : "Light Mode"}
           </button>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -58,18 +58,6 @@
   color: var(--primary-text-hover);
 }
 
-/* --- Reveal Animation --- */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.9s ease-out;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 
 /* Mobile fixes */
 @media (max-width: 600px) {

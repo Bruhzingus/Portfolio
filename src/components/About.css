@@ -7,6 +7,8 @@
   background: var(--bg-card);
   color: var(--text-main);
   border-radius: 8px;
+  /* Contains the slide-in so it can't create a horizontal scrollbar. */
+  overflow-x: hidden;
 }
 
 .about-container {
@@ -41,23 +43,8 @@
   color: var(--text-muted);
 }
 
-/* MOBILE LAYOUT */
-@media (max-width: 700px) {
-  .about-container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .profile-pic {
-    width: 200px;
-    height: 280px;
-  }
-
-  .about-container p {
-    max-width: 90%;
-    margin: 0 auto;
-  }
-  .skills-list {
+/* Skill "pills" — applies on all screen sizes. */
+.skills-list {
   list-style: none;
   padding: 0;
   margin-top: 1rem;
@@ -74,4 +61,26 @@
   font-weight: bold;
   font-size: 0.9rem;
 }
+
+/* MOBILE LAYOUT */
+@media (max-width: 700px) {
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-pic {
+    width: 200px;
+    height: 280px;
+  }
+
+  .about-container p {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  /* Center the pills under the centered mobile layout. */
+  .skills-list {
+    justify-content: center;
+  }
 }
