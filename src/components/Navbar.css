@@ -58,16 +58,30 @@
 @media (max-width: 600px) {
 
   .navbar {
-    padding: 10px 0;
+    padding: 10px 8px;
   }
 
   .nav-links {
-    gap: 12px;
+    gap: 10px;
+    flex-wrap: nowrap; /* keep one row so navbar height stays ~80px */
   }
 
   .nav-btn {
     font-size: 0.85rem;
     padding: 7px 12px;
     white-space: nowrap; /* prevents two-line button text */
+  }
+}
+
+/* Extra-small phones: shrink so all four buttons fit one row down to 320px. */
+@media (max-width: 380px) {
+
+  .nav-links {
+    gap: 7px;
+  }
+
+  .nav-btn {
+    font-size: 0.78rem;
+    padding: 6px 9px;
   }
 }

@@ -25,10 +25,10 @@ function Hero({ theme, toggleTheme }) {
   return (
     <section id="home" ref={heroRef} className="hero">
       <div className="hero-content">
-        <h1 className="hero-title">Hi, I'm Randall</h1>
+        <h1 className="hero-title">Hi, I'm Randall Brezina</h1>
         <p className="hero-subtitle">
-          I’m an aspiring IT professional focused on computer hardware,
-          UI design, and creative problem-solving.
+          I’m a Computer Information Technology graduate focused on computer
+          hardware, UI design, and creative problem-solving.
         </p>
 
         <div className="hero-buttons">

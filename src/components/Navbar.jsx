@@ -13,6 +13,7 @@ export default function Navbar() {
         </a>
         <a href="#about" className="nav-btn">About Me</a>
         <a href="#projects" className="nav-btn">Projects</a>
+        <a href="#contact" className="nav-btn">Contact</a>
       </div>
     </nav>
   );

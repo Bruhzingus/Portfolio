@@ -1,0 +1,135 @@
+@import "../StyleVariables.css";
+
+.flip-card {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  perspective: 1200px;
+  border-radius: 10px;
+  /* Hover lift lives here (NOT on .flip-inner, which Framer Motion drives). */
+  transition: transform 0.3s ease;
+}
+
+.flip-card:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .flip-card:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+}
+
+.flip-face {
+  border-radius: 10px;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Front defines the card's height from the image's natural aspect ratio. */
+.flip-front {
+  position: relative;
+}
+
+.flip-front img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Used only until a build photo is supplied. */
+.flip-front .pc-pic-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 2px dashed var(--primary);
+  color: var(--text-main);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+/* "Click to see specs" prompt. Visible by default (e.g. touch, where there is
+   no hover); on hover-capable devices it fades in on hover/focus. */
+.flip-hint {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  background: var(--primary);
+  color: var(--text-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+@media (hover: hover) {
+  .flip-hint {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .flip-card:hover .flip-hint,
+  .flip-card:focus-visible .flip-hint {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Back overlays the exact same box as the front, pre-flipped. Uses a distinct
+   accent surface so the spec sheet stands out from the rest of the portfolio. */
+.flip-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  background: var(--bg-spec);
+  border: 1px solid var(--primary);
+  padding: 1.25rem 1.5rem;
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: auto;
+}
+
+/* Specs sit directly on the flip back — drop the nested card styling. */
+.flip-back .pc-specs {
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+.flip-back h4 {
+  color: var(--primary);
+  margin-top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card {
+    transition: none;
+  }
+  .flip-card:hover {
+    transform: none;
+  }
+  .flip-hint {
+    transition: none;
+  }
+}

@@ -9,6 +9,7 @@
 
   --bg-main: linear-gradient(135deg, #ffffff, #f1f5f9);
   --bg-card: #ffffff;
+  --bg-spec: #e0f2fe;
   --hero-bg: linear-gradient(135deg, #f8fafc, #e2e8f0);
   --bg-section: rgba(255, 255, 255, 0.05);
 
@@ -33,6 +34,7 @@
 
   --bg-main: linear-gradient(135deg, #0f172a, #1e293b);
   --bg-card: #1e293b;
+  --bg-spec: #15324d;
   --hero-bg: rgba(255, 255, 255, 0.05);
   --bg-section: rgba(255, 255, 255, 0.05);
 
@@ -60,7 +62,7 @@ body {
 
 .btn {
   background-color: var(--primary);
-  color: var(--text-main);
+  color: var(--text-dark);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
