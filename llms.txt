@@ -1,0 +1,56 @@
+# Randall Brezina
+
+> Randall Brezina is a Computer Information Technology (CIT) graduate from Lethbridge
+> Polytechnic (formerly Lethbridge College), focused on computer hardware, custom PC
+> builds, UI/UX design, and web development. Based in Lethbridge, Alberta, Canada.
+
+## About
+
+Randall Brezina is a Computer Information Technology (CIT) graduate from Lethbridge
+Polytechnic (formerly Lethbridge College) with a passion for UI design, analyzing
+systems, and problem-solving. He enjoys building efficient, scalable solutions and
+exploring technologies like React, Node.js, and cloud computing, and specializes in
+hands-on hardware work and custom PC building.
+
+## Education
+
+- Computer Information Technology (CIT), Lethbridge Polytechnic (formerly Lethbridge College)
+
+## Skills
+
+- Hands-on hardware & PC building
+- Hardware troubleshooting
+- Client communication & consulting
+- Budget planning
+- Networking basics
+- UI/UX design
+- React
+- Node.js
+- C#
+- HTML
+
+## Projects
+
+- **ShelfCast — Sales Analytics & Forecasting Dashboard**: A sales dashboard that
+  provides analytics and insights, including predicting future sales with a
+  forecasting algorithm. Originally built for a local business in Lethbridge and
+  expanded to be scalable for any small business with POS data.
+- **Brezina Strength Academy**: A personal coaching website built with Wix and Figma,
+  focused on UI/UX design, accessibility, and mobile usability, applying Steve Krug's
+  usability principles.
+- **Client's High-Performance Gaming Build**: An end-to-end custom gaming PC built for
+  a client on a $2,500 CAD budget (delivered ~$2,200), including parts selection,
+  budget and performance consulting, assembly, Windows setup, and tuning.
+- **Client's Gaming/Media Production Build**: A custom PC for gaming, video editing,
+  and social media creation, with full client guidance and a 1440p performance target.
+- **Personal Gaming + Productivity Build**: A custom PC for gaming, content creation,
+  and IT development work.
+- **Custom Mechanical Keyboard Build**: A hand-assembled mechanical keyboard focused on
+  typing feel, reliability, and ergonomic comfort.
+
+## Contact
+
+- Email: randallbrez05@gmail.com
+- Phone: 403-593-0240
+- LinkedIn: https://www.linkedin.com/in/randall-brezina-585506393/
+- Website: https://randallbrezina.ca/
