@@ -26,35 +26,44 @@
   }
 }
 
+/* Both faces share one grid cell, so the card grows to whichever face is taller
+   (the photo on desktop, the spec list on a narrow phone). This guarantees the
+   specs are never clipped. */
 .flip-inner {
+  display: grid;
   position: relative;
   width: 100%;
   transform-style: preserve-3d;
 }
 
 .flip-face {
+  grid-area: 1 / 1;
   border-radius: 10px;
   overflow: hidden;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
-/* Front defines the card's height from the image's natural aspect ratio. */
+/* Front carries the build photo's 4:3 ratio (all build photos are 4:3, so the
+   image shows uncropped); if the spec face is taller it stretches and the image
+   fills via cover. */
 .flip-front {
   position: relative;
+  aspect-ratio: 4 / 3;
 }
 
-.flip-front img {
-  display: block;
+.flip-front img,
+.flip-front .pc-pic-placeholder {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  border-radius: 10px;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Used only until a build photo is supplied. */
 .flip-front .pc-pic-placeholder {
-  width: 100%;
-  aspect-ratio: 16 / 9;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,11 +103,9 @@
   }
 }
 
-/* Back overlays the exact same box as the front, pre-flipped. Uses a distinct
-   accent surface so the spec sheet stands out from the rest of the portfolio. */
+/* Back shares the same grid cell (pre-flipped). Uses a distinct accent surface
+   so the spec sheet stands out from the rest of the portfolio. */
 .flip-back {
-  position: absolute;
-  inset: 0;
   transform: rotateY(180deg);
   background: var(--bg-spec);
   border: 1px solid var(--primary);
@@ -107,7 +114,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: auto;
 }
 
 /* Specs sit directly on the flip back — drop the nested card styling. */
