@@ -31,7 +31,7 @@ hands-on hardware work and custom PC building.
 
 ## Projects
 
-- **ShelfCast — Sales Analytics & Forecasting Dashboard**: A sales dashboard that
+- **ShelfCast: Sales Analytics & Forecasting Dashboard**: A sales dashboard that
   provides analytics and insights, including predicting future sales with a
   forecasting algorithm. Originally built for a local business in Lethbridge and
   expanded to be scalable for any small business with POS data.
