@@ -1,10 +1,10 @@
-import lucasImg from '../assets/LucasPC.jpg';
-import brockImg from '../assets/brockpc.jpg';
+import lucasImg from '../assets/LucasPC.webp';
+import brockImg from '../assets/brockpc.webp';
 import personalPCImg from '../assets/personalPC.webp';
-import keyboardImg from '../assets/keyboard.jpg';
-import shelfcastImg from '../assets/shelfcast-poster.jpg';
-import strengthImg from '../assets/website-poster.jpg';
-import portraitImg from '../assets/portrait.jpg';
+import keyboardImg from '../assets/keyboard.webp';
+import shelfcastImg from '../assets/shelfcast-poster.webp';
+import strengthImg from '../assets/website-poster.webp';
+import portraitImg from '../assets/portrait.webp';
 import shelfcastVideo from '../assets/shelfcast.mp4';
 import strengthVideo from '../assets/website.mp4';
 
@@ -129,7 +129,7 @@ export const TESTIMONIALS = [
     name: "Cody",
     org: "BARCO Tech",
     role: "Colleague",
-    pull: "Such an amazing teammate, always a pleasure to work with and very reliable.",
+    pull: "An amazing, reliable teammate, always a pleasure to work with.",
     quote: "Randall is such an amazing teammate, he is always a pleasure to work with and very reliable. 100% would recommend.",
   },
   {
@@ -137,7 +137,7 @@ export const TESTIMONIALS = [
     name: "Brock",
     org: "Lethbridge Polytechnic",
     role: "Client · Custom PC",
-    pull: "Excellent guidance from part selection through to a clean Windows install.",
+    pull: "Excellent guidance from part selection to a clean Windows install.",
     quote: "Randall provided excellent guidance throughout my PC build. He helped me select the right components, troubleshoot issues, and ensured everything ran perfectly.",
   },
   {
@@ -145,7 +145,7 @@ export const TESTIMONIALS = [
     name: "Jeremy",
     org: "Steve's Urethane",
     role: "Employer",
-    pull: "Picked up the job quickly with zero prior experience. Adapted fast and had incredible attention to detail.",
+    pull: "Picked it up fast with zero experience, adapting quickly with incredible attention to detail.",
     quote: "Randall picked up the job quickly despite having zero prior experience. He adapted fast, learned everything hands-on, and had incredible attention to detail. Anyone would be lucky to work with him.",
   },
   {
@@ -153,7 +153,7 @@ export const TESTIMONIALS = [
     name: "Timothy",
     org: "Lethbridge Polytechnic",
     role: "Professor · Systems Analysis & Design",
-    pull: "Consistently among the top performers, and his work sits above the industry standard.",
+    pull: "Consistently a top performer; his work sits above the industry standard.",
     quote: "It was a pleasure to have Randall in my Systems Analysis and Design class. He was consistently among the top performers, and always the best dressed for the presentations. The quality of work that he produced was above the industry standard and I have high expectations of what he'll continue to do after finishing his studies.",
   },
 ];

@@ -15,7 +15,7 @@ export default function Navbar({ base = '' }) {
 
   const close = () => setOpen(false);
 
-  const handleContactClick = (e) => {
+  const handleContactClick = () => {
     close();
     // Dispatch custom event to trigger footer glow
     window.dispatchEvent(new CustomEvent('contact-clicked'));
@@ -27,7 +27,7 @@ export default function Navbar({ base = '' }) {
   return (
     <nav className="nav">
       <div className="nav-inner">
-        <a className="logo" href={h('#about')} onClick={scrollTop} aria-label="Randall Brezina — home">
+        <a className="logo" href={h('#about')} onClick={scrollTop} aria-label="Randall Brezina, home">
           <img src="/RB.png" alt="Randall Brezina" width="34" height="34" />
         </a>
 

@@ -1,29 +1,25 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import Badge from './Badge';
 import SpecSheet from './SpecSheet';
 
-const COVER_W     = 390;   // normal cover width
-const COVER_W_EXP = 720;   // expanded (video playing) width
-const GAP         = 28;
-const STEP        = COVER_W + GAP;
-
-function Cover({ project, index, total, distance, active, playing, onSelect, onPlay, onClose }) {
+function Cover({ project, index, total, distance, active, inView, onSelect }) {
   const videoRef = useRef(null);
   const isDemo    = project.type === 'software' && !!project.video;
-  const isExpanded = active && playing;
+  // A focused video cover auto-expands to a landscape frame and plays, no clicks needed.
+  const isExpanded = active && isDemo;
 
-  // Start / stop video when expanded state changes
+  // Play only while focused AND scrolled into view. Combined with preload="none"
+  // this also defers the video download until the section is actually reached.
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (isExpanded) {
-      v.currentTime = 0;
+    if (isExpanded && inView) {
       v.play().catch(() => {});
     } else {
       v.pause();
-      v.currentTime = 0;
+      if (!isExpanded) v.currentTime = 0;
     }
-  }, [isExpanded]);
+  }, [isExpanded, inView]);
 
   const abs = Math.abs(distance);
   const style = {
@@ -31,23 +27,14 @@ function Cover({ project, index, total, distance, active, playing, onSelect, onP
     opacity:   active ? 1 : abs === 1 ? 0.66 : 0.34,
   };
 
-  const handleClick = () => {
-    if (!active) { onSelect(index); return; }
-    if (isDemo)  isExpanded ? onClose() : onPlay();
-  };
-
+  // Side covers are tappable to bring them into focus; the active cover is inert.
+  const selectable = !active;
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (selectable && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
-      handleClick();
+      onSelect(index);
     }
   };
-
-  const label = !active
-    ? `View ${project.title}`
-    : isDemo
-      ? isExpanded ? `Stop demo of ${project.title}` : `Play demo of ${project.title}`
-      : project.title;
 
   return (
     <article
@@ -58,11 +45,11 @@ function Cover({ project, index, total, distance, active, playing, onSelect, onP
         (isExpanded  ? ' is-expanded' : '')
       }
       style={style}
-      onClick={handleClick}
+      onClick={selectable ? () => onSelect(index) : undefined}
       onKeyDown={handleKeyDown}
-      role="button"
-      tabIndex={0}
-      aria-label={label}
+      role={selectable ? 'button' : undefined}
+      tabIndex={selectable ? 0 : undefined}
+      aria-label={selectable ? `View ${project.title}` : undefined}
     >
       <div className="cover-media">
         {project.image && (
@@ -72,6 +59,8 @@ function Cover({ project, index, total, distance, active, playing, onSelect, onP
           <video
             ref={videoRef}
             src={project.video}
+            poster={project.image}
+            preload="none"
             loop muted playsInline
             className={'cover-video' + (isExpanded ? ' is-playing' : '')}
           />
@@ -91,29 +80,6 @@ function Cover({ project, index, total, distance, active, playing, onSelect, onP
         <span className="cover-num">{project.tag}</span>
         <h3 className="cover-title">{project.title}</h3>
       </div>
-
-      {isDemo && !isExpanded && (
-        <div className="cover-demo-hint" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" width="52" height="52">
-            <circle cx="24" cy="24" r="23" fill="rgba(0,0,0,0.55)" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" />
-            <path d="M19 15l16 9-16 9V15z" fill="#fff" />
-          </svg>
-          <span>Click to watch demo</span>
-        </div>
-      )}
-
-      {isExpanded && (
-        <button
-          className="cover-stop"
-          onClick={e => { e.stopPropagation(); onClose(); }}
-          aria-label="Stop video"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-            strokeLinecap="round" strokeLinejoin="round" width="12" height="12">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-      )}
     </article>
   );
 }
@@ -144,8 +110,6 @@ function Spread({ project }) {
   );
 }
 
-const isDemo = (item) => item.type === 'software' && !!item.video;
-
 const Chev = ({ dir }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
     strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
@@ -153,27 +117,23 @@ const Chev = ({ dir }) => (
   </svg>
 );
 
-export default function Viewer({ id, kicker, title, items, autoplay = false }) {
-  const [center,  setCenter]  = useState(0);
-  // autoplay viewers start expanded on the first demo item
-  const [playing, setPlaying] = useState(() => autoplay && isDemo(items[0]));
+export default function Viewer({ id, kicker, title, items }) {
+  const [center, setCenter] = useState(0);
   const n      = items.length;
   const touchX = useRef(null);
+  const flowRef  = useRef(null);
+  const trackRef = useRef(null);
+  const didInit  = useRef(false);
+  // Defaults to true where IntersectionObserver is unavailable so videos still work.
+  const [inView, setInView] = useState(() => typeof IntersectionObserver === 'undefined');
 
   const go = useCallback((dir) => {
-    const next = (center + dir + n) % n;
-    setPlaying(autoplay ? isDemo(items[next]) : false);
-    setCenter(next);
-  }, [n, center, autoplay, items]);
+    setCenter((c) => (c + dir + n) % n);
+  }, [n]);
 
-  const select = useCallback((i) => {
-    setPlaying(autoplay ? isDemo(items[i]) : false);
-    setCenter(i);
-  }, [autoplay, items]);
+  const select = useCallback((i) => setCenter(i), []);
 
-  const active     = items[center];
-  const handlePlay  = useCallback(() => setPlaying(true),  []);
-  const handleClose = useCallback(() => setPlaying(false), []);
+  const active = items[center];
 
   const handleTouchStart = (e) => { touchX.current = e.touches[0].clientX; };
   const handleTouchEnd   = (e) => {
@@ -183,9 +143,57 @@ export default function Viewer({ id, kicker, title, items, autoplay = false }) {
     touchX.current = null;
   };
 
-  // Shift the track left by the extra half-width when a cover expands
-  const offset     = playing ? COVER_W_EXP / 2 : COVER_W / 2;
-  const trackStyle = { transform: `translateX(calc(-${offset}px - ${center * STEP}px))` };
+  // Center the active cover by measuring its real position. Cover widths change
+  // via CSS at mobile breakpoints, so fixed pixel math would mis-center, so measuring
+  // keeps it correct at any size and for the expanded (video) cover.
+  const recenter = useCallback(() => {
+    const flow = flowRef.current;
+    const track = trackRef.current;
+    if (!flow || !track) return;
+    const el = track.children[center];
+    if (!el) return;
+    const x = flow.clientWidth / 2 - (el.offsetLeft + el.offsetWidth / 2);
+    if (!didInit.current) {
+      // Place the first position without animating it in.
+      track.style.transition = 'none';
+      track.style.transform = `translateX(${x}px)`;
+      void track.offsetWidth;
+      track.style.transition = '';
+      didInit.current = true;
+    } else {
+      track.style.transform = `translateX(${x}px)`;
+    }
+  }, [center]);
+
+  useLayoutEffect(() => { recenter(); }, [recenter, n]);
+
+  useEffect(() => {
+    window.addEventListener('resize', recenter);
+    return () => window.removeEventListener('resize', recenter);
+  }, [recenter]);
+
+  // Only load/play demo videos once this viewer nears the viewport, keeping the
+  // heavy video off the initial page load.
+  useEffect(() => {
+    const el = flowRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(
+      ([e]) => setInView(e.isIntersecting),
+      { rootMargin: '200px', threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // Re-center once an expand/collapse transition finishes, since the cover's
+  // width changes during it.
+  useEffect(() => {
+    const el = trackRef.current?.children[center];
+    if (!el) return;
+    const onEnd = (e) => { if (e.target === el) recenter(); };
+    el.addEventListener('transitionend', onEnd);
+    return () => el.removeEventListener('transitionend', onEnd);
+  }, [center, recenter]);
 
   return (
     <section className="viewer" id={id}>
@@ -206,8 +214,8 @@ export default function Viewer({ id, kicker, title, items, autoplay = false }) {
           <Chev dir="left" />
         </button>
 
-        <div className="flow" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-          <div className="flow-track" style={trackStyle}>
+        <div className="flow" ref={flowRef} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+          <div className="flow-track" ref={trackRef}>
             {items.map((p, i) => (
               <Cover
                 key={p.id}
@@ -216,10 +224,8 @@ export default function Viewer({ id, kicker, title, items, autoplay = false }) {
                 total={n}
                 distance={i - center}
                 active={i === center}
-                playing={playing && i === center}
+                inView={inView}
                 onSelect={select}
-                onPlay={handlePlay}
-                onClose={handleClose}
               />
             ))}
           </div>

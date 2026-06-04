@@ -24,7 +24,6 @@ export default function Portfolio() {
           kicker="Software · Web & desktop"
           title="Software Projects"
           items={SOFTWARE}
-          autoplay
         />
         <Testimonials />
       </main>

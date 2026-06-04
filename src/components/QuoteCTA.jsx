@@ -9,8 +9,8 @@ export default function QuoteCTA() {
           <em>Get a quote.</em>
         </h3>
         <p className="quote-cta-lede">
-          Tell me what you want to do with it and what you have to spend. I&rsquo;ll
-          come back with a parts list, a real price, and a build window. No upsell.
+          Tell me what you want it to do and your budget. You&rsquo;ll get a parts
+          list, a real price, and a build window. No upsell.
         </p>
         <div className="quote-cta-meta">
           <span><b>10&ndash;14 days</b> typical turnaround</span>
@@ -23,7 +23,7 @@ export default function QuoteCTA() {
 
       <a className="quote-cta-action" href="quote.html">
         <span className="qa-note">
-          Builds are finalized only once you&rsquo;re ready to buy &mdash; I always pull the
+          Builds are finalized only once you&rsquo;re ready to buy. I always pull the
           most up-to-date, best-value pricing at that point.
         </span>
         <span className="qa-btn">
