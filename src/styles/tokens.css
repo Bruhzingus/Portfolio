@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --slate-950: #080d18;
+  --slate-900: #0f172a;
+  --slate-850: #131c2e;
+  --slate-800: #1e293b;
+  --slate-700: #334155;
+  --slate-600: #475569;
+  --slate-500: #64748b;
+  --slate-400: #94a3b8;
+  --slate-300: #cbd5e1;
+  --slate-200: #e2e8f0;
+  --slate-100: #f1f5f9;
+  --slate-50:  #f8fafc;
+  --white:     #ffffff;
+
+  --brand:        #5b82f0;
+  --brand-strong: #4666da;
+  --brand-soft:   #e9eefc;
+
+  --grey:         #8b94a7;
+  --grey-strong:  #6c7589;
+  --grey-soft:    #eceef3;
+
+  --amber:        #d8a24a;
+  --rose:         #d3677a;
+
+  --font-sans: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --fs-display: clamp(2.75rem, 1.6rem + 5.2vw, 5rem);
+  --fs-h1:      clamp(2rem, 1.3rem + 3vw, 3.25rem);
+  --fs-h2:      clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem);
+  --fs-h3:      clamp(1.18rem, 1rem + 0.7vw, 1.5rem);
+  --fs-body:    1rem;
+  --fs-small:   0.875rem;
+  --fs-label:   0.72rem;
+  --fs-micro:   0.66rem;
+
+  --lh-tight:   1.05;
+  --lh-snug:    1.25;
+  --lh-body:    1.6;
+
+  --tracking-label: 0.16em;
+  --tracking-tight: -0.02em;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  --border-width: 1px;
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 0.18s;
+  --dur-mid: 0.4s;
+  --dur-slow: 0.6s;
+}
+
+:root,
+[data-theme="dark"] {
+  --bg:          var(--slate-950);
+  --bg-elev:     #0c1424;
+  --surface:     var(--slate-850);
+  --surface-2:   #1b2638;
+  --surface-inset: #0d1525;
+
+  --fg:          var(--slate-100);
+  --fg-muted:    #9aa7be;
+  --fg-subtle:   #66738c;
+  --fg-onAccent: var(--white);
+
+  --border:        rgba(148, 163, 184, 0.14);
+  --border-strong: rgba(148, 163, 184, 0.28);
+
+  --accent:        var(--brand);
+  --accent-strong: #88a4ff;
+  --accent-soft:   rgba(91, 130, 240, 0.16);
+  --accent-line:   rgba(91, 130, 240, 0.45);
+
+  --soft-2:        #9aa4ba;
+  --soft-2-soft:   rgba(148, 163, 184, 0.16);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 22px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.55);
+  --shadow-accent: 0 12px 40px rgba(91, 130, 240, 0.35);
+}

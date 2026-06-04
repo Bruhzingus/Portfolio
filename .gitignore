@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Pre-optimization asset originals (kept locally, not deployed)
+asset-backups
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
