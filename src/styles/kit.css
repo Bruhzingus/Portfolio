@@ -46,6 +46,17 @@ body {
 .nav-cta:hover { background: var(--accent); color: var(--fg-onAccent); border-color: var(--accent);
   transform: translateY(-1px); box-shadow: var(--shadow-accent); }
 .nav-cta svg { opacity: 0.8; }
+.nav-contact { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: var(--tracking-label);
+  text-transform: uppercase; color: var(--accent-strong); text-decoration: none;
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg) 88%); border: 1px solid transparent;
+  padding: 8px 16px; border-radius: var(--radius-sm); transition: background var(--dur-fast) var(--ease-standard),
+              border-color var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+  animation: navHighlight 6s ease-in-out infinite alternate; }
+.nav-contact:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--fg); transform: translateY(-1px);
+  box-shadow: 0 0 0 0 rgba(255,255,255,0.25); }
+@keyframes navHighlight { 0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.12); }
+  100% { box-shadow: 0 0 0 14px rgba(102, 126, 234, 0); } }
 .status { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono);
   font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); }
 .status .live { width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
@@ -431,6 +442,26 @@ body {
   transition: color var(--dur-fast) var(--ease-standard); }
 .foot a svg { flex-shrink: 0; }
 .foot a:hover { color: var(--accent-strong); }
+
+.foot#contact { position: relative; }
+.foot#contact::before {
+  content: '';
+  position: absolute;
+  inset: -20px -24px -24px;
+  pointer-events: none;
+  background: radial-gradient(ellipse 800px 200px at center, rgba(255, 255, 255, 0.08), transparent 60%);
+  filter: blur(20px);
+  opacity: 0;
+}
+.foot#contact.footer-highlight::before {
+  animation: footerGlow 3.5s ease-out forwards;
+}
+
+@keyframes footerGlow {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
 /* SCROLL REVEAL */
 @keyframes revealUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }

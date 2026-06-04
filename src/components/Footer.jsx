@@ -1,12 +1,49 @@
+import { useEffect, useRef } from 'react';
+import { CONTACT } from '../data/data';
+
 export default function Footer() {
+  const shell = useRef(null);
+
+  useEffect(() => {
+    const element = shell.current;
+    if (!element) return;
+
+    // Handle click event on contact button
+    const handleContactClick = () => {
+      element.classList.add('footer-highlight');
+    };
+
+    // Handle scroll into view
+    if (typeof IntersectionObserver !== 'undefined') {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            element.classList.add('footer-highlight');
+            observer.unobserve(element);
+          }
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(element);
+
+      // Listen for contact button clicks
+      window.addEventListener('contact-clicked', handleContactClick);
+
+      return () => {
+        observer.disconnect();
+        window.removeEventListener('contact-clicked', handleContactClick);
+      };
+    }
+  }, []);
+
   return (
-    <footer className="foot">
+    <footer id="contact" ref={shell} className="foot">
       <div className="foot-brand">
         <span className="foot-name">Randall Brezina</span>
         <span className="foot-tag">CIT Graduate · Lethbridge Polytechnic · Lethbridge, AB</span>
       </div>
       <div className="foot-links">
-        <a href="mailto:randallbrez05@gmail.com">
+        <a href={`mailto:${CONTACT.email}`}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16" aria-hidden="true">
             <rect x="2" y="4" width="20" height="16" rx="2" />
             <path d="m22 7-10 6L2 7" />

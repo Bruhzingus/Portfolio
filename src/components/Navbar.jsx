@@ -15,6 +15,12 @@ export default function Navbar({ base = '' }) {
 
   const close = () => setOpen(false);
 
+  const handleContactClick = (e) => {
+    close();
+    // Dispatch custom event to trigger footer glow
+    window.dispatchEvent(new CustomEvent('contact-clicked'));
+  };
+
   // Prefix hash links with base so they work from any page
   const h = (hash) => `${base}${hash}`;
 
@@ -30,6 +36,7 @@ export default function Navbar({ base = '' }) {
           <a href={h('#builds')} onClick={close}>Builds</a>
           <a href={h('#software')} onClick={close}>Software</a>
           <a href={h('#testimonials')} onClick={close}>Testimonials</a>
+          <a href={h('#contact')} className="nav-contact" onClick={handleContactClick}>Contact</a>
           <span className="nav-sep" aria-hidden="true" />
           <a href="quote.html" className="nav-cta">
             Get a quote
@@ -60,6 +67,7 @@ export default function Navbar({ base = '' }) {
         <a href={h('#builds')} onClick={close}>Builds</a>
         <a href={h('#software')} onClick={close}>Software</a>
         <a href={h('#testimonials')} onClick={close}>Testimonials</a>
+        <a href={h('#contact')} className="nav-contact" onClick={handleContactClick}>Contact</a>
         <a href="quote.html" onClick={close}>Get a quote</a>
       </div>
     </nav>
