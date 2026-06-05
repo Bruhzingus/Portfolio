@@ -123,36 +123,17 @@ export default function Viewer({ id, kicker, title, items }) {
   const touchX = useRef(null);
   const flowRef  = useRef(null);
   const trackRef = useRef(null);
+  const trackX   = useRef(0);  // current translateX of the track, in px
+  const rafRef   = useRef(0);
   const didInit  = useRef(false);
   // Defaults to true where IntersectionObserver is unavailable so videos still work.
   const [inView, setInView] = useState(() => typeof IntersectionObserver === 'undefined');
 
-  // Tracks the center index that was active just before the last navigation,
-  // and the visual (expanded) width of that cover at the moment of the switch.
-  const prevCenterRef      = useRef(0);
-  const prevExpandedWRef   = useRef(0);
-  // Mirror of center state kept in a ref so event callbacks always read the latest value.
-  const centerRef          = useRef(0);
-  useEffect(() => { centerRef.current = center; }, [center]);
-
-  // Call this inside go/select BEFORE calling setCenter so the DOM still
-  // reflects the old (possibly expanded) cover.
-  const captureBeforeSwitch = useCallback(() => {
-    const c = centerRef.current;
-    const el = trackRef.current?.children[c];
-    prevCenterRef.current    = c;
-    prevExpandedWRef.current = el?.classList.contains('is-expanded') ? el.offsetWidth : 0;
-  }, []);
-
   const go = useCallback((dir) => {
-    captureBeforeSwitch();
     setCenter((c) => (c + dir + n) % n);
-  }, [captureBeforeSwitch, n]);
+  }, [n]);
 
-  const select = useCallback((i) => {
-    captureBeforeSwitch();
-    setCenter(i);
-  }, [captureBeforeSwitch]);
+  const select = useCallback((i) => setCenter(i), []);
 
   const active = items[center];
 
@@ -164,59 +145,64 @@ export default function Viewer({ id, kicker, title, items }) {
     touchX.current = null;
   };
 
-  // Center the active cover by measuring its real position. Cover widths change
-  // via CSS at mobile breakpoints, so fixed pixel math would mis-center, so measuring
-  // keeps it correct at any size and for the expanded (video) cover.
-  const recenter = useCallback(() => {
+  // Slide the active cover to the centre of the viewport. The software covers
+  // expand/collapse (390px <-> 720px) while this runs, which shifts the whole
+  // row mid-flight; handing the browser one fixed target and letting CSS
+  // interpolate overshoots, because that target keeps moving as widths change.
+  // Instead we drive the track each frame, pinning the active cover's *screen*
+  // centre onto an eased path from where it sits now to the viewport centre and
+  // re-reading its live width every frame. It lands dead-centre, never past it.
+  const settle = useCallback((animate) => {
     const flow = flowRef.current;
     const track = trackRef.current;
     if (!flow || !track) return;
     const el = track.children[center];
     if (!el) return;
-    const x = flow.clientWidth / 2 - (el.offsetLeft + el.offsetWidth / 2);
-    if (!didInit.current) {
-      // Place the first position without animating it in.
-      track.style.transition = 'none';
-      track.style.transform = `translateX(${x}px)`;
-      void track.offsetWidth;
-      track.style.transition = '';
-      didInit.current = true;
-    } else {
-      const prevExpW = prevExpandedWRef.current;
-      const prev     = prevCenterRef.current;
 
-      if (prevExpW > 0 && prev < center) {
-        // The old cover (to the left of new center) was expanded and is now
-        // collapsing via a CSS flex-basis transition. offsetLeft already reflects
-        // the final (collapsed) layout, so setting the track to `x` immediately
-        // would place the new cover visually off-center during the collapse.
-        //
-        // Fix: snap the track to where the new cover visually IS right now
-        // (accounting for the old cover still being wide), then animate to `x`.
-        // Both the track translation and the cover's width then travel together,
-        // keeping the new cover close to center throughout.
-        const prevEl      = track.children[prev];
-        const collapsedW  = prevEl?.offsetWidth ?? 0;
-        const diff        = prevExpW - collapsedW; // e.g. 720 - 390 = 330 px
+    cancelAnimationFrame(rafRef.current);
+    track.style.transition = 'none';
 
-        track.style.transition = 'none';
-        track.style.transform  = `translateX(${x - diff}px)`;
-        void track.offsetWidth; // flush
-        track.style.transition = '';
+    const flowCenter  = flow.clientWidth / 2;
+    // Live centre of the active cover within the track (grows as it expands).
+    const localCenter = () => el.offsetLeft + el.offsetWidth / 2;
+    const reduceMotion =
+      typeof matchMedia !== 'undefined' &&
+      matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        prevExpandedWRef.current = 0; // consumed
-      }
-
-      track.style.transform = `translateX(${x}px)`;
+    if (!animate || reduceMotion) {
+      trackX.current = flowCenter - localCenter();
+      track.style.transform = `translateX(${trackX.current}px)`;
+      return;
     }
+
+    const fromScreen = trackX.current + localCenter(); // where the cover is now
+    const ease = (t) => 1 - Math.pow(1 - t, 3);        // ease-out cubic
+    const DURATION = 600;                               // matches cover width transition
+    const t0 = performance.now();
+
+    const step = (now) => {
+      const f = Math.min(1, (now - t0) / DURATION);
+      const screen = fromScreen + (flowCenter - fromScreen) * ease(f);
+      trackX.current = screen - localCenter();          // re-reads the live width
+      track.style.transform = `translateX(${trackX.current}px)`;
+      if (f < 1) rafRef.current = requestAnimationFrame(step);
+    };
+    rafRef.current = requestAnimationFrame(step);
   }, [center]);
 
-  useLayoutEffect(() => { recenter(); }, [recenter, n]);
+  // Position instantly on first paint; animate the slide on every change after.
+  useLayoutEffect(() => {
+    settle(didInit.current);
+    didInit.current = true;
+  }, [settle, n]);
 
   useEffect(() => {
-    window.addEventListener('resize', recenter);
-    return () => window.removeEventListener('resize', recenter);
-  }, [recenter]);
+    const onResize = () => settle(false);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [settle]);
+
+  useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
 
   // Only load/play demo videos once this viewer nears the viewport, keeping the
   // heavy video off the initial page load.
@@ -230,16 +216,6 @@ export default function Viewer({ id, kicker, title, items }) {
     io.observe(el);
     return () => io.disconnect();
   }, []);
-
-  // Re-center once an expand/collapse transition finishes, since the cover's
-  // width changes during it.
-  useEffect(() => {
-    const el = trackRef.current?.children[center];
-    if (!el) return;
-    const onEnd = (e) => { if (e.target === el) recenter(); };
-    el.addEventListener('transitionend', onEnd);
-    return () => el.removeEventListener('transitionend', onEnd);
-  }, [center, recenter]);
 
   return (
     <section className="viewer" id={id}>
