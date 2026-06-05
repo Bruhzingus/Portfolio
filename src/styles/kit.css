@@ -176,8 +176,8 @@ body {
   cursor: pointer; box-shadow: var(--shadow-md);
   transition: transform 0.5s var(--ease-out), opacity 0.5s var(--ease-standard),
               box-shadow 0.5s var(--ease-standard),
-              flex-basis 0.55s var(--ease-out), width 0.55s var(--ease-out),
-              height 0.55s var(--ease-out); }
+              flex-basis 0.6s var(--ease-out), width 0.6s var(--ease-out),
+              height 0.6s var(--ease-out); }
 .cover.is-expanded { flex-basis: 720px; width: 720px; height: 406px; cursor: default; }
 .cover.is-active { box-shadow: var(--shadow-lg), var(--shadow-accent); cursor: default; }
 .cover-media { position: absolute; inset: 0; }

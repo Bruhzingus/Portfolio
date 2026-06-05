@@ -127,11 +127,32 @@ export default function Viewer({ id, kicker, title, items }) {
   // Defaults to true where IntersectionObserver is unavailable so videos still work.
   const [inView, setInView] = useState(() => typeof IntersectionObserver === 'undefined');
 
-  const go = useCallback((dir) => {
-    setCenter((c) => (c + dir + n) % n);
-  }, [n]);
+  // Tracks the center index that was active just before the last navigation,
+  // and the visual (expanded) width of that cover at the moment of the switch.
+  const prevCenterRef      = useRef(0);
+  const prevExpandedWRef   = useRef(0);
+  // Mirror of center state kept in a ref so event callbacks always read the latest value.
+  const centerRef          = useRef(0);
+  useEffect(() => { centerRef.current = center; }, [center]);
 
-  const select = useCallback((i) => setCenter(i), []);
+  // Call this inside go/select BEFORE calling setCenter so the DOM still
+  // reflects the old (possibly expanded) cover.
+  const captureBeforeSwitch = useCallback(() => {
+    const c = centerRef.current;
+    const el = trackRef.current?.children[c];
+    prevCenterRef.current    = c;
+    prevExpandedWRef.current = el?.classList.contains('is-expanded') ? el.offsetWidth : 0;
+  }, []);
+
+  const go = useCallback((dir) => {
+    captureBeforeSwitch();
+    setCenter((c) => (c + dir + n) % n);
+  }, [captureBeforeSwitch, n]);
+
+  const select = useCallback((i) => {
+    captureBeforeSwitch();
+    setCenter(i);
+  }, [captureBeforeSwitch]);
 
   const active = items[center];
 
@@ -161,6 +182,31 @@ export default function Viewer({ id, kicker, title, items }) {
       track.style.transition = '';
       didInit.current = true;
     } else {
+      const prevExpW = prevExpandedWRef.current;
+      const prev     = prevCenterRef.current;
+
+      if (prevExpW > 0 && prev < center) {
+        // The old cover (to the left of new center) was expanded and is now
+        // collapsing via a CSS flex-basis transition. offsetLeft already reflects
+        // the final (collapsed) layout, so setting the track to `x` immediately
+        // would place the new cover visually off-center during the collapse.
+        //
+        // Fix: snap the track to where the new cover visually IS right now
+        // (accounting for the old cover still being wide), then animate to `x`.
+        // Both the track translation and the cover's width then travel together,
+        // keeping the new cover close to center throughout.
+        const prevEl      = track.children[prev];
+        const collapsedW  = prevEl?.offsetWidth ?? 0;
+        const diff        = prevExpW - collapsedW; // e.g. 720 - 390 = 330 px
+
+        track.style.transition = 'none';
+        track.style.transform  = `translateX(${x - diff}px)`;
+        void track.offsetWidth; // flush
+        track.style.transition = '';
+
+        prevExpandedWRef.current = 0; // consumed
+      }
+
       track.style.transform = `translateX(${x}px)`;
     }
   }, [center]);
