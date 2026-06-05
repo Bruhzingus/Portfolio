@@ -16,7 +16,9 @@ body {
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
 /* NAVBAR */
-.nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(16px);
+.nav { position: sticky; top: 0; z-index: 50;
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  background: var(--bg); /* fallback where color-mix is unsupported */
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   border-bottom: 1px solid var(--border-strong); }
 .nav-inner { max-width: 1180px; margin: 0 auto; padding: 16px 24px;
@@ -43,7 +45,7 @@ body {
   transition: background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard),
               border-color var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard),
               box-shadow var(--dur-fast) var(--ease-standard); }
-.nav-cta:hover { background: var(--accent); color: var(--fg-onAccent); border-color: var(--accent);
+.nav-cta:hover { background: var(--accent-fill); color: var(--fg-onAccent); border-color: var(--accent-fill);
   transform: translateY(-1px); box-shadow: var(--shadow-accent); }
 .nav-cta svg { opacity: 0.8; }
 .nav-contact { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: var(--tracking-label);
@@ -78,8 +80,9 @@ body {
 .nav-drawer {
   display: flex; flex-direction: column; gap: 4px;
   position: absolute; top: 100%; left: -24px; right: -24px;
+  background: var(--bg); /* fallback where color-mix is unsupported */
   background: color-mix(in srgb, var(--bg) 97%, transparent);
-  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
   border-bottom: 1px solid transparent;
   padding: 0 24px; z-index: 49; overflow: hidden;
   max-height: 0; opacity: 0; transform: translateY(-8px); pointer-events: none;
@@ -171,10 +174,11 @@ body {
 .flow-arrow {
   position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
   width: 44px; height: 44px; border-radius: 50%;
+  background: var(--surface-2); /* fallback where color-mix is unsupported */
   background: color-mix(in srgb, var(--surface-2) 88%, transparent);
   border: 1px solid var(--border-strong); color: var(--fg);
   cursor: pointer; display: grid; place-items: center;
-  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   transition: background var(--dur-fast) var(--ease-standard),
               border-color var(--dur-fast) var(--ease-standard),
               color var(--dur-fast) var(--ease-standard),
@@ -186,7 +190,7 @@ body {
 .flow-arrow--prev:hover { transform: translateY(-50%) translateX(-2px); }
 .flow-arrow--next:hover { transform: translateY(-50%) translateX(2px); }
 .flow-arrow:active { transform: translateY(-50%) scale(0.91) !important; }
-.flow { position: relative; height: 490px; overflow: hidden; user-select: none;
+.flow { position: relative; height: 490px; overflow: hidden; -webkit-user-select: none; user-select: none;
   touch-action: pan-y; /* horizontal drags drive the coverflow, vertical still scrolls */
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
@@ -254,11 +258,11 @@ body {
 .badge { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: var(--fs-micro);
   font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 10px; border-radius: var(--radius-pill); white-space: nowrap; }
 .badge .b-dot { width: 6px; height: 6px; border-radius: 50%; }
-.badge--hw { background: var(--accent); color: var(--fg-onAccent); box-shadow: var(--shadow-sm); }
+.badge--hw { background: var(--accent-fill); color: var(--fg-onAccent); box-shadow: var(--shadow-sm); }
 .badge--hw .b-dot { background: rgba(255,255,255,0.85); }
 .badge--sw { background: rgba(255,255,255,0.08); color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
 .badge--sw .b-dot { background: rgba(255,255,255,0.8); }
-.badge--ghost { background: color-mix(in srgb, var(--bg) 45%, transparent); color: #fff; border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(6px); }
+.badge--ghost { background: rgba(8,13,24,0.45); background: color-mix(in srgb, var(--bg) 45%, transparent); color: #fff; border: 1px solid rgba(255,255,255,0.25); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .badge--sw.on-surface { background: transparent; color: var(--soft-2); border-color: var(--soft-2); }
 .badge--sw.on-surface .b-dot { background: var(--soft-2); }
 
@@ -266,13 +270,13 @@ body {
 .btn { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase;
   font-weight: 600; padding: 12px 20px; border-radius: var(--radius-sm); cursor: pointer; border: 1px solid transparent;
   text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all var(--dur-fast) var(--ease-standard); }
-.btn--primary { background: var(--accent); color: var(--fg-onAccent); }
-.btn--primary:hover { background: var(--accent-strong); transform: translateY(-1px); box-shadow: var(--shadow-accent); }
+.btn--primary { background: var(--accent-fill); color: var(--fg-onAccent); }
+.btn--primary:hover { background: var(--accent-fill-hover); transform: translateY(-1px); box-shadow: var(--shadow-accent); }
 .btn--ghost { background: transparent; color: var(--fg); border-color: var(--border-strong); }
 .btn--ghost:hover { border-color: var(--accent-line); color: var(--accent-strong); }
 .btn--resume { position: relative; background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent-strong); }
 .btn--resume svg:not(.resume-trace) { transition: transform var(--dur-fast) var(--ease-standard); }
-.btn--resume:hover { background: var(--accent); border-color: var(--accent); color: var(--fg-onAccent);
+.btn--resume:hover { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--fg-onAccent);
   transform: translateY(-1px); box-shadow: var(--shadow-accent); }
 .btn--resume:hover svg:not(.resume-trace) { transform: translateY(2px); }
 /* Neon line that traces the Résumé button border. Reuses the footer's footTrace
@@ -384,9 +388,9 @@ body {
 .qa-note { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.5; color: var(--fg-muted); text-wrap: pretty; }
 .qa-btn { margin-top: 18px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   font-family: var(--font-mono); font-weight: 600; font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 12px 18px; background: var(--accent); color: var(--fg-onAccent); border-radius: var(--radius-sm);
+  padding: 12px 18px; background: var(--accent-fill); color: var(--fg-onAccent); border-radius: var(--radius-sm);
   transition: background var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard); }
-.quote-cta-action:hover .qa-btn { background: var(--accent-strong); transform: translateY(-1px); }
+.quote-cta-action:hover .qa-btn { background: var(--accent-fill-hover); transform: translateY(-1px); }
 
 /* QUOTE PAGE */
 .quote-root { background: radial-gradient(900px 600px at 90% -5%, var(--accent-soft), transparent 60%), linear-gradient(180deg, var(--bg-elev), var(--bg) 520px); }
@@ -427,7 +431,7 @@ body {
 .q-service.is-featured { border-color: var(--accent-line); }
 .q-service.is-selected { border-color: var(--accent); box-shadow: var(--shadow-md), var(--shadow-accent); background: color-mix(in srgb, var(--accent-soft) 45%, var(--surface)); }
 .q-service-tag { position: absolute; top: -12px; left: 22px; font-family: var(--font-mono); font-size: var(--fs-micro);
-  letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; background: var(--accent); color: var(--fg-onAccent); padding: 5px 10px; border-radius: var(--radius-pill); }
+  letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; background: var(--accent-fill); color: var(--fg-onAccent); padding: 5px 10px; border-radius: var(--radius-pill); }
 .q-service-name { font-family: var(--font-sans); font-weight: 800; font-size: 1.18rem; letter-spacing: -0.01em; color: var(--fg); }
 .q-service-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; padding-bottom: 11px; border-bottom: 1px solid var(--border); }
 .q-service-amount { font-family: var(--font-sans); font-weight: 800; font-size: 1.7rem; line-height: 1; letter-spacing: -0.02em; color: var(--accent-strong); }

@@ -1,9 +1,51 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { ArrowUpRight, ChevronDown } from '../components/icons';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { QUOTE } from '../data/quote-data';
 import { CONTACT } from '../data/data';
+
+// A row of selectable pill "chips" backed by hidden radios/checkboxes. Used for
+// every single- and multi-select field in the intake form.
+function ChipGroup({ options, value, onChange, name, multi = false, getKey = (o) => o, getLabel = (o) => o }) {
+  const isOn = (o) => (multi ? value.includes(getKey(o)) : value === getKey(o));
+  return (
+    <div className="topic-row">
+      {options.map((o) => {
+        const key = getKey(o);
+        return (
+          <label key={key} className={'topic-chip' + (isOn(o) ? ' is-on' : '')}>
+            <input
+              type={multi ? 'checkbox' : 'radio'}
+              name={name}
+              value={key}
+              checked={isOn(o)}
+              onChange={() => onChange(key)}
+            />
+            <span>{getLabel(o)}</span>
+          </label>
+        );
+      })}
+    </div>
+  );
+}
+
+// One <details> accordion row (shared shell for the FAQ and Terms sections).
+function AccordionItem({ num, title, children }) {
+  return (
+    <details className="q-faq-item">
+      <summary>
+        <span className="q-faq-num">{String(num).padStart(2, '0')}</span>
+        <span className="q-faq-q">{title}</span>
+        <span className="q-faq-chev" aria-hidden="true">
+          <ChevronDown size={16} />
+        </span>
+      </summary>
+      {children}
+    </details>
+  );
+}
 
 function HeroFacts() {
   return (
@@ -272,59 +314,29 @@ function QuoteIntake({ selectedService, onSelectService }) {
 
           <div className="field">
             <span className="field-label">Service</span>
-            <div className="topic-row">
-              {q.services.map((s) => (
-                <label
-                  key={s.id}
-                  className={'topic-chip' + (selectedService === s.id ? ' is-on' : '')}
-                >
-                  <input
-                    type="radio"
-                    name="service-radio"
-                    value={s.id}
-                    checked={selectedService === s.id}
-                    onChange={() => onSelectService(s.id)}
-                  />
-                  <span>{s.name}</span>
-                </label>
-              ))}
-            </div>
+            <ChipGroup
+              options={q.services}
+              value={selectedService}
+              onChange={onSelectService}
+              name="service-radio"
+              getKey={(s) => s.id}
+              getLabel={(s) => s.name}
+            />
           </div>
 
           <div className="field">
             <span className="field-label">Primary use (pick all that apply)</span>
-            <div className="topic-row">
-              {q.useCases.map((u) => (
-                <label key={u} className={'topic-chip' + (useCases.includes(u) ? ' is-on' : '')}>
-                  <input type="checkbox" checked={useCases.includes(u)} onChange={() => toggleUse(u)} />
-                  <span>{u}</span>
-                </label>
-              ))}
-            </div>
+            <ChipGroup options={q.useCases} value={useCases} onChange={toggleUse} multi />
           </div>
 
           <div className="field-row">
             <div className="field">
               <span className="field-label">Budget (CAD)</span>
-              <div className="topic-row">
-                {q.budgets.map((b) => (
-                  <label key={b} className={'topic-chip' + (budget === b ? ' is-on' : '')}>
-                    <input type="radio" name="budget-radio" value={b} checked={budget === b} onChange={() => setBudget(b)} />
-                    <span>{b}</span>
-                  </label>
-                ))}
-              </div>
+              <ChipGroup options={q.budgets} value={budget} onChange={setBudget} name="budget-radio" />
             </div>
             <div className="field">
               <span className="field-label">Timeline</span>
-              <div className="topic-row">
-                {q.timelines.map((t) => (
-                  <label key={t} className={'topic-chip' + (timeline === t ? ' is-on' : '')}>
-                    <input type="radio" name="timeline-radio" value={t} checked={timeline === t} onChange={() => setTimeline(t)} />
-                    <span>{t}</span>
-                  </label>
-                ))}
-              </div>
+              <ChipGroup options={q.timelines} value={timeline} onChange={setTimeline} name="timeline-radio" />
             </div>
           </div>
         </fieldset>
@@ -336,25 +348,11 @@ function QuoteIntake({ selectedService, onSelectService }) {
           </legend>
           <div className="field">
             <span className="field-label">Who buys the parts?</span>
-            <div className="topic-row">
-              {q.partsOptions.map((o) => (
-                <label key={o} className={'topic-chip' + (partsOption === o ? ' is-on' : '')}>
-                  <input type="radio" name="parts-radio" value={o} checked={partsOption === o} onChange={() => setPartsOption(o)} />
-                  <span>{o}</span>
-                </label>
-              ))}
-            </div>
+            <ChipGroup options={q.partsOptions} value={partsOption} onChange={setPartsOption} name="parts-radio" />
           </div>
           <div className="field">
             <span className="field-label">Pickup or delivery</span>
-            <div className="topic-row">
-              {q.delivery.map((d) => (
-                <label key={d} className={'topic-chip' + (delivery === d ? ' is-on' : '')}>
-                  <input type="radio" name="delivery-radio" value={d} checked={delivery === d} onChange={() => setDelivery(d)} />
-                  <span>{d}</span>
-                </label>
-              ))}
-            </div>
+            <ChipGroup options={q.delivery} value={delivery} onChange={setDelivery} name="delivery-radio" />
           </div>
         </fieldset>
 
@@ -381,15 +379,14 @@ function QuoteIntake({ selectedService, onSelectService }) {
           name="_gotcha"
           tabIndex="-1"
           autoComplete="off"
+          aria-hidden="true"
           style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
         />
 
         <div className="form-foot">
           <button type="submit" className="btn btn--primary" disabled={status === 'sending'}>
             {status === 'sending' ? 'Sending…' : 'Send request'}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
-              <path d="M7 17L17 7" /><path d="M8 7h9v9" />
-            </svg>
+            <ArrowUpRight size={14} />
           </button>
           <span className={'form-status form-status--' + status} role="status" aria-live="polite">
             {status === 'error' && errorMsg}
@@ -416,18 +413,9 @@ function QuoteFAQ() {
 
       <div className="q-faq" data-reveal-stagger>
         {q.faq.map((item, i) => (
-          <details key={item.q} className="q-faq-item">
-            <summary>
-              <span className="q-faq-num">{String(i + 1).padStart(2, '0')}</span>
-              <span className="q-faq-q">{item.q}</span>
-              <span className="q-faq-chev" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </span>
-            </summary>
+          <AccordionItem key={item.q} num={i + 1} title={item.q}>
             <p className="q-faq-a">{item.a}</p>
-          </details>
+          </AccordionItem>
         ))}
       </div>
     </section>
@@ -449,16 +437,7 @@ function QuoteTerms() {
 
       <div className="q-faq q-terms" data-reveal-stagger>
         {q.terms.map((t, i) => (
-          <details key={t.title} className="q-faq-item">
-            <summary>
-              <span className="q-faq-num">{String(i + 1).padStart(2, '0')}</span>
-              <span className="q-faq-q">{t.title}</span>
-              <span className="q-faq-chev" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </span>
-            </summary>
+          <AccordionItem key={t.title} num={i + 1} title={t.title}>
             <div className="q-terms-body">
               {t.body.map((para) => (
                 <p key={para}>{para}</p>
@@ -472,7 +451,7 @@ function QuoteTerms() {
               )}
               {t.after && t.after.map((para) => <p key={para}>{para}</p>)}
             </div>
-          </details>
+          </AccordionItem>
         ))}
       </div>
     </section>

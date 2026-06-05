@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ArrowUpRight } from './icons';
 
 // base = "" on portfolio, "index.html" on quote page
 export default function Navbar({ base = '' }) {
@@ -29,6 +30,22 @@ export default function Navbar({ base = '' }) {
   // Prefix hash links with base so they work from any page
   const h = (hash) => `${base}${hash}`;
 
+  // Single source for the section links, rendered into both the desktop bar and
+  // the mobile drawer.
+  const links = [
+    { hash: '#about', label: 'About', onClick: activateAbout },
+    { hash: '#builds', label: 'Builds', onClick: close },
+    { hash: '#software', label: 'Software', onClick: close },
+    { hash: '#testimonials', label: 'Testimonials', onClick: close },
+    { hash: '#contact', label: 'Contact', onClick: close, className: 'nav-contact' },
+  ];
+
+  const renderLink = ({ hash, label, onClick, className }) => (
+    <a key={hash} href={h(hash)} className={className} onClick={onClick}>
+      {label}
+    </a>
+  );
+
   return (
     <nav className="nav">
       <div className="nav-inner">
@@ -37,17 +54,11 @@ export default function Navbar({ base = '' }) {
         </a>
 
         <div className="nav-links">
-          <a href={h('#about')} onClick={activateAbout}>About</a>
-          <a href={h('#builds')} onClick={close}>Builds</a>
-          <a href={h('#software')} onClick={close}>Software</a>
-          <a href={h('#testimonials')} onClick={close}>Testimonials</a>
-          <a href={h('#contact')} className="nav-contact" onClick={close}>Contact</a>
+          {links.map(renderLink)}
           <span className="nav-sep" aria-hidden="true" />
           <a href="quote.html" className="nav-cta">
             Get a quote
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="12" height="12">
-              <path d="M7 17L17 7" /><path d="M8 7h9v9" />
-            </svg>
+            <ArrowUpRight size={12} />
           </a>
         </div>
 
@@ -68,11 +79,7 @@ export default function Navbar({ base = '' }) {
       </div>
 
       <div className={`nav-drawer${open ? ' open' : ''}`} inert={!open}>
-        <a href={h('#about')} onClick={onPortfolio ? scrollTop : close}>About</a>
-        <a href={h('#builds')} onClick={close}>Builds</a>
-        <a href={h('#software')} onClick={close}>Software</a>
-        <a href={h('#testimonials')} onClick={close}>Testimonials</a>
-        <a href={h('#contact')} className="nav-contact" onClick={close}>Contact</a>
+        {links.map(renderLink)}
         <a href="quote.html" onClick={close}>Get a quote</a>
       </div>
     </nav>

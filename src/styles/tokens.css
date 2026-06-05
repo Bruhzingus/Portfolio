@@ -96,6 +96,10 @@
   --accent-strong: #88a4ff;
   --accent-soft:   rgba(91, 130, 240, 0.16);
   --accent-line:   rgba(91, 130, 240, 0.45);
+  /* Deeper accent for solid fills sitting behind white/light text. The bright
+     --accent only reaches 3.6:1 with white; these clear WCAG AA (4.5:1). */
+  --accent-fill:       var(--brand-strong);
+  --accent-fill-hover: #3a57c4;
 
   --soft-2:        #9aa4ba;
   --soft-2-soft:   rgba(148, 163, 184, 0.16);
