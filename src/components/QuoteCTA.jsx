@@ -2,22 +2,22 @@ export default function QuoteCTA() {
   return (
     <aside className="quote-cta" id="quote">
       <div className="quote-cta-band">
-        <span className="quote-cta-kicker">Custom PC &middot; from your brief</span>
+        <span className="quote-cta-kicker">Builds &middot; consulting &middot; tech sourcing</span>
         <h3 className="quote-cta-title">
-          Want one like these?
+          Need a PC, or help buying one?
           <br />
           <em>Get a quote.</em>
         </h3>
         <p className="quote-cta-lede">
-          Tell me what you want it to do and your budget. You&rsquo;ll get a parts
-          list, a real price, and a build window. No upsell.
+          I build custom PCs, and help you buy smart when a build isn&rsquo;t the answer.
+          No upsell, no commissions. If a prebuilt is the better deal, I&rsquo;ll say so.
         </p>
         <div className="quote-cta-meta">
-          <span><b>10&ndash;14 days</b> typical turnaround</span>
+          <span><b>$200</b> flat build fee</span>
           <span className="dotsep" aria-hidden="true">&middot;</span>
           <span>Free pickup or delivery in Lethbridge</span>
           <span className="dotsep" aria-hidden="true">&middot;</span>
-          <span>Parts quoted <b>at cost</b></span>
+          <span>Builds <b>+</b> buying consults</span>
         </div>
       </div>
 

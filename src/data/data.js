@@ -163,6 +163,6 @@ export const CONTACT = {
   email: "randallbrez05@gmail.com",
   linkedin: "https://www.linkedin.com/in/randall-brezina-585506393/",
   location: "Lethbridge, Alberta. Open to local + remote.",
-  response: "Replies within 1–2 business days.",
+  response: "Replies within 24 to 48 hours.",
   topics: ["Hiring / collaboration", "Software / UI work", "Hardware consult", "Something else"],
 };
