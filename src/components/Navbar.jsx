@@ -15,10 +15,15 @@ export default function Navbar({ base = '' }) {
 
   const close = () => setOpen(false);
 
-  const handleContactClick = () => {
+  // About: on the portfolio, smooth-scroll up and pulse the Résumé button trace.
+  // On the quote page, let the link navigate to index.html#about (the fresh load
+  // pulses the trace on its own).
+  const activateAbout = (e) => {
     close();
-    // Dispatch custom event to trigger footer glow
-    window.dispatchEvent(new CustomEvent('contact-clicked'));
+    if (onPortfolio) {
+      scrollTop(e);
+      window.dispatchEvent(new CustomEvent('about-activated'));
+    }
   };
 
   // Prefix hash links with base so they work from any page
@@ -32,11 +37,11 @@ export default function Navbar({ base = '' }) {
         </a>
 
         <div className="nav-links">
-          <a href={h('#about')} onClick={onPortfolio ? scrollTop : close}>About</a>
+          <a href={h('#about')} onClick={activateAbout}>About</a>
           <a href={h('#builds')} onClick={close}>Builds</a>
           <a href={h('#software')} onClick={close}>Software</a>
           <a href={h('#testimonials')} onClick={close}>Testimonials</a>
-          <a href={h('#contact')} className="nav-contact" onClick={handleContactClick}>Contact</a>
+          <a href={h('#contact')} className="nav-contact" onClick={close}>Contact</a>
           <span className="nav-sep" aria-hidden="true" />
           <a href="quote.html" className="nav-cta">
             Get a quote
@@ -62,12 +67,12 @@ export default function Navbar({ base = '' }) {
         </div>
       </div>
 
-      <div className={`nav-drawer${open ? ' open' : ''}`}>
+      <div className={`nav-drawer${open ? ' open' : ''}`} inert={!open}>
         <a href={h('#about')} onClick={onPortfolio ? scrollTop : close}>About</a>
         <a href={h('#builds')} onClick={close}>Builds</a>
         <a href={h('#software')} onClick={close}>Software</a>
         <a href={h('#testimonials')} onClick={close}>Testimonials</a>
-        <a href={h('#contact')} className="nav-contact" onClick={handleContactClick}>Contact</a>
+        <a href={h('#contact')} className="nav-contact" onClick={close}>Contact</a>
         <a href="quote.html" onClick={close}>Get a quote</a>
       </div>
     </nav>

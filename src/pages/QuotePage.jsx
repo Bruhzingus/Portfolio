@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import useScrollReveal from '../hooks/useScrollReveal';
 import { QUOTE } from '../data/quote-data';
 import { CONTACT } from '../data/data';
 
@@ -53,7 +54,7 @@ function QuoteHero() {
 function QuoteServices({ selected, onSelect }) {
   return (
     <section className="viewer q-services-section" id="services">
-      <div className="viewer-head">
+      <div className="viewer-head" data-reveal>
         <div className="titles">
           <span className="viewer-kicker">Three ways I can help</span>
           <h2 className="viewer-title">Pick a service</h2>
@@ -61,7 +62,7 @@ function QuoteServices({ selected, onSelect }) {
         <span className="counter q-services-counter">No upsell &middot; no commissions &middot; no brand bias</span>
       </div>
 
-      <div className="q-services">
+      <div className="q-services" data-reveal-stagger>
         {QUOTE.services.map((s) => (
           <button
             key={s.id}
@@ -100,13 +101,13 @@ function QuotePrebuilt() {
   const p = QUOTE.prebuilt;
   return (
     <section className="viewer q-prebuilt-section" id="why-custom">
-      <div className="viewer-head">
+      <div className="viewer-head" data-reveal>
         <div className="titles">
           <span className="viewer-kicker">{p.kicker}</span>
           <h2 className="viewer-title">{p.title}</h2>
         </div>
       </div>
-      <div className="q-prebuilt">
+      <div className="q-prebuilt" data-reveal>
         <div className="q-prebuilt-l">
           <p className="q-prebuilt-lede">{p.lede}</p>
           <p className="q-prebuilt-note">{p.note}</p>
@@ -233,15 +234,15 @@ function QuoteIntake({ selectedService, onSelectService }) {
 
   return (
     <section className="viewer q-intake-section" id="intake">
-      <div className="viewer-head">
+      <div className="viewer-head" data-reveal>
         <div className="titles">
-          <span className="viewer-kicker">One page, no wizard</span>
+          <span className="viewer-kicker">Tell me what you need</span>
           <h2 className="viewer-title">Request a quote</h2>
         </div>
         <span className="counter">{CONTACT.response}</span>
       </div>
 
-      <form className="q-form" onSubmit={submit} noValidate>
+      <form className="q-form" data-reveal onSubmit={submit} noValidate>
         <fieldset className="q-fieldset">
           <legend>
             <span className="q-legend-num">01</span>
@@ -405,7 +406,7 @@ function QuoteFAQ() {
   const q = QUOTE;
   return (
     <section className="viewer q-faq-section" id="faq">
-      <div className="viewer-head">
+      <div className="viewer-head" data-reveal>
         <div className="titles">
           <span className="viewer-kicker">Before you ask</span>
           <h2 className="viewer-title">Common questions</h2>
@@ -413,7 +414,7 @@ function QuoteFAQ() {
         <span className="counter">{String(q.faq.length).padStart(2, '0')} answered</span>
       </div>
 
-      <div className="q-faq">
+      <div className="q-faq" data-reveal-stagger>
         {q.faq.map((item, i) => (
           <details key={item.q} className="q-faq-item">
             <summary>
@@ -437,16 +438,16 @@ function QuoteTerms() {
   const q = QUOTE;
   return (
     <section className="viewer q-terms-section" id="terms">
-      <div className="viewer-head">
+      <div className="viewer-head" data-reveal>
         <div className="titles">
           <span className="viewer-kicker">The fine print</span>
           <h2 className="viewer-title">Terms &amp; conditions</h2>
         </div>
         <span className="counter q-terms-updated">Updated {q.termsUpdated}</span>
       </div>
-      <p className="q-terms-intro">{q.termsIntro}</p>
+      <p className="q-terms-intro" data-reveal>{q.termsIntro}</p>
 
-      <div className="q-faq q-terms">
+      <div className="q-faq q-terms" data-reveal-stagger>
         {q.terms.map((t, i) => (
           <details key={t.title} className="q-faq-item">
             <summary>
@@ -479,6 +480,7 @@ function QuoteTerms() {
 }
 
 export default function QuotePage() {
+  useScrollReveal();
   const [selectedService, setSelectedService] = useState(
     QUOTE.services.find((s) => s.featured)?.id || QUOTE.services[0].id
   );

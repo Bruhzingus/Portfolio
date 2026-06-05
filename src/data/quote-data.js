@@ -76,8 +76,8 @@ export const QUOTE = {
   ],
 
   prebuilt: {
-    kicker: 'Why custom',
-    title: 'What prebuilts quietly cut',
+    kicker: 'What prebuilts quietly cut',
+    title: 'Why custom',
     lede:
       'A recent high-performance build (Ryzen 5 7600X3D + RX 9070 XT) came in around $2,200. Comparable prebuilts often retail closer to $2,600 or more, and even on sale they tend to cut corners to hit that price.',
     issues: [

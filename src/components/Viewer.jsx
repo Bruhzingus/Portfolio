@@ -220,7 +220,7 @@ export default function Viewer({ id, kicker, title, items }) {
   return (
     <section className="viewer" id={id}>
 
-      <div className="viewer-head">
+      <div className="viewer-head" data-reveal>
         <div className="titles">
           <span className="viewer-kicker">{kicker}</span>
           <h2 className="viewer-title">{title}</h2>
@@ -231,7 +231,7 @@ export default function Viewer({ id, kicker, title, items }) {
       </div>
 
       {/* flow-wrap sits outside .flow so arrows are never clipped by the edge mask */}
-      <div className="flow-wrap">
+      <div className="flow-wrap" data-reveal>
         <button className="flow-arrow flow-arrow--prev" aria-label="Previous" onClick={() => go(-1)}>
           <Chev dir="left" />
         </button>

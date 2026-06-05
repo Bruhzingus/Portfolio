@@ -4,9 +4,11 @@ import Masthead from '../components/Masthead';
 import Viewer from '../components/Viewer';
 import QuoteCTA from '../components/QuoteCTA';
 import Testimonials from '../components/Testimonials';
+import useScrollReveal from '../hooks/useScrollReveal';
 import { HARDWARE, SOFTWARE } from '../data/data';
 
 export default function Portfolio() {
+  useScrollReveal();
   return (
     <div className="kit-root">
       <Navbar />

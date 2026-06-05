@@ -66,6 +66,12 @@
   --dur-fast: 0.18s;
   --dur-mid: 0.4s;
   --dur-slow: 0.6s;
+
+  /* Entrance / scroll-reveal vocabulary (shared by every section) */
+  --reveal-dur: 0.65s;
+  --reveal-ease: var(--ease-out);
+  --reveal-shift: 22px;
+  --stagger-step: 70ms;
 }
 
 :root,
@@ -77,8 +83,10 @@
   --surface-inset: #0d1525;
 
   --fg:          var(--slate-100);
-  --fg-muted:    #9aa7be;
-  --fg-subtle:   #66738c;
+  --fg-muted:    #a4b1c6;
+  /* Raised from #66738c: the old subtle grey failed contrast on dark and
+     accent-tinted panels, especially for the small mono labels that use it. */
+  --fg-subtle:   #8593ac;
   --fg-onAccent: var(--white);
 
   --border:        rgba(148, 163, 184, 0.14);

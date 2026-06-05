@@ -25,7 +25,7 @@ export default function Testimonials() {
   const items = TESTIMONIALS;
   return (
     <section className="viewer testimonials" id="testimonials">
-      <div className="viewer-head">
+      <div className="viewer-head" data-reveal>
         <div className="titles">
           <span className="viewer-kicker">Word from clients &amp; colleagues</span>
           <h2 className="viewer-title">Testimonials</h2>
@@ -34,7 +34,7 @@ export default function Testimonials() {
           <b>{String(items.length).padStart(2, '0')}</b> on record
         </span>
       </div>
-      <div className="quote-grid">
+      <div className="quote-grid" data-reveal>
         {items.map((t, i) => (
           <TestimonialCard key={t.id} t={t} idx={i} total={items.length} />
         ))}

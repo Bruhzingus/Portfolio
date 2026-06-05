@@ -15,6 +15,9 @@ dist-ssr
 # Pre-optimization asset originals (kept locally, not deployed)
 asset-backups
 
+# Local visual-verification screenshots (scripts/shoot.mjs, scripts/check.mjs)
+scripts/shots
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
