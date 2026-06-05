@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import LazyVideo from '../components/LazyVideo';
 import { ArrowUpRight, ChevronDown } from '../components/icons';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { QUOTE } from '../data/quote-data';
@@ -74,15 +75,7 @@ function QuoteHero() {
       <div className="q-hero-r">
         {h.video ? (
           <div className="q-hero-media">
-            <video
-              src={h.video}
-              poster={h.poster || undefined}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            />
+            <LazyVideo src={h.video} poster={h.poster} />
             <div className="q-hero-media-glow" aria-hidden="true" />
           </div>
         ) : (

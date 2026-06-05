@@ -1,25 +1,27 @@
-import { useState, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Badge from './Badge';
 import SpecSheet from './SpecSheet';
+import useCoverflow from '../hooks/useCoverflow';
+import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 
-function Cover({ project, index, total, distance, active, inView, onSelect }) {
+function Cover({ project, index, total, distance, active, inView, reduced, onSelect }) {
   const videoRef = useRef(null);
   const isDemo    = project.type === 'software' && !!project.video;
   // A focused video cover auto-expands to a landscape frame and plays, no clicks needed.
   const isExpanded = active && isDemo;
 
-  // Play only while focused AND scrolled into view. Combined with preload="none"
-  // this also defers the video download until the section is actually reached.
+  // Play only while focused AND scrolled into view AND motion is allowed. Combined
+  // with preload="none" this also defers the video download until it's reached.
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (isExpanded && inView) {
+    if (isExpanded && inView && !reduced) {
       v.play().catch(() => {});
     } else {
       v.pause();
       if (!isExpanded) v.currentTime = 0;
     }
-  }, [isExpanded, inView]);
+  }, [isExpanded, inView, reduced]);
 
   const abs = Math.abs(distance);
   const style = {
@@ -118,104 +120,11 @@ const Chev = ({ dir }) => (
 );
 
 export default function Viewer({ id, kicker, title, items }) {
-  const [center, setCenter] = useState(0);
-  const n      = items.length;
-  const touchX = useRef(null);
-  const flowRef  = useRef(null);
-  const trackRef = useRef(null);
-  const trackX   = useRef(0);  // current translateX of the track, in px
-  const rafRef   = useRef(0);
-  const didInit  = useRef(false);
-  // Defaults to true where IntersectionObserver is unavailable so videos still work.
-  const [inView, setInView] = useState(() => typeof IntersectionObserver === 'undefined');
-
-  const go = useCallback((dir) => {
-    setCenter((c) => (c + dir + n) % n);
-  }, [n]);
-
-  const select = useCallback((i) => setCenter(i), []);
-
+  const n = items.length;
+  const { center, go, select, inView, flowRef, trackRef, handleTouchStart, handleTouchEnd } =
+    useCoverflow(n);
+  const reduced = usePrefersReducedMotion();
   const active = items[center];
-
-  const handleTouchStart = (e) => { touchX.current = e.touches[0].clientX; };
-  const handleTouchEnd   = (e) => {
-    if (touchX.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchX.current;
-    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
-    touchX.current = null;
-  };
-
-  // Slide the active cover to the centre of the viewport. The software covers
-  // expand/collapse (390px <-> 720px) while this runs, which shifts the whole
-  // row mid-flight; handing the browser one fixed target and letting CSS
-  // interpolate overshoots, because that target keeps moving as widths change.
-  // Instead we drive the track each frame, pinning the active cover's *screen*
-  // centre onto an eased path from where it sits now to the viewport centre and
-  // re-reading its live width every frame. It lands dead-centre, never past it.
-  const settle = useCallback((animate) => {
-    const flow = flowRef.current;
-    const track = trackRef.current;
-    if (!flow || !track) return;
-    const el = track.children[center];
-    if (!el) return;
-
-    cancelAnimationFrame(rafRef.current);
-    track.style.transition = 'none';
-
-    const flowCenter  = flow.clientWidth / 2;
-    // Live centre of the active cover within the track (grows as it expands).
-    const localCenter = () => el.offsetLeft + el.offsetWidth / 2;
-    const reduceMotion =
-      typeof matchMedia !== 'undefined' &&
-      matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!animate || reduceMotion) {
-      trackX.current = flowCenter - localCenter();
-      track.style.transform = `translateX(${trackX.current}px)`;
-      return;
-    }
-
-    const fromScreen = trackX.current + localCenter(); // where the cover is now
-    const ease = (t) => 1 - Math.pow(1 - t, 3);        // ease-out cubic
-    const DURATION = 600;                               // matches cover width transition
-    const t0 = performance.now();
-
-    const step = (now) => {
-      const f = Math.min(1, (now - t0) / DURATION);
-      const screen = fromScreen + (flowCenter - fromScreen) * ease(f);
-      trackX.current = screen - localCenter();          // re-reads the live width
-      track.style.transform = `translateX(${trackX.current}px)`;
-      if (f < 1) rafRef.current = requestAnimationFrame(step);
-    };
-    rafRef.current = requestAnimationFrame(step);
-  }, [center]);
-
-  // Position instantly on first paint; animate the slide on every change after.
-  useLayoutEffect(() => {
-    settle(didInit.current);
-    didInit.current = true;
-  }, [settle, n]);
-
-  useEffect(() => {
-    const onResize = () => settle(false);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [settle]);
-
-  useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
-
-  // Only load/play demo videos once this viewer nears the viewport, keeping the
-  // heavy video off the initial page load.
-  useEffect(() => {
-    const el = flowRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(
-      ([e]) => setInView(e.isIntersecting),
-      { rootMargin: '200px', threshold: 0.01 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
 
   return (
     <section className="viewer" id={id}>
@@ -236,7 +145,15 @@ export default function Viewer({ id, kicker, title, items }) {
           <Chev dir="left" />
         </button>
 
-        <div className="flow" ref={flowRef} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        <div
+          className="flow"
+          ref={flowRef}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          role="group"
+          aria-roledescription="carousel"
+          aria-label={title}
+        >
           <div className="flow-track" ref={trackRef}>
             {items.map((p, i) => (
               <Cover
@@ -247,6 +164,7 @@ export default function Viewer({ id, kicker, title, items }) {
                 distance={i - center}
                 active={i === center}
                 inView={inView}
+                reduced={reduced}
                 onSelect={select}
               />
             ))}
@@ -268,6 +186,11 @@ export default function Viewer({ id, kicker, title, items }) {
           />
         ))}
       </div>
+
+      {/* Announce the focused project to screen readers as it changes */}
+      <p className="sr-only" aria-live="polite">
+        {`Showing ${center + 1} of ${n}: ${active.title}`}
+      </p>
 
       <Spread key={active.id} project={active} />
     </section>
