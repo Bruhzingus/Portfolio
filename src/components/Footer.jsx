@@ -1,54 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
 import { CONTACT } from '../data/data';
 
 export default function Footer() {
-  const shell = useRef(null);
-  // Bumping this remounts the trace SVG, which restarts its one-lap animation.
-  const [runId, setRunId] = useState(0);
-
-  useEffect(() => {
-    const el = shell.current;
-    if (!el) return;
-    const run = () => setRunId((n) => n + 1);
-
-    let io;
-    if (typeof IntersectionObserver !== 'undefined') {
-      io = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            run();
-            io.disconnect();
-          }
-        },
-        { threshold: 0.4 }
-      );
-      io.observe(el);
-    }
-    // The nav "Contact" link dispatches this as it scrolls you down here.
-    window.addEventListener('contact-clicked', run);
-    return () => {
-      if (io) io.disconnect();
-      window.removeEventListener('contact-clicked', run);
-    };
-  }, []);
-
   return (
-    <footer id="contact" ref={shell} className="foot">
-      {runId > 0 && (
-        <svg className="foot-trace" key={runId} aria-hidden="true">
-          <rect
-            className="foot-trace-rect"
-            x="0"
-            y="0"
-            width="100%"
-            height="100%"
-            rx="14"
-            ry="14"
-            pathLength="100"
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-      )}
+    <footer id="contact" className="foot">
+      {/* A neon line continuously traces the footer border */}
+      <svg className="foot-trace" aria-hidden="true">
+        <rect
+          className="foot-trace-rect"
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          rx="14"
+          ry="14"
+          pathLength="100"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
 
       <div className="foot-brand">
         <span className="foot-name">Randall Brezina</span>
