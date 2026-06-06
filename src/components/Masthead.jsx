@@ -6,14 +6,15 @@ export default function Masthead() {
 
   // A neon line traces the Résumé button to draw the eye to it: once when the
   // visitor first lands on the About section, and again each time they click the
-  // About nav item. It runs for 5 seconds, then the class is dropped.
+  // About nav item. The trace runs a single full lap (6s; see kit.css), so the
+  // class is held just past that, then dropped so it fades out.
   const [traceOn, setTraceOn] = useState(false);
   useEffect(() => {
     let timer;
     const trigger = () => {
       setTraceOn(true);
       clearTimeout(timer);
-      timer = setTimeout(() => setTraceOn(false), 5000);
+      timer = setTimeout(() => setTraceOn(false), 6300);
     };
     trigger();
     window.addEventListener('about-activated', trigger);
@@ -29,6 +30,7 @@ export default function Masthead() {
       {/* Top text: intro copy only */}
       <div className="mast-l">
         <h1 className="mast-name">{a.name}</h1>
+        <p className="mast-tagline">{a.tagline}</p>
         <p className="mast-role"><b>{a.role}</b> &middot; {a.focus}</p>
         <p className="mast-bio">{a.bio}</p>
       </div>
@@ -47,10 +49,10 @@ export default function Masthead() {
       <div className="mast-l-foot">
         <div className="mast-status">
           <span className="dot" aria-hidden="true" />
-          Open to work
+          Open to IT roles
         </div>
         <div className="mast-cta">
-          <a href="#builds" className="btn btn--primary">Flip through builds</a>
+          <a href="#builds" className="btn btn--primary">See the PC builds</a>
           <a
             href="/Resume.pdf"
             target="_blank"

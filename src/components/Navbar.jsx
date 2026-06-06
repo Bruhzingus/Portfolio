@@ -34,7 +34,7 @@ export default function Navbar({ base = '' }) {
   // the mobile drawer.
   const links = [
     { hash: '#about', label: 'About', onClick: activateAbout },
-    { hash: '#builds', label: 'Builds', onClick: close },
+    { hash: '#builds', label: 'PC Builds', onClick: close },
     { hash: '#software', label: 'Software', onClick: close },
     { hash: '#testimonials', label: 'Testimonials', onClick: close },
     { hash: '#contact', label: 'Contact', onClick: close, className: 'nav-contact' },
@@ -55,6 +55,7 @@ export default function Navbar({ base = '' }) {
 
         <div className="nav-links">
           {links.map(renderLink)}
+          <a href="/Resume.pdf" target="_blank" rel="noreferrer">Résumé</a>
           <span className="nav-sep" aria-hidden="true" />
           <a href="quote.html" className="nav-cta">
             Get a quote
@@ -80,6 +81,7 @@ export default function Navbar({ base = '' }) {
 
       <div className={`nav-drawer${open ? ' open' : ''}`} inert={!open}>
         {links.map(renderLink)}
+        <a href="/Resume.pdf" target="_blank" rel="noreferrer" onClick={close}>Résumé</a>
         <a href="quote.html" onClick={close}>Get a quote</a>
       </div>
     </nav>

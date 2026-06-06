@@ -12,6 +12,7 @@ import shiftclockerVideo from '../assets/ShiftClocker.mp4';
 
 export const ABOUT = {
   name: "Randall Brezina",
+  tagline: "I build custom PCs that punch above their price.",
   role: "Computer Information Technology Graduate",
   focus: "Computer Hardware · UI / UX",
   location: "Lethbridge, Alberta",

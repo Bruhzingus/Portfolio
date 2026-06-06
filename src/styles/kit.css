@@ -113,6 +113,7 @@ body {
 .nav-drawer.open a:nth-child(4) { transition-delay: 0.18s; }
 .nav-drawer.open a:nth-child(5) { transition-delay: 0.22s; }
 .nav-drawer.open a:nth-child(6) { transition-delay: 0.26s; }
+.nav-drawer.open a:nth-child(7) { transition-delay: 0.30s; }
 .nav-drawer a:hover { color: var(--fg); background: var(--surface-2); }
 /* Desktop never shows the drawer */
 @media (min-width: 901px) { .nav-drawer { display: none; } }
@@ -133,6 +134,9 @@ body {
 .mast-rule { height: 1px; background: var(--border); margin: 16px 0 22px; }
 .mast-name { font-family: var(--font-sans); font-weight: 800; font-size: var(--fs-display); line-height: 0.96;
   letter-spacing: -0.03em; color: var(--fg); margin: 0; text-wrap: balance; }
+/* Punchy value-prop line sitting just under the name. */
+.mast-tagline { font-family: var(--font-sans); font-weight: 700; font-size: clamp(1.15rem, 1rem + 0.7vw, 1.5rem);
+  line-height: 1.2; color: var(--fg); margin: 14px 0 0; text-wrap: balance; }
 .mast-role { font-family: var(--font-sans); font-weight: 600; font-size: clamp(1.05rem,0.9rem+0.6vw,1.35rem);
   color: var(--fg); margin: 14px 0 0; }
 .mast-role b { color: var(--accent-strong); font-weight: 600; }
@@ -291,21 +295,31 @@ body {
 .btn--primary:hover { background: var(--accent-fill-hover); transform: translateY(-1px); box-shadow: var(--shadow-accent); }
 .btn--ghost { background: transparent; color: var(--fg); border-color: var(--border-strong); }
 .btn--ghost:hover { border-color: var(--accent-line); color: var(--accent-strong); }
-.btn--resume { position: relative; background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent-strong); }
+/* The Résumé link is the masthead's headline action, so it out-pops the solid
+   "Flip through builds" primary: a vivid green fill (matching the "Open to work"
+   status dot), a brighter mint rim, and a resting glow the neon trace rides.
+   Green is light, so the label/icon go dark (var(--bg)) to clear WCAG AA. */
+.btn--resume { position: relative; background: #3ecf8e; border-color: #74e3ad; color: var(--bg);
+  box-shadow: 0 0 18px rgba(62, 207, 142, 0.5), 0 12px 40px rgba(62, 207, 142, 0.35); }
 .btn--resume svg:not(.resume-trace) { transition: transform var(--dur-fast) var(--ease-standard); }
-.btn--resume:hover { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--fg-onAccent);
-  transform: translateY(-1px); box-shadow: var(--shadow-accent); }
+.btn--resume:hover { background: #31be81; border-color: #74e3ad; color: var(--bg);
+  transform: translateY(-1px); box-shadow: 0 0 24px rgba(62, 207, 142, 0.65), 0 12px 40px rgba(62, 207, 142, 0.35); }
 .btn--resume:hover svg:not(.resume-trace) { transform: translateY(2px); }
-/* Neon line that traces the Résumé button border. Reuses the footer's footTrace
-   keyframes for an identical speed; smaller stroke/glow since the loop is tiny.
-   Toggled by the .trace-on class (set for 5s; see Masthead). */
+/* Match the focus ring to the button's green instead of the global blue, but
+   keep it a bright mint so it stays visible against the green fill + glow. */
+.btn--resume:focus-visible { outline-color: #c4f7df; }
+/* Neon line that traces the Résumé button border, reusing the footer's footTrace
+   keyframes; smaller stroke/glow since the loop is tiny. Runs once for a single
+   full lap (6s, a touch quicker than the footer's 8s) instead of looping
+   infinitely, so it never freezes mid-border. Toggled by .trace-on, which
+   Masthead holds ~6.3s, just past the lap, then fades out. */
 .resume-trace { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; opacity: 0;
   transition: opacity 0.4s var(--ease-standard); }
-.resume-trace-rect { fill: none; stroke: var(--accent-strong); stroke-width: 2; stroke-linecap: round;
+.resume-trace-rect { fill: none; stroke: #dafbeb; stroke-width: 2; stroke-linecap: round;
   stroke-dasharray: 22 78;
-  filter: drop-shadow(0 0 2px var(--accent)) drop-shadow(0 0 5px var(--accent)); }
+  filter: drop-shadow(0 0 2px #3ecf8e) drop-shadow(0 0 6px #3ecf8e); }
 .btn--resume.trace-on .resume-trace { opacity: 1; }
-.btn--resume.trace-on .resume-trace-rect { animation: footTrace 8s linear infinite; }
+.btn--resume.trace-on .resume-trace-rect { animation: footTrace 6s linear; }
 @media (prefers-reduced-motion: reduce) { .resume-trace { display: none; } }
 .btn:disabled { opacity: 0.6; cursor: progress; }
 
@@ -607,7 +621,8 @@ body {
 }
 @media (prefers-reduced-motion: no-preference) {
   .mast-name     { animation: fadeUp 0.6s  var(--ease-out) 0.10s both; }
-  .mast-role     { animation: fadeUp 0.55s var(--ease-out) 0.20s both; }
+  .mast-tagline  { animation: fadeUp 0.55s var(--ease-out) 0.18s both; }
+  .mast-role     { animation: fadeUp 0.55s var(--ease-out) 0.24s both; }
   .mast-bio      { animation: fadeUp 0.55s var(--ease-out) 0.28s both; }
   .mast-l-foot   { animation: fadeUp 0.55s var(--ease-out) 0.40s both; }
   .mast-portrait { animation: fadeUp 0.7s  var(--ease-out) 0.16s both; }
