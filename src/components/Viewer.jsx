@@ -6,7 +6,8 @@ import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 
 function Cover({ project, index, total, distance, active, inView, reduced, onSelect }) {
   const videoRef = useRef(null);
-  const isDemo    = project.type === 'software' && !!project.video;
+  const isDemo     = project.type === 'software' && !!project.video;
+  const isPortrait = !!project.portrait;
   // A focused video cover auto-expands to a landscape frame and plays, no clicks needed.
   const isExpanded = active && isDemo;
 
@@ -44,7 +45,8 @@ function Cover({ project, index, total, distance, active, inView, reduced, onSel
         'cover' +
         (active      ? ' is-active'   : '') +
         (isDemo      ? ' is-demo'     : '') +
-        (isExpanded  ? ' is-expanded' : '')
+        (isExpanded  ? ' is-expanded' : '') +
+        (isPortrait  ? ' is-portrait' : '')
       }
       style={style}
       onClick={selectable ? () => onSelect(index) : undefined}

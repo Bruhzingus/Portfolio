@@ -5,8 +5,10 @@ import keyboardImg from '../assets/keyboard.webp';
 import shelfcastImg from '../assets/shelfcast-poster.webp';
 import strengthImg from '../assets/website-poster.webp';
 import portraitImg from '../assets/portrait.webp';
+import shiftclockerImg from '../assets/shiftclocker-poster.svg';
 import shelfcastVideo from '../assets/shelfcast.mp4';
 import strengthVideo from '../assets/website.mp4';
+import shiftclockerVideo from '../assets/ShiftClocker.mp4';
 
 export const ABOUT = {
   name: "Randall Brezina",
@@ -103,6 +105,24 @@ export const PROJECTS = [
     ],
   },
   {
+    id: "shiftclocker",
+    type: "software",
+    portrait: true,
+    title: "ShiftClocker: Shift Logging App",
+    tag: "Mobile App · Android",
+    image: shiftclockerImg,
+    video: shiftclockerVideo,
+    desc: "A fully-featured shift-logging app built with React Native and Expo, made during my practicum to solve real problems I had with other work-log apps: no easy note access on quick shifts, rigid exports, no themes, and weak filtering. Built it from scratch into a production-ready app headed for the Play Store.",
+    stack: ["React Native", "Expo SDK 54", "AsyncStorage", "Android"],
+    features: [
+      ["Log", "Live timer, quick shift templates, or full manual entry"],
+      ["Pay", "Per-job rates, raise history, overtime, breaks, tips, mileage"],
+      ["Filter", "By week, pay period, month or year; swipe to navigate"],
+      ["Export", "CSV and PDF reports with custom date range and totals"],
+      ["Theme", "10 hand-crafted themes, switch live with no restart"],
+    ],
+  },
+  {
     id: "strength",
     type: "software",
     title: "Brezina Strength Academy",
@@ -122,6 +142,16 @@ export const PROJECTS = [
 
 export const HARDWARE = PROJECTS.filter((p) => p.type === "hardware");
 export const SOFTWARE = PROJECTS.filter((p) => p.type === "software");
+
+// Ordered manifest for the progressive loader (see useSequentialPreload).
+// Assets warm in page order, top to bottom, one tier fully before the next:
+//   Tier 1: every project's primary image (portrait, then hardware, then
+//           software covers) so the whole page has its first visuals in hand.
+//   Tier 2: the heavier demo videos, only after every image is cached.
+export const PRELOAD_TIERS = [
+  [ABOUT.portrait, ...HARDWARE.map((p) => p.image), ...SOFTWARE.map((p) => p.image)],
+  [...SOFTWARE.filter((p) => p.video).map((p) => p.video)],
+];
 
 export const TESTIMONIALS = [
   {
