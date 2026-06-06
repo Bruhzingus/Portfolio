@@ -40,7 +40,7 @@ function Cover({ project, index, total, distance, active, inView, reduced, onSel
   };
 
   return (
-    <article
+    <div
       className={
         'cover' +
         (active      ? ' is-active'   : '') +
@@ -84,7 +84,7 @@ function Cover({ project, index, total, distance, active, inView, reduced, onSel
         <span className="cover-num">{project.tag}</span>
         <h3 className="cover-title">{project.title}</h3>
       </div>
-    </article>
+    </div>
   );
 }
 

@@ -160,6 +160,34 @@ function QuotePrebuilt() {
   );
 }
 
+function QuoteCompetitor() {
+  const c = QUOTE.competitor;
+  return (
+    <section className="viewer q-prebuilt-section" id="compare">
+      <div className="viewer-head" data-reveal>
+        <div className="titles">
+          <span className="viewer-kicker">{c.kicker}</span>
+          <h2 className="viewer-title">{c.title}</h2>
+        </div>
+      </div>
+      <div className="q-prebuilt" data-reveal>
+        <div className="q-prebuilt-l">
+          <p className="q-prebuilt-lede">{c.lede}</p>
+          <p className="q-prebuilt-note">{c.note}</p>
+        </div>
+        <dl className="q-issues">
+          {c.issues.map(([k, v]) => (
+            <div className="q-issue" key={k}>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  );
+}
+
 function QuoteConfirmation({ refNum }) {
   return (
     <section className="viewer q-confirm-section" id="confirm">
@@ -473,6 +501,7 @@ export default function QuotePage() {
         <QuoteHero />
         <QuoteServices selected={selectedService} onSelect={selectService} />
         <QuotePrebuilt />
+        <QuoteCompetitor />
         <QuoteIntake selectedService={selectedService} onSelectService={setSelectedService} />
         <QuoteFAQ />
         <QuoteTerms />

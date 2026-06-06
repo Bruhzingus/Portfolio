@@ -90,6 +90,21 @@ export const QUOTE = {
       'Those small compromises affect performance and long-term reliability more than most people realize. With consulting I save clients $100 to $500 or more by catching them before you buy.',
   },
 
+  competitor: {
+    kicker: 'The one real competitor',
+    title: 'How I compare to Memory Express',
+    lede:
+      "Memory Express is really the only other shop around here that does custom builds, and to be fair they do good work. The catch is that they build only with parts you buy from them. That single rule shapes the whole build before you've picked anything.",
+    note:
+      "I'm not tied to any one store. I watch every retailer, grab the sale wherever it lands, and choose parts on what they actually are, not on what one shop has on the shelf. That usually means a lower total and a build that matches what you came in wanting.",
+    issues: [
+      ['Parts must come from them', 'You can only use what one store stocks, so the prices and deals on every other site are off the table.'],
+      ['A smaller pool to pull from', "They're estimated to hold roughly 10 to 20% of the market, so their inventory is a slice of what the wider parts world carries."],
+      ['You tend to pay more', 'With one supplier and no outside sales to draw on, the same parts often cost more than they would elsewhere.'],
+      ['The look can slip', "If the part that fits your theme isn't in stock, you settle for what is, and the build drifts from what you pictured."],
+    ],
+  },
+
   // ---- Intake form options ----
   partsOptions: [
     `I buy the parts (adds a ${PARTS_FEE} service fee, I handle returns)`,
