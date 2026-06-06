@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="460" viewBox="0 0 390 460">
+  <defs>
+    <linearGradient id="sc-bg" x1="0" y1="0" x2="390" y2="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#070A14"/>
+      <stop offset="100%" stop-color="#0B1020"/>
+    </linearGradient>
+    <linearGradient id="sc-phone" x1="0" y1="0" x2="0" y2="290" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#131C30"/>
+      <stop offset="100%" stop-color="#0D1524"/>
+    </linearGradient>
+    <radialGradient id="sc-glow" cx="195" cy="200" r="140" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#2563EB" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sc-glow2" cx="195" cy="200" r="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#60A5FA" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="sc-screen-clip">
+      <rect x="130" y="56" width="130" height="258" rx="3"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="390" height="460" fill="url(#sc-bg)"/>
+  <rect width="390" height="460" fill="url(#sc-glow)"/>
+
+  <!-- Phone glow/shadow -->
+  <rect x="128" y="46" width="134" height="282" rx="26" fill="#1A4480" opacity="0.18"/>
+
+  <!-- Phone body -->
+  <rect x="125" y="40" width="140" height="288" rx="24" fill="url(#sc-phone)" stroke="#1D2D4A" stroke-width="1.5"/>
+
+  <!-- Side buttons -->
+  <rect x="123" y="100" width="3" height="20" rx="1.5" fill="#0F1828" stroke="#1A2A42" stroke-width="0.5"/>
+  <rect x="123" y="126" width="3" height="20" rx="1.5" fill="#0F1828" stroke="#1A2A42" stroke-width="0.5"/>
+  <rect x="264" y="108" width="3" height="28" rx="1.5" fill="#0F1828" stroke="#1A2A42" stroke-width="0.5"/>
+
+  <!-- Screen background -->
+  <rect x="130" y="52" width="130" height="262" rx="5" fill="#0B1222"/>
+
+  <!-- Dynamic island -->
+  <rect x="170" y="56" width="50" height="11" rx="5.5" fill="#080D18"/>
+
+  <!-- App header bar -->
+  <rect x="130" y="52" width="130" height="42" rx="5" fill="#0D1728" clip-path="url(#sc-screen-clip)"/>
+  <text x="195" y="79"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="13" font-weight="700"
+    fill="#F1F5F9" text-anchor="middle" letter-spacing="-0.3">ShiftClocker</text>
+
+  <!-- Header border -->
+  <line x1="130" y1="94" x2="260" y2="94" stroke="#162038" stroke-width="1"/>
+
+  <!-- Timer card -->
+  <rect x="138" y="101" width="114" height="66" rx="10" fill="#0F1A2E" stroke="#1C2E4A" stroke-width="1"/>
+
+  <!-- Live dot -->
+  <circle cx="152" cy="120" r="4" fill="#34D399"/>
+  <circle cx="152" cy="120" r="7" fill="#34D399" opacity="0.18"/>
+
+  <!-- Timer value -->
+  <text x="197" y="124"
+    font-family="monospace,Courier New,monospace"
+    font-size="19" font-weight="700"
+    fill="#60A5FA" text-anchor="middle" letter-spacing="1.5">08:30:00</text>
+
+  <text x="197" y="140"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="7.5" fill="#3B5A80" text-anchor="middle" letter-spacing="1.5">SHIFT IN PROGRESS</text>
+
+  <text x="197" y="158"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="8" fill="#4A6890" text-anchor="middle">Standard 9-5  ·  $18.50/hr</text>
+
+  <!-- Stat cards -->
+  <rect x="138" y="174" width="53" height="38" rx="8" fill="#0F1A2E" stroke="#1C2E4A" stroke-width="1"/>
+  <text x="164" y="189"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="6.5" fill="#3B5A80" text-anchor="middle" letter-spacing="1">EARNED</text>
+  <text x="164" y="205"
+    font-family="monospace,Courier New,monospace"
+    font-size="13" font-weight="700"
+    fill="#34D399" text-anchor="middle">$157</text>
+
+  <rect x="199" y="174" width="53" height="38" rx="8" fill="#0F1A2E" stroke="#1C2E4A" stroke-width="1"/>
+  <text x="225" y="189"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="6.5" fill="#3B5A80" text-anchor="middle" letter-spacing="1">HOURS</text>
+  <text x="225" y="205"
+    font-family="monospace,Courier New,monospace"
+    font-size="13" font-weight="700"
+    fill="#60A5FA" text-anchor="middle">8.5</text>
+
+  <!-- Clock Out button -->
+  <rect x="148" y="220" width="94" height="24" rx="12" fill="#2563EB"/>
+  <text x="195" y="236"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="10" font-weight="600"
+    fill="#FFFFFF" text-anchor="middle" letter-spacing="0.2">Clock Out</text>
+
+  <!-- Shift log rows -->
+  <rect x="138" y="252" width="114" height="20" rx="4" fill="#0A1120"/>
+  <text x="143" y="265"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="7.5" fill="#3D5470">Mon  9:00 – 17:00</text>
+  <text x="252" y="265"
+    font-family="monospace,Courier New,monospace"
+    font-size="7.5" fill="#2E8B6A" text-anchor="end">$148</text>
+
+  <rect x="138" y="276" width="114" height="20" rx="4" fill="#0A1120"/>
+  <text x="143" y="289"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="7.5" fill="#3D5470">Tue  9:00 – 17:30</text>
+  <text x="252" y="289"
+    font-family="monospace,Courier New,monospace"
+    font-size="7.5" fill="#2E8B6A" text-anchor="end">$157</text>
+
+  <!-- Bottom nav area -->
+  <rect x="130" y="296" width="130" height="18" rx="0" fill="#070D1C"/>
+  <!-- Home bar -->
+  <rect x="168" y="306" width="54" height="3" rx="1.5" fill="#1A2A42"/>
+
+  <!-- Branding section -->
+  <rect x="0" y="345" width="390" height="115" fill="url(#sc-bg)"/>
+  <rect x="0" y="345" width="390" height="115" fill="url(#sc-glow2)"/>
+
+  <text x="195" y="382"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="21" font-weight="800"
+    fill="#EEF2FF" text-anchor="middle" letter-spacing="-0.5">ShiftClocker</text>
+
+  <text x="195" y="401"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="9.5" fill="#3D5A7A" text-anchor="middle" letter-spacing="2">SHIFT LOGGING  ·  REACT NATIVE</text>
+
+  <!-- Tag pills -->
+  <rect x="107" y="416" width="78" height="17" rx="8.5" fill="#0F1A2E" stroke="#1C2E4A" stroke-width="1"/>
+  <text x="146" y="428"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="8.5" fill="#60A5FA" text-anchor="middle">React Native</text>
+
+  <rect x="193" y="416" width="62" height="17" rx="8.5" fill="#0F1A2E" stroke="#1C2E4A" stroke-width="1"/>
+  <text x="224" y="428"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="8.5" fill="#60A5FA" text-anchor="middle">Expo SDK 54</text>
+
+  <!-- Subtle horizontal rule -->
+  <line x1="80" y1="347" x2="310" y2="347" stroke="#131E34" stroke-width="1"/>
+</svg>
