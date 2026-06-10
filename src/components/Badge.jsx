@@ -1,12 +1,9 @@
-export default function Badge({ type, children, onSurface }) {
-  const cls =
-    type === "software"
-      ? "badge badge--sw" + (onSurface ? " on-surface" : "")
-      : "badge badge--hw";
+export default function Badge({ type }) {
+  const isSoftware = type === "software";
   return (
-    <span className={cls}>
+    <span className={"badge " + (isSoftware ? "badge--sw" : "badge--hw")}>
       <span className="b-dot" />
-      {children || (type === "software" ? "Software" : "Hardware")}
+      {isSoftware ? "Software" : "Hardware"}
     </span>
   );
 }

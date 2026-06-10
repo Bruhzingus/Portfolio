@@ -12,7 +12,7 @@ import shiftclockerVideo from '../assets/ShiftClocker.mp4';
 
 export const ABOUT = {
   name: "Randall Brezina",
-  tagline: "I build custom PCs that punch above their price.",
+  tagline: "I build hardware and software that punch above their weight.",
   role: "Computer Information Technology Graduate",
   focus: "Computer Hardware · UI / UX",
   location: "Lethbridge, Alberta",
@@ -190,10 +190,7 @@ export const TESTIMONIALS = [
 ];
 
 export const CONTACT = {
-  formspreeEndpoint: "https://formspree.io/f/xojzqngv",
   email: "randallbrez05@gmail.com",
   linkedin: "https://www.linkedin.com/in/randall-brezina-585506393/",
-  location: "Lethbridge, Alberta. Open to local + remote.",
   response: "Replies within 24 to 48 hours.",
-  topics: ["Hiring / collaboration", "Software / UI work", "Hardware consult", "Something else"],
 };

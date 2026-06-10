@@ -52,7 +52,7 @@ export default function Masthead() {
           Open to IT roles
         </div>
         <div className="mast-cta">
-          <a href="#builds" className="btn btn--primary">See the PC builds</a>
+          <a href="#builds" className="btn btn--primary">See my work</a>
           <a
             href="/Resume.pdf"
             target="_blank"

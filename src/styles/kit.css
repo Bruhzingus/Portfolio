@@ -284,8 +284,6 @@ body {
 .badge--sw { background: rgba(255,255,255,0.08); color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
 .badge--sw .b-dot { background: rgba(255,255,255,0.8); }
 .badge--ghost { background: rgba(8,13,24,0.45); background: color-mix(in srgb, var(--bg) 45%, transparent); color: #fff; border: 1px solid rgba(255,255,255,0.25); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.badge--sw.on-surface { background: transparent; color: var(--soft-2); border-color: var(--soft-2); }
-.badge--sw.on-surface .b-dot { background: var(--soft-2); }
 
 /* BUTTONS */
 .btn { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase;

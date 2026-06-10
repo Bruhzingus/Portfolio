@@ -7,6 +7,29 @@ import useScrollReveal from '../hooks/useScrollReveal';
 import { QUOTE } from '../data/quote-data';
 import { CONTACT } from '../data/data';
 
+// A short reference the client can quote in follow-ups, e.g. "QT-26-9F3A".
+function makeQuoteRef() {
+  const yy = new Date().getFullYear().toString().slice(-2);
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `QT-${yy}-${rand}`;
+}
+
+// POST the intake to Formspree. Resolves to { ok: true } on success, or
+// { ok: false, errorMsg } with a human-readable reason on failure.
+async function postQuote(endpoint, fd) {
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    body: fd,
+    headers: { Accept: 'application/json' },
+  });
+  if (res.ok) return { ok: true };
+  const data = await res.json().catch(() => ({}));
+  const errorMsg =
+    (data.errors && data.errors.map((x) => x.message).join(', ')) ||
+    'Something went wrong. Please email me directly.';
+  return { ok: false, errorMsg };
+}
+
 // A row of selectable pill "chips" backed by hidden radios/checkboxes. Used for
 // every single- and multi-select field in the intake form.
 function ChipGroup({ options, value, onChange, name, multi = false, getKey = (o) => o, getLabel = (o) => o }) {
@@ -244,8 +267,7 @@ function QuoteIntake({ selectedService, onSelectService }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const fd = new FormData(form);
+    const fd = new FormData(e.currentTarget);
     fd.set('service', serviceName);
     fd.set('useCases', useCases.join(', '));
     fd.set('budget', budget);
@@ -253,11 +275,7 @@ function QuoteIntake({ selectedService, onSelectService }) {
     fd.set('partsOption', partsOption);
     fd.set('delivery', delivery);
 
-    const ref =
-      'QT-' +
-      new Date().getFullYear().toString().slice(-2) +
-      '-' +
-      Math.random().toString(36).slice(2, 6).toUpperCase();
+    const ref = makeQuoteRef();
     fd.set('reference', ref);
 
     const endpoint = q.formspreeEndpoint;
@@ -271,21 +289,13 @@ function QuoteIntake({ selectedService, onSelectService }) {
     setStatus('sending');
     setErrorMsg('');
     try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        body: fd,
-        headers: { Accept: 'application/json' },
-      });
-      if (res.ok) {
+      const result = await postQuote(endpoint, fd);
+      if (result.ok) {
         setRefNum(ref);
         setStatus('ok');
       } else {
-        const d = await res.json().catch(() => ({}));
         setStatus('error');
-        setErrorMsg(
-          (d.errors && d.errors.map((x) => x.message).join(', ')) ||
-            'Something went wrong. Please email me directly.'
-        );
+        setErrorMsg(result.errorMsg);
       }
     } catch {
       setStatus('error');
@@ -305,7 +315,7 @@ function QuoteIntake({ selectedService, onSelectService }) {
         <span className="counter">{CONTACT.response}</span>
       </div>
 
-      <form className="q-form" data-reveal onSubmit={submit} noValidate>
+      <form className="q-form" data-reveal onSubmit={submit}>
         <fieldset className="q-fieldset">
           <legend>
             <span className="q-legend-num">01</span>

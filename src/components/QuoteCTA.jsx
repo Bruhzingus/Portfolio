@@ -2,7 +2,7 @@ import { ArrowUpRight } from './icons';
 
 export default function QuoteCTA() {
   return (
-    <aside className="quote-cta" id="quote" data-reveal>
+    <aside className="quote-cta" data-reveal>
       <div className="quote-cta-band">
         <span className="quote-cta-kicker">Builds &middot; consulting &middot; tech sourcing</span>
         <h3 className="quote-cta-title">

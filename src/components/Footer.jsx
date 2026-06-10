@@ -30,7 +30,7 @@ export default function Footer() {
           Email
         </a>
         <a
-          href="https://www.linkedin.com/in/randall-brezina-585506393/"
+          href={CONTACT.linkedin}
           target="_blank"
           rel="noreferrer"
           aria-label="Randall on LinkedIn"
