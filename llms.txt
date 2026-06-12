@@ -25,6 +25,8 @@ hands-on hardware work and custom PC building.
 - Networking basics
 - UI/UX design
 - React
+- React Native & Expo
+- Mobile app development (Android)
 - Node.js
 - C#
 - HTML
@@ -35,6 +37,11 @@ hands-on hardware work and custom PC building.
   provides analytics and insights, including predicting future sales with a
   forecasting algorithm. Originally built for a local business in Lethbridge and
   expanded to be scalable for any small business with POS data.
+- **ShiftClocker: Shift Logging App**: A fully featured shift-logging app built from
+  scratch with React Native and Expo (SDK 54) during a practicum and headed for the
+  Google Play Store. Tracks per-job pay rates, raises, overtime, breaks, tips, and
+  mileage; logs by live timer, quick templates, or manual entry; exports CSV and PDF
+  reports with custom date ranges; and ships with ten live-switchable themes.
 - **Brezina Strength Academy**: A personal coaching website built with Wix and Figma,
   focused on UI/UX design, accessibility, and mobile usability, applying Steve Krug's
   usability principles.
