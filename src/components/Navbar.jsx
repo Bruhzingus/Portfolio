@@ -37,7 +37,7 @@ export default function Navbar({ base = '' }) {
     { hash: '#builds', label: 'PC Builds', onClick: close },
     { hash: '#software', label: 'Software', onClick: close },
     { hash: '#testimonials', label: 'Testimonials', onClick: close },
-    { hash: '#contact', label: 'Contact', onClick: close, className: 'nav-contact' },
+    { hash: '#contact', label: 'Contact', onClick: close},
   ];
 
   const renderLink = ({ hash, label, onClick, className }) => (
