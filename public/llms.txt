@@ -1,63 +1,54 @@
-# Randall Brezina
+﻿# Randall Brezina
 
-> Randall Brezina is a Computer Information Technology (CIT) graduate from Lethbridge
-> Polytechnic (formerly Lethbridge College), focused on computer hardware, custom PC
-> builds, UI/UX design, and web development. Based in Lethbridge, Alberta, Canada.
-
-## About
-
-Randall Brezina is a Computer Information Technology (CIT) graduate from Lethbridge
-Polytechnic (formerly Lethbridge College) with a passion for UI design, analyzing
-systems, and problem-solving. He enjoys building efficient, scalable solutions and
-exploring technologies like React, Node.js, and cloud computing, and specializes in
-hands-on hardware work and custom PC building.
-
-## Education
-
-- Computer Information Technology (CIT), Lethbridge Polytechnic (formerly Lethbridge College)
-
-## Skills
-
-- Hands-on hardware & PC building
-- Hardware troubleshooting
-- Client communication & consulting
-- Budget planning
-- Networking basics
-- UI/UX design
-- React
-- React Native & Expo
-- Mobile app development (Android)
-- Node.js
-- C#
-- HTML
+Randall Brezina is a Computer Information Technology graduate from Lethbridge
+Polytechnic, based in Lethbridge, Alberta. His work includes custom PC builds,
+software projects, and interface design. He is currently employed and available
+for PC builds and contract work.
 
 ## Projects
 
-- **ShelfCast: Sales Analytics & Forecasting Dashboard**: A sales dashboard that
-  provides analytics and insights, including predicting future sales with a
-  forecasting algorithm. Originally built for a local business in Lethbridge and
-  expanded to be scalable for any small business with POS data.
-- **ShiftClocker: Shift Logging App**: A fully featured shift-logging app built from
-  scratch with React Native and Expo (SDK 54) during a practicum and headed for the
-  Google Play Store. Tracks per-job pay rates, raises, overtime, breaks, tips, and
-  mileage; logs by live timer, quick templates, or manual entry; exports CSV and PDF
-  reports with custom date ranges; and ships with ten live-switchable themes.
-- **Brezina Strength Academy**: A personal coaching website built with Wix and Figma,
-  focused on UI/UX design, accessibility, and mobile usability, applying Steve Krug's
-  usability principles.
-- **Client's High-Performance Gaming Build**: An end-to-end custom gaming PC built for
-  a client on a $2,500 CAD budget (delivered ~$2,200), including parts selection,
-  budget and performance consulting, assembly, Windows setup, and tuning.
-- **Client's Gaming/Media Production Build**: A custom PC for gaming, video editing,
-  and social media creation, with full client guidance and a 1440p performance target.
-- **Personal Gaming + Productivity Build**: A custom PC for gaming, content creation,
-  and IT development work.
-- **Custom Mechanical Keyboard Build**: A hand-assembled mechanical keyboard focused on
-  typing feel, reliability, and ergonomic comfort.
+- Client gaming PC: Randall selected parts, assembled the PC, installed Windows,
+  and configured XMP/EXPO. The client set a $2,500 CAD budget; the completed build
+  came to around $2,200 CAD. Ryzen 5 7600X3D and Radeon RX 9070 XT.
+- Gaming and video editing PC: parts selection and help with assembly, planned
+  for 1440p gaming, video editing, and content creation. Ryzen 5 7600 and Radeon
+  RX 9070 XT, with a clean Windows 11 installation.
+- My desktop PC: built for gaming, content creation, software development, and
+  hardware testing. Ryzen 5 7600 and Radeon RX 6700 XT.
+- My mechanical keyboard: assembled with an FL Esports MK870 case, Everglide
+  Aquaking V3 55g linear switches, and Cherry Blossom PBT keycaps.
+- ShelfCast: a sales dashboard built for a local business in Lethbridge using
+  React, Node.js, and SQLite. Imports CSV sales exports and displays sales charts,
+  category trends, per-item forecasts, and date/category filters.
+- ShiftClocker: an Android shift logging app built during a practicum using
+  React Native and Expo SDK 54. Supports timers, manual entries, per-job pay
+  tracking, filtering, CSV/PDF reports, and ten themes.
+- Brezina Strength Academy: a coaching website designed in Figma and built in
+  Wix. The project focused on mobile use and accessibility and included a live
+  usability test using Steve Krug's usability principles.
 
-## Contact
+## PC services
 
+- Custom PC build: $200 CAD flat fee. Includes assembly, internal cable
+  management, Windows installation, and basic testing. Parts and Windows
+  licensing are separate. Optional BIOS and Windows performance setup: $20 CAD.
+- On-site PC build: $40 CAD/hr with a 3-hour minimum, plus $40 CAD travel.
+- PC buying advice: $25 CAD per request, for prebuilt PCs, laptops, monitors,
+  or a full setup.
+- If Randall purchases the parts, a 3% service fee applies and he handles returns.
+  If the client purchases parts, the client handles returns.
+- Typical build time: 2 to 5 days after all parts arrive.
+- Pickup and delivery in Lethbridge are free. Delivery outside Lethbridge
+  is available for an additional fee.
+- Initial quotes are estimates. Final pricing is confirmed before parts are
+  purchased. See the PC services page for the current service terms.
+
+## Links and contact
+
+- Portfolio: https://randallbrezina.ca/
+- PC services and quote request: https://randallbrezina.ca/quote.html
+- Contract work: mailto:randallbrez05@gmail.com?subject=Contract%20work
 - Email: randallbrez05@gmail.com
 - Phone: 403-593-0240
 - LinkedIn: https://www.linkedin.com/in/randall-brezina-585506393/
-- Website: https://randallbrezina.ca/
+- Résumé: https://randallbrezina.ca/Resume.pdf

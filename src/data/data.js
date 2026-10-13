@@ -5,18 +5,19 @@ import keyboardImg from '../assets/keyboard.webp';
 import shelfcastImg from '../assets/shelfcast-poster.webp';
 import strengthImg from '../assets/website-poster.webp';
 import portraitImg from '../assets/portrait.webp';
-import shiftclockerImg from '../assets/shiftclocker-poster.svg';
+import shiftclockerImg from '../assets/shiftclocker-poster.webp';
 import shelfcastVideo from '../assets/shelfcast.mp4';
 import strengthVideo from '../assets/website.mp4';
 import shiftclockerVideo from '../assets/ShiftClocker.mp4';
 
 export const ABOUT = {
   name: "Randall Brezina",
-  tagline: "I build hardware and software that punch above their weight.",
+  tagline: "Custom PCs and software projects.",
   role: "Computer Information Technology Graduate",
   focus: "Computer Hardware · UI / UX",
   location: "Lethbridge, Alberta",
-  bio: "CIT grad from Lethbridge Polytechnic with a focus on computer hardware, UI design, and hands-on problem solving. I like figuring out how things work, building things that are actually well thought out, and picking up new skills in tech whenever I can.",
+  bio: "I'm a Computer Information Technology graduate from Lethbridge Polytechnic. My work includes custom PC builds, software projects, and interface design.",
+  availability: "Currently employed. Available for PC builds and contract work.",
   portrait: portraitImg,
 };
 
@@ -24,10 +25,10 @@ export const PROJECTS = [
   {
     id: "lucas",
     type: "hardware",
-    title: "Client's High-Performance Gaming Build",
+    title: "Client gaming PC",
     tag: "Custom PC · Client",
     image: lucasImg,
-    desc: "Gaming PC built for a client with a $2,500 CAD budget, delivered fully assembled and tuned for around $2,200. Picked the parts, flagged buying traps, then did the build, a clean Windows install, and XMP/EXPO tuning.",
+    desc: "I selected the parts, assembled the PC, made a clean installation of Windows, and configured XMP/EXPO. The client set a $2,500 CAD budget; the completed build came to around $2,200 CAD.",
     specs: [
       ["CPU", "AMD Ryzen 5 7600X3D"],
       ["GPU", "ASRock Steel Legend RX 9070 XT 16GB"],
@@ -42,10 +43,10 @@ export const PROJECTS = [
   {
     id: "brock",
     type: "hardware",
-    title: "Client's Gaming / Media Production Build",
+    title: "Gaming and video editing PC",
     tag: "Custom PC · 1440p",
     image: brockImg,
-    desc: "Built for gaming, video editing, and content creation. Picked every part within budget, walked the client through each choice, helped with the physical build, and handed it off with a clean Windows 11 install tuned for 1440p. Left room for a CPU upgrade down the road.",
+    desc: "I selected parts within the client's budget, explained each choice, helped assemble the PC, and made a clean installation of Windows 11. The build was planned for 1440p gaming, video editing, and content creation, with room for a later CPU upgrade.",
     specs: [
       ["CPU", "AMD Ryzen 5 7600"],
       ["GPU", "Acer Predator Radeon 9070 XT"],
@@ -60,10 +61,10 @@ export const PROJECTS = [
   {
     id: "personal",
     type: "hardware",
-    title: "Personal Gaming + Productivity Build",
+    title: "My desktop PC",
     tag: "Custom PC · Daily Driver",
     image: personalPCImg,
-    desc: "My personal machine, used for gaming, content creation, and dev work. Built it to have solid performance and good cooling without sacrificing looks. I also use it to test hardware and try things out.",
+    desc: "I built this PC for gaming, content creation, and software development, choosing parts for performance, cooling, and appearance. I also use it to test hardware.",
     specs: [
       ["CPU", "AMD Ryzen 5 7600"],
       ["GPU", "ASRock Radeon 6700 XT"],
@@ -78,10 +79,10 @@ export const PROJECTS = [
   {
     id: "keyboard",
     type: "hardware",
-    title: "Custom Mechanical Keyboard Build",
+    title: "My mechanical keyboard",
     tag: "Peripheral · Hand-assembled",
     image: keyboardImg,
-    desc: "Built this keyboard myself, picking every part for how it feels to type on. The switches are smooth, the case is solid, and I use it every day. Good way to get hands-on with peripheral customization.",
+    desc: "I chose the case, switches, and keycaps and assembled this keyboard for daily use.",
     specs: [
       ["Case", 'FL Esports MK870 “Smokey Grey”'],
       ["Switches", "Everglide Aquaking V3 · 55g Linear"],
@@ -91,36 +92,36 @@ export const PROJECTS = [
   {
     id: "shelfcast",
     type: "software",
-    title: "ShelfCast: Sales Analytics & Forecasting",
+    title: "ShelfCast",
     tag: "Dashboard · Forecasting",
     image: shelfcastImg,
     video: shelfcastVideo,
-    desc: "A sales dashboard that takes POS exports and turns them into charts, trends, and forecasts. Originally built for a local Lethbridge business, then cleaned up so it can work for any small business with POS data.",
+    desc: "I built ShelfCast for a local business in Lethbridge. It imports POS sales exports into SQLite and displays sales charts, category trends, and per-item forecasts.",
     stack: ["React", "Node.js", "SQLite", "Forecasting"],
     features: [
-      ["Import", "CSV exports from any POS system"],
-      ["Store", "Parses + stores sales in local SQLite"],
-      ["Report", "Top sellers, worst movers, category trends"],
-      ["Forecast", "Bulk per-item forecast reports"],
-      ["Filter", "By date range and category"],
+      ["Import", "CSV sales exports"],
+      ["Storage", "Sales stored in a local SQLite database"],
+      ["Reports", "Top-selling and slow-selling items, and category trends"],
+      ["Forecasts", "Per-item forecast reports generated in bulk"],
+      ["Filters", "Date range and category"],
     ],
   },
   {
     id: "shiftclocker",
     type: "software",
     portrait: true,
-    title: "ShiftClocker: Shift Logging App",
+    title: "ShiftClocker",
     tag: "Mobile App · Android",
     image: shiftclockerImg,
     video: shiftclockerVideo,
-    desc: "A fully-featured shift-logging app built with React Native and Expo, made during my practicum to solve real problems I had with other work-log apps: no easy note access on quick shifts, rigid exports, no themes, and weak filtering. Built it from scratch into a production-ready app headed for the Play Store.",
+    desc: "I built this Android shift logging app from scratch during my practicum using React Native and Expo. I wanted easier access to notes on quick shifts, flexible reports, filtering, and themes. The app supports live timers, manual entries, and pay tracking.",
     stack: ["React Native", "Expo SDK 54", "AsyncStorage", "Android"],
     features: [
-      ["Log", "Live timer, quick shift templates, or full manual entry"],
+      ["Shifts", "Live timer, quick shift templates, or manual entry"],
       ["Pay", "Per-job rates, raise history, overtime, breaks, tips, mileage"],
-      ["Filter", "By week, pay period, month or year; swipe to navigate"],
-      ["Export", "CSV and PDF reports with custom date range and totals"],
-      ["Theme", "10 hand-crafted themes, switch live with no restart"],
+      ["Filters", "Week, pay period, month, or year; swipe to navigate"],
+      ["Reports", "CSV and PDF exports with a custom date range and totals"],
+      ["Themes", "10 themes, applied without restarting"],
     ],
   },
   {
@@ -130,13 +131,13 @@ export const PROJECTS = [
     tag: "UI/UX · Coaching Site",
     image: strengthImg,
     video: strengthVideo,
-    desc: "A coaching website built in Wix and designed in Figma, with a focus on mobile accessibility. Used Steve Krug's usability principles throughout and did live usability testing in front of an audience as part of the project.",
+    desc: "I designed this coaching website in Figma and built it in Wix. The project focused on mobile use and accessibility and included a live usability test in front of an audience, using Steve Krug's usability principles.",
     stack: ["Figma", "Wix", "UI/UX", "Accessibility"],
     features: [
-      ["Focus", "Accessibility-first, mobile-complete"],
-      ["Method", "Steve Krug usability principles"],
-      ["Proof", "Live usability testing, live audience"],
-      ["Craft", "Prototyping + design hand-off"],
+      ["Layouts", "Mobile layouts and accessibility"],
+      ["Method", "Steve Krug's usability principles"],
+      ["Testing", "Live usability testing in front of an audience"],
+      ["Design", "Prototypes and design hand-off"],
     ],
   },
 ];
@@ -144,23 +145,12 @@ export const PROJECTS = [
 export const HARDWARE = PROJECTS.filter((p) => p.type === "hardware");
 export const SOFTWARE = PROJECTS.filter((p) => p.type === "software");
 
-// Ordered manifest for the progressive loader (see useSequentialPreload).
-// Assets warm in page order, top to bottom, one tier fully before the next:
-//   Tier 1: every project's primary image (portrait, then hardware, then
-//           software covers) so the whole page has its first visuals in hand.
-//   Tier 2: the heavier demo videos, only after every image is cached.
-export const PRELOAD_TIERS = [
-  [ABOUT.portrait, ...HARDWARE.map((p) => p.image), ...SOFTWARE.map((p) => p.image)],
-  [...SOFTWARE.filter((p) => p.video).map((p) => p.video)],
-];
-
 export const TESTIMONIALS = [
   {
     id: "cody",
     name: "Cody",
     org: "BARCO Tech",
     role: "Colleague",
-    pull: "An amazing, reliable teammate, always a pleasure to work with.",
     quote: "Randall is such an amazing teammate, he is always a pleasure to work with and very reliable. 100% would recommend.",
   },
   {
@@ -168,7 +158,6 @@ export const TESTIMONIALS = [
     name: "Brock",
     org: "Lethbridge Polytechnic",
     role: "Client · Custom PC",
-    pull: "Excellent guidance from part selection to a clean Windows install.",
     quote: "Randall provided excellent guidance throughout my PC build. He helped me select the right components, troubleshoot issues, and ensured everything ran perfectly.",
   },
   {
@@ -176,7 +165,6 @@ export const TESTIMONIALS = [
     name: "Jeremy",
     org: "Steve's Urethane",
     role: "Employer",
-    pull: "Picked it up fast with zero experience, adapting quickly with incredible attention to detail.",
     quote: "Randall picked up the job quickly despite having zero prior experience. He adapted fast, learned everything hands-on, and had incredible attention to detail. Anyone would be lucky to work with him.",
   },
   {
@@ -184,7 +172,6 @@ export const TESTIMONIALS = [
     name: "Timothy",
     org: "Lethbridge Polytechnic",
     role: "Professor · Systems Analysis & Design",
-    pull: "Consistently a top performer; his work sits above the industry standard.",
     quote: "It was a pleasure to have Randall in my Systems Analysis and Design class. He was consistently among the top performers, and always the best dressed for the presentations. The quality of work that he produced was above the industry standard and I have high expectations of what he'll continue to do after finishing his studies.",
   },
 ];
@@ -192,5 +179,4 @@ export const TESTIMONIALS = [
 export const CONTACT = {
   email: "randallbrez05@gmail.com",
   linkedin: "https://www.linkedin.com/in/randall-brezina-585506393/",
-  response: "Replies within 24 to 48 hours.",
 };

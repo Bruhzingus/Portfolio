@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import usePrefersReducedMotion from './usePrefersReducedMotion';
 
 /**
  * Drives the coverflow carousel: which cover is centred, keyboard/arrow/dot
@@ -13,27 +14,44 @@ export default function useCoverflow(n) {
   const [center, setCenter] = useState(0);
   // Defaults to true where IntersectionObserver is unavailable so videos still work.
   const [inView, setInView] = useState(() => typeof IntersectionObserver === 'undefined');
+  const reduced = usePrefersReducedMotion();
+  const [pageVisible, setPageVisible] = useState(() => typeof document === 'undefined' || !document.hidden);
 
   const touchX = useRef(null);
   const flowRef = useRef(null);
   const trackRef = useRef(null);
   const trackX = useRef(0); // current translateX of the track, in px
   const rafRef = useRef(0);
+  const settleRef = useRef(null);
   const didInit = useRef(false);
 
   const go = useCallback((dir) => {
-    setCenter((c) => (c + dir + n) % n);
+    if (n > 0) setCenter((c) => (c + dir + n) % n);
   }, [n]);
 
-  const select = useCallback((i) => setCenter(i), []);
+  const select = useCallback((i) => {
+    if (i >= 0 && i < n) setCenter(i);
+  }, [n]);
 
-  const handleTouchStart = (e) => { touchX.current = e.touches[0].clientX; };
+  const handleTouchStart = (e) => {
+    touchX.current = null;
+    const touch = e.touches[0];
+    if (!touch || e.target.closest('button, input, textarea, select, a')) return;
+    // Let the native video's bottom control bar handle scrubbing and volume.
+    const video = e.target.closest('video');
+    if (video && touch.clientY >= video.getBoundingClientRect().bottom - 60) return;
+    touchX.current = { x: touch.clientX, y: touch.clientY };
+  };
   const handleTouchEnd = (e) => {
     if (touchX.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchX.current;
-    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    const dx = touch.clientX - touchX.current.x;
+    const dy = touch.clientY - touchX.current.y;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
     touchX.current = null;
   };
+  const handleTouchCancel = () => { touchX.current = null; };
 
   // Slide the active cover to the centre of the viewport. The software covers
   // expand/collapse (390px <-> 720px) while this runs, which shifts the whole
@@ -50,16 +68,13 @@ export default function useCoverflow(n) {
     if (!el) return;
 
     cancelAnimationFrame(rafRef.current);
+    rafRef.current = 0;
     track.style.transition = 'none';
 
     const flowCenter = flow.clientWidth / 2;
     // Live centre of the active cover within the track (grows as it expands).
     const localCenter = () => el.offsetLeft + el.offsetWidth / 2;
-    const reduceMotion =
-      typeof matchMedia !== 'undefined' &&
-      matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!animate || reduceMotion) {
+    if (!animate || reduced) {
       trackX.current = flowCenter - localCenter();
       track.style.transform = `translateX(${trackX.current}px)`;
       return;
@@ -76,36 +91,50 @@ export default function useCoverflow(n) {
       trackX.current = screen - localCenter();          // re-reads the live width
       track.style.transform = `translateX(${trackX.current}px)`;
       if (f < 1) rafRef.current = requestAnimationFrame(step);
+      else rafRef.current = 0;
     };
     rafRef.current = requestAnimationFrame(step);
-  }, [center]);
+  }, [center, reduced]);
 
   // Position instantly on first paint; animate the slide on every change after.
   useLayoutEffect(() => {
+    settleRef.current = settle;
     settle(didInit.current);
     didInit.current = true;
   }, [settle, n]);
 
   useEffect(() => {
-    const onResize = () => settle(false);
+    // Follow the cover's breakpoint width transition through to its final size.
+    const onResize = () => settleRef.current?.(true);
     window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [settle]);
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(onResize);
+    if (flowRef.current) observer?.observe(flowRef.current);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      observer?.disconnect();
+    };
+  }, []);
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
 
-  // Only load/play demo videos once this viewer nears the viewport, keeping the
+  // Only load/play demo videos while this viewer is in the viewport, keeping the
   // heavy video off the initial page load.
   useEffect(() => {
     const el = flowRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') return;
     const io = new IntersectionObserver(
       ([e]) => setInView(e.isIntersecting),
-      { rootMargin: '200px', threshold: 0.01 }
+      { threshold: 0.01 }
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
-  return { center, go, select, inView, flowRef, trackRef, handleTouchStart, handleTouchEnd };
+  useEffect(() => {
+    const onVisibility = () => setPageVisible(!document.hidden);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
+
+  return { center, go, select, inView: inView && pageVisible, flowRef, trackRef, handleTouchStart, handleTouchEnd, handleTouchCancel };
 }

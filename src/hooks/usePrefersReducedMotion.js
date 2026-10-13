@@ -16,8 +16,12 @@ export default function usePrefersReducedMotion() {
     if (typeof matchMedia === 'undefined') return;
     const mql = matchMedia(QUERY);
     const onChange = () => setReduced(mql.matches);
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
+    if (mql.addEventListener) {
+      mql.addEventListener('change', onChange);
+      return () => mql.removeEventListener('change', onChange);
+    }
+    mql.addListener(onChange);
+    return () => mql.removeListener(onChange);
   }, []);
 
   return reduced;

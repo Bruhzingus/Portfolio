@@ -15,95 +15,57 @@ export const QUOTE = {
   formspreeEndpoint: 'https://formspree.io/f/xojzqngv',
 
   hero: {
-    kicker: 'PC building · consulting · tech sourcing',
-    title: 'Get the best setup for your budget.',
+    title: 'Custom PC builds in Lethbridge',
     lede:
-      "I build custom PCs, and when a build isn't the answer I help you buy smart. No upselling, no commissions, no brand bias. If a prebuilt is the better deal, I'll tell you.",
+      'I can help choose parts, assemble your PC, or compare systems before you buy. Send me your budget and what you plan to use it for.',
     video: quoteVideo,
     poster: quotePoster,
     facts: [
       ['Based in', 'Lethbridge, AB'],
       ['Build time', '2 to 5 days once parts arrive'],
       ['Delivery', 'Free pickup + free local delivery'],
-      ['Reply time', 'Within 24 to 48 hours'],
     ],
   },
 
   services: [
     {
       id: 'custom',
-      name: 'Custom PC Build',
+      name: 'Custom PC build',
       price: BUILD_FEE,
-      priceLabel: 'Flat fee, Windows installed',
-      ideal: 'Gaming, school, or professional work',
+      priceLabel: 'Flat build fee',
       blurb:
-        'I handle everything from part selection to assembly and setup. Every build is designed around your exact needs, not a generic parts list.',
+        'Part selection, assembly, and setup for gaming, school, or work.',
       points: [
-        'Full assembly, cable management, and Windows install',
-        'Tuned for performance, reliability, and long-term value',
-        'Optional performance tune, +$20: BIOS and Windows optimized',
+        'Assembly, internal cable management, and Windows installation',
+        'Basic testing after assembly',
+        'Optional BIOS and Windows performance setup: +$20',
       ],
-      featured: true,
     },
     {
       id: 'onsite',
-      name: 'Premium On-Site Build',
+      name: 'On-site PC build',
       price: ONSITE_RATE,
       priceLabel: '3 hr minimum, +$40 travel',
-      ideal: 'A fully hands-off experience',
       blurb:
-        "Everything done at your home: full assembly, setup, and getting it running in your space. It costs more for travel and time, but you don't lift a finger.",
+        'I assemble and set up the PC at your home.',
       points: [
-        'Built and set up at your location',
+        'Assembly and setup at your location',
         '3-hour minimum at $40/hr, plus a $40 travel fee',
-        "Ideal if you'd rather not handle any of it",
       ],
     },
     {
       id: 'consult',
-      name: 'Buying & Consulting',
+      name: 'PC buying advice',
       price: CONSULT_FEE,
       priceLabel: 'Flat rate per request',
-      ideal: 'Prebuilts, laptops, monitors, full setups',
       blurb:
-        "Don't need a custom build? I check current deals and compare systems to find what is actually worth buying, and filter out the ones that cut corners.",
+        'Help comparing prebuilt PCs, laptops, monitors, or a full setup.',
       points: [
-        'Options matched to your budget and use case',
-        'Direct purchase links from reputable retailers',
-        'Clear reasons each option is good, and what to avoid',
+        'Recommendations based on your budget and intended use',
+        'Retailer links and an explanation of the options',
       ],
     },
   ],
-
-  prebuilt: {
-    kicker: 'What prebuilts quietly cut',
-    title: 'Why custom',
-    lede:
-      'A recent high-performance build (Ryzen 5 7600X3D + RX 9070 XT) came in around $2,200. Comparable prebuilts often retail closer to $2,600 or more, and even on sale they tend to cut corners to hit that price.',
-    issues: [
-      ['Single-channel RAM', 'Shipped instead of dual-channel, leaving real performance on the table.'],
-      ['Lower-quality power supplies', 'The one part you least want a manufacturer to gamble on.'],
-      ['Weak cooling setups', 'Higher temperatures, more throttling, and a shorter lifespan.'],
-      ['Limited upgrade paths', 'Locked-in boards and cases that dead-end fast.'],
-    ],
-    note:
-      'Those small compromises affect performance and long-term reliability more than most people realize. With consulting I save clients $100 to $500 or more by catching them before you buy.',
-  },
-
-  competitor: {
-    kicker: 'The one real competitor',
-    title: 'How I compare to Memory Express',
-    lede:
-      "Memory Express is really the only other shop around here that does custom builds, and to be fair they do good work. The catch is that they build only with parts you buy from them. That single rule shapes the whole build before you've picked anything.",
-    note:
-      "I'm not tied to any one store. I watch every retailer, grab the sale wherever it lands, and choose parts on what they actually are, not on what one shop has on the shelf. That usually means a lower total and a build that matches what you came in wanting.",
-    issues: [
-      ['Parts must come from them', 'You can only use what one store stocks, so the prices and deals on every other site are off the table.'],
-      ['A smaller pool to pull from', "They're estimated to hold roughly 10 to 20% of the market, so their inventory is a slice of what the wider parts world carries."],
-      ['You tend to pay more', 'With one supplier and no outside sales to draw on, the same parts often cost more than they would elsewhere.'],
-      ['The look can slip', "If the part that fits your theme isn't in stock, you settle for what is, and the build drifts from what you pictured."],
-    ],
-  },
 
   // ---- Intake form options ----
   partsOptions: [
@@ -112,7 +74,7 @@ export const QUOTE = {
   ],
   useCases: ['Gaming', 'School / office', 'Creator / editing', 'Dev / work', 'Streaming', 'Not sure yet'],
   budgets: ['Under $1,000', '$1,000 to $1,500', '$1,500 to $2,200', '$2,200 to $3,000', '$3,000+', 'Not sure yet'],
-  timelines: ['ASAP', 'Within a month', '1–3 months', 'Just exploring'],
+  timelines: ['As soon as possible', 'Within a month', '1 to 3 months', 'Just exploring'],
   delivery: ['Free pickup in Lethbridge', 'Free delivery in Lethbridge', 'Outside Lethbridge (extra fee)'],
 
   faq: [
@@ -120,18 +82,14 @@ export const QUOTE = {
     { q: 'Do I get an exact quote right away?', a: 'No. Initial quotes are estimates. Final pricing is confirmed when you are ready to purchase parts.' },
     { q: 'Can I buy the parts myself?', a: 'Yes. You can either buy them yourself or have me handle it. If you buy them, you are responsible for returns if something is defective.' },
     { q: 'What is included in the build fee?', a: 'Assembly, internal cable management, Windows installation, and basic testing.' },
-    { q: 'What does performance setup include?', a: 'An optional $20 add-on: memory profile setup, BIOS configuration, and removing unnecessary background software for the best performance.' },
+    { q: 'What does performance setup include?', a: 'An optional $20 add-on: memory profile setup, BIOS configuration, and removing unnecessary background software.' },
     { q: 'How long does it take?', a: 'Most builds are completed within 2 to 5 days after all parts arrive.' },
     { q: 'What happens if a part does not work?', a: 'If I purchased it, I handle the return. If you purchased it, you handle the return. I will help identify the issue either way.' },
     { q: 'Do you provide a warranty?', a: 'I provide a 60 day labor warranty on workmanship. If something I installed is physically incorrect, I will fix it. It does not cover part failures or accidental damage caused by the customer. Parts are covered by their manufacturer warranties.' },
-    { q: 'Do you install Windows?', a: 'Yes. You can provide your own license or I can purchase one at full retail price. Windows also runs without a license.' },
-    { q: 'Can you build the PC at my house?', a: 'Yes. On-site builds are a premium service, billed at $40/hr with a 3 hour minimum, plus a $40 travel fee.' },
-    { q: 'Can you help me choose a prebuilt or laptop?', a: 'Yes. I offer consulting where I research and recommend the best options for your budget.' },
-    { q: 'How much money can you save me?', a: 'In most cases, clients save between $100 and $500 or more by avoiding overpriced systems and poor configurations.' },
+    { q: 'Do you install Windows?', a: 'Yes. You can provide your own license or I can purchase one at full retail price.' },
     { q: 'What if I change my mind after ordering parts?', a: "Once parts are ordered, refunds depend on the retailer's return policy." },
     { q: 'Do you work with used parts?', a: 'Sometimes. This is handled case by case.' },
     { q: 'Do you offer delivery?', a: 'Yes. Pickup is free. Delivery is free within Lethbridge and available outside for a fee.' },
-    { q: 'How do I get started?', a: 'Send a request through this page with your budget, use case, and any preferences.' },
   ],
 
   termsUpdated: 'June 4, 2026',

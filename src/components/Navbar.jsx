@@ -1,88 +1,93 @@
-import { useState } from 'react';
-import { ArrowUpRight } from './icons';
+import { useEffect, useRef, useState } from 'react';
+import drawSectionAttention from './sectionAttention';
 
-// base = "" on portfolio, "index.html" on quote page
 export default function Navbar({ base = '' }) {
   const [open, setOpen] = useState(false);
-  const onPortfolio = base === '';
-
-  // On portfolio: smooth-scroll to top. On quote page: let normal link navigate.
-  const scrollTop = (e) => {
-    if (!onPortfolio) return;
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setOpen(false);
-  };
-
-  const close = () => setOpen(false);
-
-  // About: on the portfolio, smooth-scroll up and pulse the Résumé button trace.
-  // On the quote page, let the link navigate to index.html#about (the fresh load
-  // pulses the trace on its own).
-  const activateAbout = (e) => {
-    close();
-    if (onPortfolio) {
-      scrollTop(e);
-      window.dispatchEvent(new CustomEvent('about-activated'));
-    }
-  };
-
-  // Prefix hash links with base so they work from any page
+  const toggleRef = useRef(null);
   const h = (hash) => `${base}${hash}`;
-
-  // Single source for the section links, rendered into both the desktop bar and
-  // the mobile drawer.
+  const close = () => setOpen(false);
   const links = [
-    { hash: '#about', label: 'About', onClick: activateAbout },
-    { hash: '#builds', label: 'PC Builds', onClick: close },
-    { hash: '#software', label: 'Software', onClick: close },
-    { hash: '#testimonials', label: 'Testimonials', onClick: close },
-    { hash: '#contact', label: 'Contact', onClick: close},
+    ['#about', 'About'],
+    ['#builds', 'PC builds'],
+    ['#software', 'Software'],
+    ['#testimonials', 'Testimonials'],
+    ['#contact', 'Contact'],
   ];
 
-  const renderLink = ({ hash, label, onClick, className }) => (
-    <a key={hash} href={h(hash)} className={className} onClick={onClick}>
-      {label}
-    </a>
+  // Cross-page anchors become available after React mounts the destination.
+  useEffect(() => {
+    if (!window.location.hash) return;
+    let targetId;
+    try {
+      targetId = decodeURIComponent(window.location.hash.slice(1));
+    } catch {
+      return;
+    }
+    const frame = requestAnimationFrame(() => {
+      const section = document.getElementById(targetId);
+      if (!section) return;
+      section.scrollIntoView({ block: 'start', behavior: 'auto' });
+      drawSectionAttention(section);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  const activateLink = (event) => {
+    close();
+    if (event.defaultPrevented || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const destination = new URL(event.currentTarget.href);
+    if (destination.pathname !== window.location.pathname || destination.search !== window.location.search) return;
+    const section = document.getElementById(destination.hash.slice(1));
+    if (section) requestAnimationFrame(() => drawSectionAttention(section));
+  };
+
+  useEffect(() => {
+    if (!open) return;
+    const escape = (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', escape);
+    return () => document.removeEventListener('keydown', escape);
+  }, [open]);
+
+  const renderLinks = () => (
+    <>
+      {links.map(([hash, label]) => (
+        <a key={hash} href={h(hash)} onClick={activateLink}>{label}</a>
+      ))}
+      <a href="quote.html#quote-overview" className="nav-cta" aria-current={base ? 'page' : undefined} onClick={activateLink}>
+        Get a quote
+      </a>
+    </>
   );
 
   return (
-    <nav className="nav">
+    <nav className="nav" aria-label="Main navigation">
       <div className="nav-inner">
-        <a className="logo" href={h('#about')} onClick={scrollTop} aria-label="Randall Brezina, home">
-          <img src="/RB.png" alt="Randall Brezina" width="34" height="34" />
+        <a className="logo" href={h('#about')} onClick={activateLink}>
+          <img src="/RB.png" alt="" width="28" height="28" />
+          <span>Randall Brezina</span>
         </a>
-
-        <div className="nav-links">
-          {links.map(renderLink)}
-          <a href="/Resume.pdf" target="_blank" rel="noreferrer">Résumé</a>
-          <span className="nav-sep" aria-hidden="true" />
-          <a href="quote.html" className="nav-cta">
-            Get a quote
-            <ArrowUpRight size={12} />
-          </a>
-        </div>
-
-        <div className="nav-right">
-          <div className="status">
-            <span className="live" />
-            Lethbridge&nbsp;AB
-          </div>
-          <button
-            className="hamburger"
-            aria-label="Toggle menu"
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-          >
-            <span /><span /><span />
-          </button>
-        </div>
+        <div className="nav-links">{renderLinks()}</div>
+        <button
+          ref={toggleRef}
+          type="button"
+          className="nav-toggle"
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
+          onClick={() => setOpen((value) => !value)}
+        >
+          {open ? 'Close' : 'Menu'}
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            {open ? <path d="m6 6 12 12M6 18 18 6" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
+          </svg>
+        </button>
       </div>
-
-      <div className={`nav-drawer${open ? ' open' : ''}`} inert={!open}>
-        {links.map(renderLink)}
-        <a href="/Resume.pdf" target="_blank" rel="noreferrer" onClick={close}>Résumé</a>
-        <a href="quote.html" onClick={close}>Get a quote</a>
+      <div id="mobile-navigation" className="nav-drawer" hidden={!open}>
+        {renderLinks()}
       </div>
     </nav>
   );

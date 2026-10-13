@@ -29,12 +29,9 @@ for (const vp of viewports) {
   const page = await ctx.newPage();
   for (const t of targets) {
     await page.goto(t.url, { waitUntil: 'networkidle' });
-    await page.waitForTimeout(1000); // let the hero cascade play
     const base = `${outDir}/${tag}-${t.name}-${vp.name}`;
-    // Above-the-fold capture (hero in its revealed state)
+    // Capture the first viewport, then load below-the-fold project images.
     await page.screenshot({ path: `${base}.png` });
-    // Scroll through in viewport steps to trip every one-shot scroll-reveal,
-    // then return to top so the full-page capture shows everything revealed.
     await page.evaluate(async () => {
       const step = Math.round(window.innerHeight * 0.8);
       for (let y = 0; y <= document.body.scrollHeight; y += step) {
@@ -42,7 +39,7 @@ for (const vp of viewports) {
         await new Promise((r) => setTimeout(r, 180));
       }
       window.scrollTo(0, 0);
-      await new Promise((r) => setTimeout(r, 700));
+      await new Promise((r) => setTimeout(r, 200));
     });
     await page.screenshot({ path: `${base}-full.png`, fullPage: true });
     console.log(`shot ${base}`);

@@ -1,297 +1,225 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import LazyVideo from '../components/LazyVideo';
-import { ArrowUpRight, ChevronDown } from '../components/icons';
-import useScrollReveal from '../hooks/useScrollReveal';
+import { ChevronDown } from '../components/icons';
 import { QUOTE } from '../data/quote-data';
 import { CONTACT } from '../data/data';
+import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 
-// A short reference the client can quote in follow-ups, e.g. "QT-26-9F3A".
 function makeQuoteRef() {
-  const yy = new Date().getFullYear().toString().slice(-2);
-  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
-  return `QT-${yy}-${rand}`;
+  const year = new Date().getFullYear().toString().slice(-2);
+  const random = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `QT-${year}-${random}`;
 }
 
-// POST the intake to Formspree. Resolves to { ok: true } on success, or
-// { ok: false, errorMsg } with a human-readable reason on failure.
-async function postQuote(endpoint, fd) {
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    body: fd,
-    headers: { Accept: 'application/json' },
+async function postQuote(endpoint, formData) {
+  const response = await fetch(endpoint, {
+    method: 'POST', body: formData, headers: { Accept: 'application/json' },
   });
-  if (res.ok) return { ok: true };
-  const data = await res.json().catch(() => ({}));
-  const errorMsg =
-    (data.errors && data.errors.map((x) => x.message).join(', ')) ||
-    'Something went wrong. Please email me directly.';
-  return { ok: false, errorMsg };
+  if (response.ok) return { ok: true };
+  const data = await response.json().catch(() => ({}));
+  return {
+    ok: false,
+    errorMsg: data.errors?.map((error) => error.message).join(', ') ||
+      'Your request could not be sent. Please try again or email me.',
+  };
 }
 
-// A row of selectable pill "chips" backed by hidden radios/checkboxes. Used for
-// every single- and multi-select field in the intake form.
-function ChipGroup({ options, value, onChange, name, multi = false, getKey = (o) => o, getLabel = (o) => o }) {
-  const isOn = (o) => (multi ? value.includes(getKey(o)) : value === getKey(o));
+function ChoiceGroup({ title, options, value, onChange, name, multi = false, getKey = (option) => option, getLabel = (option) => option }) {
   return (
-    <div className="topic-row">
-      {options.map((o) => {
-        const key = getKey(o);
-        return (
-          <label key={key} className={'topic-chip' + (isOn(o) ? ' is-on' : '')}>
-            <input
-              type={multi ? 'checkbox' : 'radio'}
-              name={name}
-              value={key}
-              checked={isOn(o)}
-              onChange={() => onChange(key)}
-            />
-            <span>{getLabel(o)}</span>
-          </label>
-        );
-      })}
-    </div>
+    <fieldset className="q-choice-group">
+      <legend>{title}</legend>
+      <div className="q-choices">
+        {options.map((option) => {
+          const key = getKey(option);
+          return (
+            <label key={key} className="q-choice">
+              <input type={multi ? 'checkbox' : 'radio'} name={name} value={key}
+                checked={multi ? value.includes(key) : value === key} onChange={() => onChange(key)} />
+              <span>{getLabel(option)}</span>
+            </label>
+          );
+        })}
+      </div>
+    </fieldset>
   );
 }
 
-// One <details> accordion row (shared shell for the FAQ and Terms sections).
-function AccordionItem({ num, title, children }) {
+function AccordionItem({ title, children }) {
   return (
     <details className="q-faq-item">
-      <summary>
-        <span className="q-faq-num">{String(num).padStart(2, '0')}</span>
-        <span className="q-faq-q">{title}</span>
-        <span className="q-faq-chev" aria-hidden="true">
-          <ChevronDown size={16} />
-        </span>
-      </summary>
-      {children}
+      <summary><span>{title}</span><ChevronDown size={18} aria-hidden="true" /></summary>
+      <div className="q-answer">{children}</div>
     </details>
   );
 }
 
-function HeroFacts() {
-  return (
-    <dl className="q-hero-facts">
-      {QUOTE.hero.facts.map(([k, v]) => (
-        <div className="fact" key={k}>
-          <dt>{k}</dt>
-          <dd>{v}</dd>
-        </div>
-      ))}
-    </dl>
-  );
+function QuoteHeroVideo({ src, poster }) {
+  const videoRef = useRef(null);
+  const programmaticPause = useRef(false);
+  const [inView, setInView] = useState(() => typeof IntersectionObserver === 'undefined');
+  const [pageVisible, setPageVisible] = useState(() => !document.hidden);
+  const [playback, setPlayback] = useState('auto');
+  const reduced = usePrefersReducedMotion();
+  const mayAutoplay = inView && pageVisible && !reduced && playback === 'auto';
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const observer = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.01 }
+    );
+    if (video) observer?.observe(video);
+    const handleVisibility = () => setPageVisible(!document.hidden);
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => {
+      observer?.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const shouldPlay = inView && pageVisible &&
+      (playback === 'manual' || (!reduced && playback === 'auto'));
+    if (shouldPlay) video.play().catch(() => {});
+    else if (!video.paused) {
+      programmaticPause.current = true;
+      video.pause();
+    }
+  }, [inView, pageVisible, playback, reduced]);
+
+  const handlePlay = () => {
+    setPlayback((current) => current === 'paused' || reduced ? 'manual' : current);
+  };
+  const handlePause = () => {
+    if (!programmaticPause.current && inView && pageVisible) setPlayback('paused');
+    programmaticPause.current = false;
+  };
+
+  return <video ref={videoRef} className="q-hero-video" src={src} poster={poster}
+    autoPlay={mayAutoplay} muted loop controls playsInline preload="metadata"
+    onPlay={handlePlay} onPause={handlePause} aria-label="Custom PC build video" />;
 }
 
 function QuoteHero() {
-  const h = QUOTE.hero;
+  const hero = QUOTE.hero;
   return (
-    <header className="q-hero">
-      <div className="q-hero-l">
-        <span className="q-hero-kicker">{h.kicker}</span>
-        <div className="mast-rule" />
-        <h1 className="q-hero-title">{h.title}</h1>
-        <p className="q-hero-lede">{h.lede}</p>
-        <HeroFacts />
+    <header className="q-hero" id="quote-overview">
+      <div>
+        <h1 className="mast-name">{hero.title}</h1>
+        <p className="q-hero-lede">{hero.lede}</p>
+        <dl className="q-hero-facts">
+          {hero.facts.map(([label, value]) => (
+            <div key={label}><dt>{label}</dt><dd>{value}</dd></div>
+          ))}
+        </dl>
       </div>
-      <div className="q-hero-r">
-        {h.video ? (
-          <div className="q-hero-media">
-            <LazyVideo src={h.video} poster={h.poster} />
-            <div className="q-hero-media-glow" aria-hidden="true" />
-          </div>
-        ) : (
-          <HeroFacts />
-        )}
-      </div>
+      {hero.video && <QuoteHeroVideo src={hero.video} poster={hero.poster} />}
     </header>
   );
 }
 
 function QuoteServices({ selected, onSelect }) {
   return (
-    <section className="viewer q-services-section" id="services">
-      <div className="viewer-head" data-reveal>
-        <div className="titles">
-          <span className="viewer-kicker">Three ways I can help</span>
-          <h2 className="viewer-title">Pick a service</h2>
-        </div>
-        <span className="counter q-services-counter">No upsell &middot; no commissions &middot; no brand bias</span>
+    <section className="q-section" id="services" aria-labelledby="services-title">
+      <div className="q-section-head">
+        <h2 id="services-title">PC services</h2>
+        <p>Prices are in CAD. Parts and Windows licenses are separate.</p>
       </div>
-
-      <div className="q-services" data-reveal-stagger>
-        {QUOTE.services.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            className={
-              'q-service' +
-              (s.featured ? ' is-featured' : '') +
-              (selected === s.id ? ' is-selected' : '')
-            }
-            onClick={() => onSelect(s.id)}
-          >
-            {s.featured && <span className="q-service-tag">Most popular</span>}
-            <span className="q-service-name">{s.name}</span>
-            <div className="q-service-price">
-              {s.price && <span className="q-service-amount">{s.price}</span>}
-              <span className="q-service-label">{s.priceLabel}</span>
+      <div className="q-services">
+        {QUOTE.services.map((service) => (
+          <article key={service.id} className="q-service">
+            <div className="q-service-description">
+              <h3>{service.name}</h3>
+              <p>{service.blurb}</p>
+              <ul>{service.points.map((point) => <li key={point}>{point}</li>)}</ul>
             </div>
-            <p className="q-service-ideal">{s.ideal}</p>
-            <p className="q-service-blurb">{s.blurb}</p>
-            <ul className="q-service-points">
-              {s.points.map((p) => (
-                <li key={p}>{p}</li>
-              ))}
-            </ul>
-            <span className="q-service-cta">
-              {selected === s.id ? 'Selected ✓' : 'Request this'}
-            </span>
-          </button>
+            <div className="q-service-booking">
+              <p className="q-service-price">{service.price}</p>
+              <p>{service.priceLabel}</p>
+              <button type="button" className="btn btn--ghost" aria-pressed={selected === service.id}
+                onClick={() => onSelect(service.id)}>
+                {selected === service.id ? 'Selected service' : 'Choose this service'}
+              </button>
+            </div>
+          </article>
         ))}
       </div>
+      <aside className="q-contract" aria-labelledby="contract-title">
+        <h3 id="contract-title">Contract work</h3>
+        <p>I’m also available for contract work. <a href={`mailto:${CONTACT.email}?subject=Contract%20work`}>Email me</a> with the project, scope, and timeline so we can discuss it.</p>
+      </aside>
     </section>
   );
 }
 
-function QuotePrebuilt() {
-  const p = QUOTE.prebuilt;
+function QuoteConfirmation({ refNum, email }) {
+  const heading = useRef(null);
+  useEffect(() => { heading.current?.focus(); }, []);
   return (
-    <section className="viewer q-prebuilt-section" id="why-custom">
-      <div className="viewer-head" data-reveal>
-        <div className="titles">
-          <span className="viewer-kicker">{p.kicker}</span>
-          <h2 className="viewer-title">{p.title}</h2>
-        </div>
-      </div>
-      <div className="q-prebuilt" data-reveal>
-        <div className="q-prebuilt-l">
-          <p className="q-prebuilt-lede">{p.lede}</p>
-          <p className="q-prebuilt-note">{p.note}</p>
-        </div>
-        <dl className="q-issues">
-          {p.issues.map(([k, v]) => (
-            <div className="q-issue" key={k}>
-              <dt>{k}</dt>
-              <dd>{v}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    </section>
-  );
-}
-
-function QuoteCompetitor() {
-  const c = QUOTE.competitor;
-  return (
-    <section className="viewer q-prebuilt-section" id="compare">
-      <div className="viewer-head" data-reveal>
-        <div className="titles">
-          <span className="viewer-kicker">{c.kicker}</span>
-          <h2 className="viewer-title">{c.title}</h2>
-        </div>
-      </div>
-      <div className="q-prebuilt" data-reveal>
-        <div className="q-prebuilt-l">
-          <p className="q-prebuilt-lede">{c.lede}</p>
-          <p className="q-prebuilt-note">{c.note}</p>
-        </div>
-        <dl className="q-issues">
-          {c.issues.map(([k, v]) => (
-            <div className="q-issue" key={k}>
-              <dt>{k}</dt>
-              <dd>{v}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    </section>
-  );
-}
-
-function QuoteConfirmation({ refNum }) {
-  return (
-    <section className="viewer q-confirm-section" id="confirm">
-      <div className="q-confirm">
-        <span className="q-confirm-kicker">Request received</span>
-        <h2 className="q-confirm-title">Thanks, I&rsquo;ve got it.</h2>
-        <p className="q-confirm-lede">
-          I&rsquo;ll review what you sent and reply within <b>24 to 48 hours</b> with options or a
-          parts list, a real price, and next steps. If anything is missing, I&rsquo;ll email with the
-          questions first.
-        </p>
-        <dl className="q-confirm-meta">
-          <div>
-            <dt>Reference</dt>
-            <dd className="q-ref">{refNum}</dd>
-          </div>
-          <div>
-            <dt>Reply to</dt>
-            <dd>The email you sent it from</dd>
-          </div>
-          <div>
-            <dt>Need to add something?</dt>
-            <dd>
-              <a href={'mailto:' + CONTACT.email + '?subject=Re: ' + refNum}>
-                Email me, quoting this reference
-              </a>
-            </dd>
-          </div>
-        </dl>
-        <div className="q-confirm-actions">
-          <a href="index.html" className="btn btn--primary">Back to portfolio</a>
-          <a href="index.html#builds" className="btn btn--ghost">See more builds</a>
-        </div>
+    <section className="q-section q-confirm" id="intake">
+      <h2 ref={heading} tabIndex={-1}>Your request was sent.</h2>
+      <p>I’ll review it and reply to {email}. Keep the reference below if you need to add anything.</p>
+      <p><strong>Reference:</strong> {refNum}</p>
+      <p><a href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(`Quote ${refNum}`)}`}>Email me about this request</a></p>
+      <div className="q-confirm-actions">
+        <a href="index.html" className="btn btn--primary">Back to portfolio</a>
+        <a href="index.html#builds" className="btn btn--ghost">See PC builds</a>
       </div>
     </section>
   );
 }
 
 function QuoteIntake({ selectedService, onSelectService }) {
-  const q = QUOTE;
   const [useCases, setUseCases] = useState([]);
-  const [budget, setBudget] = useState(q.budgets[0]);
-  const [timeline, setTimeline] = useState(q.timelines[0]);
-  const [partsOption, setPartsOption] = useState(q.partsOptions[0]);
-  const [delivery, setDelivery] = useState(q.delivery[0]);
+  const [budget, setBudget] = useState('Not sure yet');
+  const [timeline, setTimeline] = useState('Just exploring');
+  const [partsOption, setPartsOption] = useState(QUOTE.partsOptions[0]);
+  const [delivery, setDelivery] = useState(QUOTE.delivery[0]);
   const [status, setStatus] = useState('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const [refNum, setRefNum] = useState('');
+  const [replyEmail, setReplyEmail] = useState('');
+  const [emailHref, setEmailHref] = useState(`mailto:${CONTACT.email}`);
+  const toggleUse = (useCase) => setUseCases((current) =>
+    current.includes(useCase) ? current.filter((item) => item !== useCase) : [...current, useCase]
+  );
 
-  const toggleUse = (u) =>
-    setUseCases((cur) => (cur.includes(u) ? cur.filter((x) => x !== u) : [...cur, u]));
-
-  const serviceName = q.services.find((s) => s.id === selectedService)?.name || '';
-
-  const submit = async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    fd.set('service', serviceName);
-    fd.set('useCases', useCases.join(', '));
-    fd.set('budget', budget);
-    fd.set('timeline', timeline);
-    fd.set('partsOption', partsOption);
-    fd.set('delivery', delivery);
-
-    const ref = makeQuoteRef();
-    fd.set('reference', ref);
-
-    const endpoint = q.formspreeEndpoint;
-    const unconfigured = !endpoint || endpoint.includes('YOUR_QUOTE_FORM_ID');
-    if (unconfigured) {
-      setRefNum(ref);
-      setStatus('ok');
+  const submit = async (event) => {
+    event.preventDefault();
+    if (status === 'sending') return;
+    const formData = new FormData(event.currentTarget);
+    const service = QUOTE.services.find((item) => item.id === selectedService)?.name || '';
+    const reference = makeQuoteRef();
+    formData.set('service', service);
+    formData.set('useCases', useCases.join(', '));
+    formData.set('budget', budget);
+    formData.set('timeline', timeline);
+    formData.set('partsOption', partsOption);
+    formData.set('delivery', delivery);
+    formData.set('reference', reference);
+    const emailBody = [
+      `Name: ${formData.get('name')}`, `Email: ${formData.get('email')}`,
+      `Location: ${formData.get('location') || ''}`, `Service: ${service}`,
+      `Use: ${useCases.join(', ')}`, `Budget: ${budget}`, `Timeline: ${timeline}`,
+      `Parts: ${partsOption}`, `Delivery: ${delivery}`, '', String(formData.get('message') || ''),
+    ].join('\n');
+    setEmailHref(`mailto:${CONTACT.email}?subject=PC%20service%20request&body=${encodeURIComponent(emailBody)}`);
+    setErrorMsg('');
+    const endpoint = QUOTE.formspreeEndpoint;
+    if (!endpoint || endpoint.includes('YOUR_QUOTE_FORM_ID')) {
+      setStatus('error');
+      setErrorMsg('The request form is unavailable. Your request has not been sent. Please email me instead.');
       return;
     }
-
     setStatus('sending');
-    setErrorMsg('');
     try {
-      const result = await postQuote(endpoint, fd);
+      const result = await postQuote(endpoint, formData);
       if (result.ok) {
-        setRefNum(ref);
+        setRefNum(reference);
+        setReplyEmail(String(formData.get('email')));
         setStatus('ok');
       } else {
         setStatus('error');
@@ -299,131 +227,60 @@ function QuoteIntake({ selectedService, onSelectService }) {
       }
     } catch {
       setStatus('error');
-      setErrorMsg('Network error. Please email me directly.');
+      setErrorMsg('Your request could not be sent. Check your connection, try again, or email me.');
     }
   };
 
-  if (status === 'ok') return <QuoteConfirmation refNum={refNum} />;
-
+  if (status === 'ok') return <QuoteConfirmation refNum={refNum} email={replyEmail} />;
   return (
-    <section className="viewer q-intake-section" id="intake">
-      <div className="viewer-head" data-reveal>
-        <div className="titles">
-          <span className="viewer-kicker">Tell me what you need</span>
-          <h2 className="viewer-title">Request a quote</h2>
-        </div>
-        <span className="counter">{CONTACT.response}</span>
+    <section className="q-section" id="intake" aria-labelledby="intake-title">
+      <div className="q-section-head">
+        <h2 id="intake-title">Request a PC quote</h2>
+        <p>Tell me what you need and your budget. I’ll reply by email.</p>
       </div>
-
-      <form className="q-form" data-reveal onSubmit={submit}>
-        <fieldset className="q-fieldset">
-          <legend>
-            <span className="q-legend-num">01</span>
-            <span>About you</span>
-          </legend>
-          <div className="field-row">
-            <label className="field">
-              <span className="field-label">Name</span>
-              <input type="text" name="name" required autoComplete="name" placeholder="Your name" />
+      <form className="q-form" onSubmit={submit} aria-busy={status === 'sending'}>
+        <fieldset className="q-fieldset" disabled={status === 'sending'}>
+          <legend>Your details</legend>
+          <div className="q-field-row">
+            <label className="q-field"><span>Name (required)</span><input type="text" name="name" required autoComplete="name" /></label>
+            <label className="q-field"><span>Email (required)</span><input type="email" name="email" required autoComplete="email" /></label>
+          </div>
+          <label className="q-field"><span>City or area</span><input type="text" name="location" autoComplete="address-level2" /></label>
+        </fieldset>
+        <fieldset className="q-fieldset" disabled={status === 'sending'}>
+          <legend>The PC</legend>
+          <ChoiceGroup title="Service" options={QUOTE.services} value={selectedService} onChange={onSelectService}
+            name="serviceChoice" getKey={(service) => service.id} getLabel={(service) => service.name} />
+          <ChoiceGroup title="What will you use it for? Choose any that apply." options={QUOTE.useCases}
+            value={useCases} onChange={toggleUse} name="useCaseChoice" multi />
+          <div className="q-field-row">
+            <label className="q-field"><span>Budget (CAD)</span>
+              <select name="budget" value={budget} onChange={(event) => setBudget(event.target.value)}>
+                {QUOTE.budgets.map((option) => <option key={option}>{option}</option>)}
+              </select>
             </label>
-            <label className="field">
-              <span className="field-label">Email</span>
-              <input type="email" name="email" required autoComplete="email" placeholder="you@domain.com" />
+            <label className="q-field"><span>Timeline</span>
+              <select name="timeline" value={timeline} onChange={(event) => setTimeline(event.target.value)}>
+                {QUOTE.timelines.map((option) => <option key={option}>{option}</option>)}
+              </select>
             </label>
           </div>
-          <label className="field">
-            <span className="field-label">Where are you based?</span>
-            <input type="text" name="location" placeholder="City, province / country" />
+          <ChoiceGroup title="Who buys the parts?" options={QUOTE.partsOptions} value={partsOption} onChange={setPartsOption} name="partsChoice" />
+          <ChoiceGroup title="Pickup or delivery" options={QUOTE.delivery} value={delivery} onChange={setDelivery} name="deliveryChoice" />
+          <label className="q-field">
+            <span>What do you need? (required)</span>
+            <span className="q-field-help">Include any parts you own, games or software you use, and preferences for size or appearance.</span>
+            <textarea name="message" rows="6" required />
           </label>
         </fieldset>
-
-        <fieldset className="q-fieldset">
-          <legend>
-            <span className="q-legend-num">02</span>
-            <span>What you need</span>
-          </legend>
-
-          <div className="field">
-            <span className="field-label">Service</span>
-            <ChipGroup
-              options={q.services}
-              value={selectedService}
-              onChange={onSelectService}
-              name="service-radio"
-              getKey={(s) => s.id}
-              getLabel={(s) => s.name}
-            />
-          </div>
-
-          <div className="field">
-            <span className="field-label">Primary use (pick all that apply)</span>
-            <ChipGroup options={q.useCases} value={useCases} onChange={toggleUse} multi />
-          </div>
-
-          <div className="field-row">
-            <div className="field">
-              <span className="field-label">Budget (CAD)</span>
-              <ChipGroup options={q.budgets} value={budget} onChange={setBudget} name="budget-radio" />
-            </div>
-            <div className="field">
-              <span className="field-label">Timeline</span>
-              <ChipGroup options={q.timelines} value={timeline} onChange={setTimeline} name="timeline-radio" />
-            </div>
-          </div>
-        </fieldset>
-
-        <fieldset className="q-fieldset">
-          <legend>
-            <span className="q-legend-num">03</span>
-            <span>Parts &amp; delivery</span>
-          </legend>
-          <div className="field">
-            <span className="field-label">Who buys the parts?</span>
-            <ChipGroup options={q.partsOptions} value={partsOption} onChange={setPartsOption} name="parts-radio" />
-          </div>
-          <div className="field">
-            <span className="field-label">Pickup or delivery</span>
-            <ChipGroup options={q.delivery} value={delivery} onChange={setDelivery} name="delivery-radio" />
-          </div>
-        </fieldset>
-
-        <fieldset className="q-fieldset">
-          <legend>
-            <span className="q-legend-num">04</span>
-            <span>The brief</span>
-          </legend>
-          <label className="field">
-            <span className="field-label">
-              What should it do, parts you already own, hard constraints, or what you&rsquo;re trying to buy
-            </span>
-            <textarea
-              name="message"
-              rows="6"
-              required
-              placeholder="e.g. Want to run 1440p high refresh for gaming + a bit of editing. Already have a 1 TB NVMe and a 165 Hz monitor. Hard ceiling around $1,800. Or: comparing two prebuilt laptops, want a second opinion."
-            />
-          </label>
-        </fieldset>
-
-        <input
-          type="text"
-          name="_gotcha"
-          tabIndex="-1"
-          autoComplete="off"
-          aria-hidden="true"
-          style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
-        />
-
-        <div className="form-foot">
-          <button type="submit" className="btn btn--primary" disabled={status === 'sending'}>
-            {status === 'sending' ? 'Sending…' : 'Send request'}
-            <ArrowUpRight size={14} />
-          </button>
-          <span className={'form-status form-status--' + status} role="status" aria-live="polite">
-            {status === 'error' && errorMsg}
-            {status === 'idle' && 'Powered by Formspree · your details stay private.'}
+        <input type="text" name="_gotcha" tabIndex="-1" autoComplete="off" aria-hidden="true" className="q-honeypot" />
+        <p className="q-form-terms">Please read the <a href="#terms">terms and conditions</a> before sending your request.</p>
+        <div className="q-form-foot">
+          <button type="submit" className="btn btn--primary" disabled={status === 'sending'}>{status === 'sending' ? 'Sending…' : 'Send request'}</button>
+          <p role="status" aria-live="polite" className="q-form-status">
             {status === 'sending' && 'Sending your request…'}
-          </span>
+            {status === 'error' && <>{errorMsg} <a href={emailHref}>Email your request</a></>}
+          </p>
         </div>
       </form>
     </section>
@@ -431,57 +288,27 @@ function QuoteIntake({ selectedService, onSelectService }) {
 }
 
 function QuoteFAQ() {
-  const q = QUOTE;
   return (
-    <section className="viewer q-faq-section" id="faq">
-      <div className="viewer-head" data-reveal>
-        <div className="titles">
-          <span className="viewer-kicker">Before you ask</span>
-          <h2 className="viewer-title">Common questions</h2>
-        </div>
-        <span className="counter">{String(q.faq.length).padStart(2, '0')} answered</span>
-      </div>
-
-      <div className="q-faq" data-reveal-stagger>
-        {q.faq.map((item, i) => (
-          <AccordionItem key={item.q} num={i + 1} title={item.q}>
-            <p className="q-faq-a">{item.a}</p>
-          </AccordionItem>
-        ))}
+    <section className="q-section" id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">Questions about PC services</h2>
+      <div className="q-faq">
+        {QUOTE.faq.map((item) => <AccordionItem key={item.q} title={item.q}><p>{item.a}</p></AccordionItem>)}
       </div>
     </section>
   );
 }
 
 function QuoteTerms() {
-  const q = QUOTE;
   return (
-    <section className="viewer q-terms-section" id="terms">
-      <div className="viewer-head" data-reveal>
-        <div className="titles">
-          <span className="viewer-kicker">The fine print</span>
-          <h2 className="viewer-title">Terms &amp; conditions</h2>
-        </div>
-        <span className="counter q-terms-updated">Updated {q.termsUpdated}</span>
-      </div>
-      <p className="q-terms-intro" data-reveal>{q.termsIntro}</p>
-
-      <div className="q-faq q-terms" data-reveal-stagger>
-        {q.terms.map((t, i) => (
-          <AccordionItem key={t.title} num={i + 1} title={t.title}>
-            <div className="q-terms-body">
-              {t.body.map((para) => (
-                <p key={para}>{para}</p>
-              ))}
-              {t.bullets && (
-                <ul>
-                  {t.bullets.map((b) => (
-                    <li key={b}>{b}</li>
-                  ))}
-                </ul>
-              )}
-              {t.after && t.after.map((para) => <p key={para}>{para}</p>)}
-            </div>
+    <section className="q-section" id="terms" aria-labelledby="terms-title">
+      <div className="q-section-head"><h2 id="terms-title">Terms &amp; conditions</h2><p>Updated {QUOTE.termsUpdated}</p></div>
+      <p className="q-terms-intro">{QUOTE.termsIntro}</p>
+      <div className="q-faq">
+        {QUOTE.terms.map((term) => (
+          <AccordionItem key={term.title} title={term.title}>
+            {term.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {term.bullets && <ul>{term.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>}
+            {term.after?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
           </AccordionItem>
         ))}
       </div>
@@ -490,35 +317,22 @@ function QuoteTerms() {
 }
 
 export default function QuotePage() {
-  useScrollReveal();
-  const [selectedService, setSelectedService] = useState(
-    QUOTE.services.find((s) => s.featured)?.id || QUOTE.services[0].id
-  );
-
-  const selectService = (id) => {
-    setSelectedService(id);
-    const el = document.getElementById('intake');
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
+  const [selectedService, setSelectedService] = useState(QUOTE.services[0].id);
+  const selectService = (serviceId) => {
+    setSelectedService(serviceId);
+    document.getElementById('intake')?.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start',
+    });
   };
-
   return (
     <div className="kit-root quote-root">
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <Navbar base="index.html" />
-      <main className="wrap">
-        <QuoteHero />
-        <QuoteServices selected={selectedService} onSelect={selectService} />
-        <QuotePrebuilt />
-        <QuoteCompetitor />
-        <QuoteIntake selectedService={selectedService} onSelectService={setSelectedService} />
-        <QuoteFAQ />
-        <QuoteTerms />
+      <main className="wrap" id="main-content">
+        <QuoteHero /><QuoteServices selected={selectedService} onSelect={selectService} />
+        <QuoteIntake selectedService={selectedService} onSelectService={setSelectedService} /><QuoteFAQ /><QuoteTerms />
       </main>
-      <div className="wrap">
-        <Footer />
-      </div>
+      <div className="wrap"><Footer /></div>
     </div>
   );
 }
